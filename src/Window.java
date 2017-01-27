@@ -17,7 +17,7 @@ public class Window extends JFrame{
 	
 	public Window()
 	{	
-		super("Defense of the Oincients");
+		super("Real Time Chess");
 		//should make game resizable
 		setBounds(100, 100, 800, 668);
 		
