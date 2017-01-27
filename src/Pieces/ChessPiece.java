@@ -1,8 +1,10 @@
-import Square;
+package Pieces;
+
+
+import Pieces.Square;
 
 public interface ChessPiece 
-{
-	boolean whiteTeam;
+{	
 	
 	public void move(); 
 	public void attack(); 

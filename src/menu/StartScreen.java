@@ -1,4 +1,3 @@
-
 package menu;
 
 import java.awt.Color;
@@ -24,7 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
-import Default.RealTimeChess;
+import game.RealTimeChess;
 
 /**It's the screen that game opens with, it contains links to server ,client and playing the game. 
  * 
