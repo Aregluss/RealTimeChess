@@ -1,0 +1,76 @@
+<project default="compile">
+ 
+  <!-- build.xml for Chess, Name: Alexander Ngo-->
+
+  <path id="project.class.path"> 
+    <pathelement location="build"/>
+  	<pathelement location="lib/junit-4.8.2.jar"/>
+  </path>
+	
+  <target name="compile" description="compile the code">
+    <mkdir dir ="build" />
+    <javac srcdir="src" destdir="build" debug="true"
+       debuglevel="lines,vars,source" includeantruntime="false">
+     <compilerarg value="-Xlint"/> 
+     <classpath>                                                                       
+     <pathelement location="build"/>      
+     <pathelement location="lib/junit-4.12.jar"/>      
+     </classpath >        
+     </javac>   
+  </target>
+
+
+  <target name="run" depends = "compile"  
+      description="runs chess game">
+    <java classname="RealTimeChess" classpath="build" 
+      fork = "true" />
+  </target>
+
+  <target name="clean" description="delete unnecessary files and directories">
+    <delete failonerror="false" verbose="true">
+      <fileset dir="." includes="*.class" />
+    </delete>
+    <delete dir="build" quiet="true" />
+    <delete dir="dist" quiet="true" />   
+    <delete dir="download" quiet="true" />  
+   <!-- delete the old javadoc -->
+    <delete quiet="true" dir="javadoc" />
+    <delete quiet = "true" dir ="temp"/>
+  </target> 
+	
+  <target name="javadoc" depends="compile" description="generate java doc">
+  	<delete dir="javadoc" quiet="true"/>
+	<javadoc destdir="javadoc" use="true" version="true" author="true">
+		<fileset dir="src" includes="**/*.java"/>
+		<classpath>
+			<pathelement location="lib/junit-4.12.jar"/>
+		</classpath>
+	</javadoc>
+  </target>
+
+  <target name="test" depends="compile" description= "run JUnit tests">
+    <junit haltonerror="no" haltonfailure="no">
+       <classpath>
+         <pathelement location="lib/junit-4.12.jar"/>
+         <pathelement location="build"/>
+       </classpath>
+       <batchtest fork="yes">
+          <fileset dir="src">
+            <include name="**/*Test.java"/>
+          </fileset>
+       </batchtest>
+        <formatter type="plain" usefile="false" />    
+    </junit>
+  </target>
+  
+  
+ <target name="jar" depends="compile">                                          
+   <mkdir dir="dist" />                                                         
+   <jar destfile="dist/RealTimeChess.jar" basedir="build">  
+    <manifest>
+        <attribute name="Main-Class" value="RealTimeChess"/>
+    </manifest>
+   </jar>
+ </target>   
+
+</project>
