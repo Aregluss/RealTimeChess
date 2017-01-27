@@ -1,6 +1,13 @@
+import Square;
 
-public class ChessPiece {
-	public ChessPiece(int a) {
-		a = 6;
-	}
+public interface ChessPiece 
+{
+	boolean whiteTeam;
+	
+	public void move(); 
+	public void attack(); 
+	public void die(); 
+	public void getMoveLocations();
+	public void highightLocation();
+	public Square sendAttackSpot();
 }

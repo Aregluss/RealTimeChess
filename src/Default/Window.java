@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 /**
  * 
  * @author Areg
- *5/14/14
+ *
  */
 public class Window extends JFrame{
 	
 	public Window()
 	{	
-		super("Real Time Chess");
+		super("Defense of the Oincients");
 		//should make game resizable
 		setBounds(100, 100, 800, 668);
 		
