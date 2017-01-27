@@ -22,7 +22,7 @@
 
   <target name="run" depends = "compile"  
       description="runs chess game">
-    <java classname="RealTimeChess" classpath="build" 
+    <java classname="Default.RealTimeChess" classpath="build" 
       fork = "true" />
   </target>
 
