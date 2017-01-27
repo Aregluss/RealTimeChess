@@ -14,7 +14,8 @@
      <compilerarg value="-Xlint"/> 
      <classpath>                                                                       
      <pathelement location="build"/>      
-     <pathelement location="lib/junit-4.12.jar"/>      
+     	<pathelement location="jars/hamcrest-core-1.3.jar"/>
+     	<pathelement location="jars/junit-4.12.jar"/>      
      </classpath >        
      </javac>   
   </target>
