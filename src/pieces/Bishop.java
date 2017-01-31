@@ -1,6 +1,6 @@
 package pieces;
 
-public class Bishop implements ChessPiece{
+public class Bishop extends ChessPiece{
 
 	@Override
 	public void move() {

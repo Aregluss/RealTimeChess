@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import menu.StartScreen;
+import pieces.Square;
 
 public class RealTimeChess {
 

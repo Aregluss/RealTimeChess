@@ -3,7 +3,7 @@ package pieces;
 import pieces.Square;
 
 
-public class Pawn implements ChessPiece{
+public class Pawn extends ChessPiece{
 
 	boolean hasMoved;
 	

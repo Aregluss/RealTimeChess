@@ -1,6 +1,6 @@
 package pieces;
 
-public class Knight implements ChessPiece{
+public class Knight extends ChessPiece{
 
 	@Override
 	public void move() {

@@ -1,6 +1,6 @@
 package pieces;
 
-public class Rook implements ChessPiece {
+public class Rook extends ChessPiece {
 
 	boolean canCaste;
 	
