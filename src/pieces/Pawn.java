@@ -1,7 +1,18 @@
-package Pieces;
+package pieces;
 
-public class Rook implements ChessPiece {
+import pieces.Square;
 
+
+public class Pawn implements ChessPiece{
+
+	boolean hasMoved;
+	
+	
+	public Pawn()
+	{
+		hasMoved = false;
+	}
+	
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub

@@ -1,9 +1,11 @@
-package Pieces;
+package pieces;
 
-import Pieces.Square;
+public class Rook implements ChessPiece {
 
-public class Pawn implements ChessPiece{
-
+	boolean canCaste;
+	
+	
+	
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub
