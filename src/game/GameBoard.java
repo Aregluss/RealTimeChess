@@ -8,7 +8,7 @@ import pieces.King;
 import pieces.Queen;
 import pieces.Square;
 
-class GameBoard {
+class GameBoard 
+{
 
-	
 }
