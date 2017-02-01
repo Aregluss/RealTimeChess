@@ -1,41 +1,51 @@
 package pieces;
 
+import java.util.ArrayList;
+
 public class Queen extends ChessPiece{
 
 	@Override
-	public void move() {
+	public void move(int row, int column) {
 		// TODO Auto-generated method stub
-		
+		super.move(row, column);
 	}
 
 	@Override
-	public void attack() {
+	public void attack(ChessPiece Enemy) {
 		// TODO Auto-generated method stub
-		
+		super.attack(Enemy);
 	}
 
 	@Override
 	public void die() {
 		// TODO Auto-generated method stub
-		
+		super.die();
 	}
 
 	@Override
-	public void getMoveLocations() {
+	public ArrayList<Square> getMoveLocations() {
 		// TODO Auto-generated method stub
-		
+		return super.getMoveLocations();
 	}
 
 	@Override
 	public void highightLocation() {
 		// TODO Auto-generated method stub
-		
+		super.highightLocation();
 	}
 
 	@Override
 	public Square sendAttackSpot() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.sendAttackSpot();
 	}
+
+	@Override
+	public boolean getColor() {
+		// TODO Auto-generated method stub
+		return super.getColor();
+	}
+
+	
 
 }
