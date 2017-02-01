@@ -1,6 +1,6 @@
 package pieces;
-
 import game.*;
+
 import pieces.Square;
 import java.util.ArrayList;
 
@@ -17,10 +17,8 @@ public class ChessPiece
 	}; //either returns 2D array of squares, or 2D array of int
 	//as positions of nearby square places, or //1D array of loctions 1-64
 	public void highightLocation(){};
-	
 	public Square sendAttackSpot(){
-		Square kappa = new Square(0,0,false,false);
+		Square kappa = Square(0,0,false,false);
 		return kappa;};
-		
 	public boolean getColor(){return status;};
 }

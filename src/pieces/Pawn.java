@@ -1,7 +1,5 @@
 package pieces;
 
-import java.util.ArrayList;
-
 import pieces.Square;
 
 
@@ -14,57 +12,42 @@ public class Pawn extends ChessPiece{
 	{
 		hasMoved = false;
 	}
-
-
+	
 	@Override
-	public void move(int row, int column) {
+	public void move() {
 		// TODO Auto-generated method stub
-		super.move(row, column);
+		
 	}
 
-
 	@Override
-	public void attack(ChessPiece Enemy) {
+	public void attack() {
 		// TODO Auto-generated method stub
-		super.attack(Enemy);
+		
 	}
-
 
 	@Override
 	public void die() {
 		// TODO Auto-generated method stub
-		super.die();
+		
 	}
-
 
 	@Override
-	public ArrayList<Square> getMoveLocations() {
+	public void getMoveLocations() {
 		// TODO Auto-generated method stub
-		return super.getMoveLocations();
+		
 	}
-
 
 	@Override
 	public void highightLocation() {
 		// TODO Auto-generated method stub
-		super.highightLocation();
+		
 	}
-
 
 	@Override
 	public Square sendAttackSpot() {
 		// TODO Auto-generated method stub
-		return super.sendAttackSpot();
+		return null;
 	}
-
-
-	@Override
-	public boolean getColor() {
-		// TODO Auto-generated method stub
-		return super.getColor();
-	}
-	
-	
 
 	
 }
