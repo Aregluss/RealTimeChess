@@ -23,9 +23,16 @@ public class Queen extends ChessPiece{
 	}
 
 	@Override
-	public ArrayList<Square> getMoveLocations() {
-		// TODO Auto-generated method stub
-		return super.getMoveLocations();
+	public void getMoveLocations() {
+		
+		recursion(row, column, 1 ,0);
+		recursion(row, column, 0, 1);
+		recursion(row, column,-1, 0);
+		recursion(row, column, 0,-1);
+		recursion(row, column, 1 ,1);
+		recursion(row, column, 1, -1);
+		recursion(row, column, -1, 1);
+		recursion(row, column, -1,-1);
 	}
 
 	@Override

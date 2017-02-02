@@ -2,6 +2,8 @@ package pieces;
 
 import java.util.ArrayList;
 
+import game.GameBoard;
+
 public class Rook extends ChessPiece {
 
 	boolean canCaste;
@@ -25,9 +27,13 @@ public class Rook extends ChessPiece {
 	}
 
 	@Override
-	public ArrayList<Square> getMoveLocations() {
-		// TODO Auto-generated method stub
-		return super.getMoveLocations();
+	public void getMoveLocations() {
+		
+		recursion(row, column, 1 ,0);
+		recursion(row, column, 0, 1);
+		recursion(row, column,-1, 0);
+		recursion(row, column, 0,-1);
+	
 	}
 
 	@Override
@@ -48,7 +54,5 @@ public class Rook extends ChessPiece {
 		return super.getColor();
 	}
 	
-	
-
 	
 }

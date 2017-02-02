@@ -9,7 +9,7 @@ public class Square {
 	private ChessPiece currentPiece;
 	private boolean whiteDanger;
 	private boolean blackDanger;
-	private boolean lightOn;
+	private String lightOn;
 	private boolean movable;
 	
 	public Square(int row, int colum, boolean wd, boolean bd)
@@ -17,7 +17,7 @@ public class Square {
 		currentPiece = null;
 		whiteDanger = wd;
 		blackDanger = bd;
-		lightOn = false;
+		lightOn = "none";
 		movable = false;
 		
 	}
@@ -47,7 +47,7 @@ public class Square {
 		return blackDanger;
 	}
 	
-	public boolean checkLight()
+	public String checkLight()
 	{
 		return lightOn;
 	}
@@ -82,7 +82,7 @@ public class Square {
 		blackDanger = d;
 	}
 	
-	public void setLight(boolean l)
+	public void setLight(String l)
 	{
 		lightOn = l;
 	}
@@ -91,4 +91,30 @@ public class Square {
 	{
 		movable = m;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + column;
+		result = prime * result + row;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Square other = (Square) obj;
+		if (column != other.column)
+			return false;
+		if (row != other.row)
+			return false;
+		return true;
+	}
+	
 }

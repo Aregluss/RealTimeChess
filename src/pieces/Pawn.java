@@ -2,6 +2,7 @@ package pieces;
 
 import java.util.ArrayList;
 
+import game.GameBoard;
 import pieces.Square;
 
 
@@ -38,9 +39,23 @@ public class Pawn extends ChessPiece{
 
 
 	@Override
-	public ArrayList<Square> getMoveLocations() {
-		// TODO Auto-generated method stub
-		return super.getMoveLocations();
+	public void getMoveLocations() {
+		if( GameBoard.Board.getCurrentPiece(row + 1,column) != null ) {
+			locations.add(new Square(row + 1,column,false,false));	
+		}
+		
+		if(GameBoard.Board.getCurrentPiece(row + 2,column) != null && hasMoved != true) {
+			locations.add(new Square(row + 2,column,false,false));	
+		}
+		
+		if(GameBoard.Board.getCurrentPiece(row + 1,column + 1).getColor() != getColor()) {
+			locations.add(new Square(row + 1,column + 1,false,false));	
+		}
+		
+		if(GameBoard.Board.getCurrentPiece(row + 1,column - 1).getColor() != getColor()) {
+			locations.add(new Square(row + 1,column - 1,false,false));	
+		}
+		
 	}
 
 
@@ -64,7 +79,9 @@ public class Pawn extends ChessPiece{
 		return super.getColor();
 	}
 	
-	
+	public void promote() {
+		
+	}
 
 	
 }
