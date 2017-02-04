@@ -17,7 +17,5 @@ public class GameBoard
 		Board = new Square[8][8];
 	}
 	
-	public static Square[][] getBoard(){
-		return Board;
-	}
+	
 }
