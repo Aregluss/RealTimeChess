@@ -8,17 +8,16 @@ import pieces.King;
 import pieces.Queen;
 import pieces.Square;
 
-public class GameBoard 
+public final class GameBoard 
 {
-	public Square[][] board;
+	public static Square[][] Board;
 	
-	public GameBoard()
+	private GameBoard()
 	{
-		board = new Square[8][8];
+		Board = new Square[8][8];
 	}
 	
-	
-	public Square[][] getBoard(){
-		return board;
+	public static Square[][] getBoard(){
+		return Board;
 	}
 }

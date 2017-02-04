@@ -2,6 +2,8 @@ package pieces;
 
 import java.util.ArrayList;
 
+import game.GameBoard;
+
 public class Knight extends ChessPiece{
 
 	@Override
@@ -23,9 +25,51 @@ public class Knight extends ChessPiece{
 	}
 
 	@Override
-	public ArrayList<Square> getMoveLocations() {
-		// TODO Auto-generated method stub
-		return super.getMoveLocations();
+	public void getMoveLocations() {
+		if( (row +2 < 0 || row +2 > 8 ) && ( column +1 < 0 || column +1 > 8 ) && 
+				(!(GameBoard.Board[row+2][column+1].getCurrentPiece().getColor() == color) || GameBoard.Board[row+2][column+1].getCurrentPiece() != null) ) {
+			locations.add(new Square(row+2,column+1,false,false));
+		}
+		
+		if( (row +2< 0 || row+2 > 8 ) && ( column -1 < 0 || column -1 > 8 ) && 
+				(!(GameBoard.Board[row+2][column-1].getCurrentPiece().getColor() == color) || GameBoard.Board[row+2][column-1].getCurrentPiece() != null) ) {
+			locations.add(new Square(row+2,column-1,false,false));
+		}
+
+		if( (row +1 < 0 || row+1 > 8 ) && ( column +2< 0 || column+2 > 8 ) && 
+				(!(GameBoard.Board[row+1][column+2].getCurrentPiece().getColor() == color) || GameBoard.Board[row+1][column+2].getCurrentPiece() != null) ) {
+			locations.add(new Square(row+1,column+2,false,false));
+		}
+
+		if( (row +1 < 0 || row +1 > 8 ) && ( column -2 < 0 || column - 2> 8 ) && 
+				(!(GameBoard.Board[row+1][column-2].getCurrentPiece().getColor() == color) || GameBoard.Board[row+1][column-2].getCurrentPiece() != null) ) {
+			locations.add(new Square(row+1,column-2,false,false));
+		}
+
+		if( (row -1 < 0 || row-1 > 8 ) && ( column +2< 0 || column+2 > 8 ) && 
+				(!(GameBoard.Board[row-1][column+2].getCurrentPiece().getColor() == color) || GameBoard.Board[row-1][column+2].getCurrentPiece() != null) ) {
+			locations.add(new Square(row-1,column+2,false,false));
+		}
+
+		if( (row -1 < 0 || row -1 > 8 ) && ( column -2 < 0 || column - 2> 8 ) && 
+				(!(GameBoard.Board[row-1][column-2].getCurrentPiece().getColor() == color) || GameBoard.Board[row-1][column-2].getCurrentPiece() != null) ) {
+			locations.add(new Square(row-1,column-2,false,false));
+		}
+
+		if( (row -2 < 0 || row -2 > 8 ) && ( column +1 < 0 || column +1 > 8 ) && 
+				(!(GameBoard.Board[row-2][column+1].getCurrentPiece().getColor() == color) || GameBoard.Board[row-2][column+1].getCurrentPiece() != null) ) {
+			locations.add(new Square(row-2,column+1,false,false));
+		}
+		
+		if( (row -2< 0 || row-2 > 8 ) && ( column -1 < 0 || column -1 > 8 ) && 
+				(!(GameBoard.Board[row-2][column-1].getCurrentPiece().getColor() == color) || GameBoard.Board[row-2][column-1].getCurrentPiece() != null) ) {
+			locations.add(new Square(row-2,column-1,false,false));
+		}
+
+		
+
+		
+
 	}
 
 	@Override

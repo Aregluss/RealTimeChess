@@ -2,39 +2,50 @@ package pieces;
 import java.util.ArrayList;
 import game.*;
 public class King extends ChessPiece{
-	int row, column;
-	boolean color;
 	
 	@Override
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub
 		super.move(row, column);
 	}
+	
 	@Override
 	public void attack(ChessPiece Enemy) {
-		// TODO Auto-generated method stub
 		super.attack(Enemy);
 	}
+
+	
 	@Override
 	public void die() {
-		// TODO Auto-generated method stub
 		super.die();
 	}
+	
 	@Override
-	public ArrayList<Square> getMoveLocations() {
-		// TODO Auto-generated method stub
-		return super.getMoveLocations();
-	}
+	public void getMoveLocations() {
+		
+ 		for(int i = row-1; i<=row+1; i++)
+ 		{
+ 			for(int j= column-1; j<=column+1; j++)
+ 			{
+ 				if( (i < 0 || i > 8 ) && ( j < 0 || j > 8 ) && 
+ 						!(GameBoard.Board[i][j].checkDanger(color,i,j)) && 
+ 						(!(GameBoard.Board[i][j].getCurrentPiece().getColor() == color) || GameBoard.Board[i][j].getCurrentPiece() != null ) )
+ 				locations.add(new Square(i,j,false,false));						// Checks boundaries and then checks if location is dangerous, and then checks if a same colored piece is there
+ 			}
+ 		}
+  	}
+	
 	@Override
 	public void highightLocation() {
-		// TODO Auto-generated method stub
 		super.highightLocation();
 	}
+	
 	@Override
 	public Square sendAttackSpot() {
 		// TODO Auto-generated method stub
 		return super.sendAttackSpot();
 	}
+	
 	@Override
 	public boolean getColor() {
 		// TODO Auto-generated method stub

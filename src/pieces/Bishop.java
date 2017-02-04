@@ -2,6 +2,8 @@ package pieces;
 
 import java.util.ArrayList;
 
+import game.GameBoard;
+
 public class Bishop extends ChessPiece{
 
 	@Override
@@ -23,9 +25,12 @@ public class Bishop extends ChessPiece{
 	}
 
 	@Override
-	public ArrayList<Square> getMoveLocations() {
-		// TODO Auto-generated method stub
-		return super.getMoveLocations();
+	public void getMoveLocations() {
+		
+		recursion(row, column, 1 ,1);
+		recursion(row, column, 1, -1);
+		recursion(row, column, -1, 1);
+		recursion(row, column, -1,-1);
 	}
 
 	@Override
@@ -45,7 +50,5 @@ public class Bishop extends ChessPiece{
 		// TODO Auto-generated method stub
 		return super.getColor();
 	}
-
-	
 
 }
