@@ -28,8 +28,8 @@ public class King extends ChessPiece{
  			for(int j= column-1; j<=column+1; j++)
  			{
  				if( (i < 0 || i > 8 ) && ( j < 0 || j > 8 ) && 
- 						!(GameBoard.Board.checkDanger(color,i,j)) && 
- 						(!(GameBoard.Board.getCurrentPiece(i,j).getColor() == color) || GameBoard.Board.getCurrentPiece(i,j) != null ) )
+ 						!(GameBoard.Board[i][j].checkDanger(color,i,j)) && 
+ 						(!(GameBoard.Board[i][j].getCurrentPiece().getColor() == color) || GameBoard.Board[i][j].getCurrentPiece() != null ) )
  				locations.add(new Square(i,j,false,false));						// Checks boundaries and then checks if location is dangerous, and then checks if a same colored piece is there
  			}
  		}
@@ -37,24 +37,13 @@ public class King extends ChessPiece{
 	
 	@Override
 	public void highightLocation() {
-		getMoveLocations();
-		for(Square movable: locations) {
-			Board[movable.getRow()][movable.getColumn()].setLight("Move");
-			
-			if(movable.getCurrentPiece().getColor() != getColor() && movable.getCurrentPiece() != null) {
-				Board[movable.getRow()][movable.getColumn()].setLight("Attack");
-			}
-			
-		}
+		super.highightLocation();
 	}
 	
 	@Override
-	public Square getAttackSpot() {
-		getMoveLocations();
-		for(Square movable: locations) {
-			if(movable.getCurrentPiece().getColor() != getColor() && movable.getCurrentPiece() != null) {
-			}
-		}
+	public Square sendAttackSpot() {
+		// TODO Auto-generated method stub
+		return super.sendAttackSpot();
 	}
 	
 	@Override

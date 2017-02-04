@@ -40,19 +40,19 @@ public class Pawn extends ChessPiece{
 
 	@Override
 	public void getMoveLocations() {
-		if( GameBoard.Board.getCurrentPiece(row + 1,column) != null ) {
+		if( GameBoard.Board[row+1][column].getCurrentPiece() != null ) {
 			locations.add(new Square(row + 1,column,false,false));	
 		}
 		
-		if(GameBoard.Board.getCurrentPiece(row + 2,column) != null && hasMoved != true) {
+		if(GameBoard.Board[row+2][column].getCurrentPiece() != null && hasMoved != true) {
 			locations.add(new Square(row + 2,column,false,false));	
 		}
 		
-		if(GameBoard.Board.getCurrentPiece(row + 1,column + 1).getColor() != getColor()) {
+		if(GameBoard.Board[row+1][column+1].getCurrentPiece().getColor() != getColor()) {
 			locations.add(new Square(row + 1,column + 1,false,false));	
 		}
 		
-		if(GameBoard.Board.getCurrentPiece(row + 1,column - 1).getColor() != getColor()) {
+		if(GameBoard.Board[row+1][column-1].getCurrentPiece().getColor() != getColor()) {
 			locations.add(new Square(row + 1,column - 1,false,false));	
 		}
 		
