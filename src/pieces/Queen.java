@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class Queen extends ChessPiece{
 
+	public Queen(int row, int column, boolean color){
+		super(row, column, color);
+	}
 	@Override
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub

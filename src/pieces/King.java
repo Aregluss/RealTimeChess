@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import game.*;
 public class King extends ChessPiece{
 	
+	public King(int row, int column, boolean color){
+		super(row, column, color);
+	}
 	@Override
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub

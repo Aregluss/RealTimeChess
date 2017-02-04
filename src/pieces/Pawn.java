@@ -11,8 +11,8 @@ public class Pawn extends ChessPiece{
 	boolean hasMoved;
 	
 	
-	public Pawn()
-	{
+	public Pawn(int row, int column, boolean color){
+		super(row, column, color);
 		hasMoved = false;
 	}
 

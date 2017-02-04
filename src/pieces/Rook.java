@@ -6,6 +6,11 @@ import game.GameBoard;
 
 public class Rook extends ChessPiece {
 
+	public Rook(int row, int column, boolean color) {
+		super(row, column, color);
+		// TODO Auto-generated constructor stub
+	}
+
 	boolean canCaste;
 
 	@Override

@@ -6,6 +6,9 @@ import game.GameBoard;
 
 public class Knight extends ChessPiece{
 
+	public Knight(int row, int column, boolean color){
+		super(row, column, color);
+	}
 	@Override
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub

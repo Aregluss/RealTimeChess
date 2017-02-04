@@ -8,11 +8,11 @@ import pieces.King;
 import pieces.Queen;
 import pieces.Square;
 
-public final class GameBoard 
+public class GameBoard 
 {
 	public static Square[][] Board;
 	
-	private GameBoard()
+	public GameBoard(int x)
 	{
 		Board = new Square[8][8];
 	}

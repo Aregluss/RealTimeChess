@@ -6,6 +6,11 @@ import game.GameBoard;
 
 public class Bishop extends ChessPiece{
 
+	public Bishop(int row, int column, boolean color) {
+		super(row, column, color);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub

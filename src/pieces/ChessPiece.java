@@ -10,7 +10,11 @@ public class ChessPiece
 	boolean color;
 	public ArrayList<Square> locations = new ArrayList<Square>();
 	int row, column;
-	
+	public ChessPiece(int row, int column, boolean color) {
+		this.row = row;
+		this.column = column;
+		this.color = color;
+	}; 
 	public void move(int row, int column){};
 	public void attack(ChessPiece Enemy){};
 	public void die(){status = false;};
