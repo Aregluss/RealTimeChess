@@ -28,7 +28,7 @@ public class ChessPiece
 		height = 60;
 	}; 
 	public void move(int row, int column){
-		check()
+		//check();
 	};
 	public void attack(ChessPiece Enemy){};
 	public void die(){status = false;};

@@ -10,19 +10,17 @@ public class Queen extends ChessPiece{
 
 	public Queen(int row, int column, boolean color){
 		super(row, column, color);
-	}
-	@Override
-	public void move(int row, int column) {
-		// TODO Auto-generated method stub
-		super.move(row, column);
-	
-		
 		try {
 			image = ImageIO.read(new File("queen.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@Override
+	public void move(int row, int column) {
+		// TODO Auto-generated method stub
+		super.move(row, column);
 	}
 
 	@Override
