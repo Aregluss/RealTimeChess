@@ -11,14 +11,17 @@ import java.util.ArrayList;
 Pawns - promotion.
 King- Castling, Checking, Checkmate(if another piece can stop the checkmate)
 Move - mouse Listener + updating gameboard
-Highlightlocation with Square
+Highlight location with Square
 */
 
 
 public class ChessPiece 
 {	
 	public boolean status = true;
+	public boolean hasMoved = false;
 	boolean color;
+	boolean canCastleKing = false;
+	boolean canCastleQueen = false;
 	public ArrayList<Square> locations = new ArrayList<Square>();
 	int row, column;
 	Image image;
@@ -43,6 +46,7 @@ public class ChessPiece
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			this.row = row;
 			this.column = column;
+			hasMoved = true;
 //			check()
 		}
 		else{
@@ -96,5 +100,11 @@ public class ChessPiece
 	public void draw(Graphics g)
 	{
 		g.drawImage(image, 10+column*80, 10+row*80, width, height, null);
+	}
+	@Override
+	public String toString() {
+		return "ChessPiece [status=" + status + ", color=" + color + ", canCastleKing=" + canCastleKing
+				+ ", canCastleQueen=" + canCastleQueen + ", locations=" + locations + ", row=" + row + ", column="
+				+ column + ", image=" + image + ", width=" + width + ", height=" + height + "]";
 	}
 }

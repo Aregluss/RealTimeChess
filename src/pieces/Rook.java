@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import game.GameBoard;
 
 public class Rook extends ChessPiece {
+	
 
 	public Rook(int row, int column, boolean color) {
 		super(row, column, color);
@@ -20,10 +21,8 @@ public class Rook extends ChessPiece {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
-	boolean canCaste;
 
 	@Override
 	public void move(int row, int column) {

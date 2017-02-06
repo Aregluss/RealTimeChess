@@ -68,6 +68,8 @@ public class GameBoard implements Runnable
 					Board[0][3].setCurrentPiece(new Queen(0, 3, false));
 					Board[7][3].setCurrentPiece(new Queen(7, 3, true));
 					Board[7][4].setCurrentPiece(new King(7, 4, true));
+					King bob = new King(7,4,true);
+					bob.canCastle();
 					
 					//Pawns
 					for(int j=0; j < 8; j++)
