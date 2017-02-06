@@ -16,6 +16,12 @@ public class Queen extends ChessPiece{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	@Override
+	public void move(int row, int column) {
+		// TODO Auto-generated method stub
+		super.move(row, column);
 	}
 	@Override
 	public void move(int row, int column) {

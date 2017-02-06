@@ -18,6 +18,7 @@ public class Knight extends ChessPiece{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 	@Override
 	public void move(int row, int column) {
