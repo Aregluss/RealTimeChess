@@ -1,14 +1,28 @@
 package pieces;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import game.GameBoard;
 
 public class Bishop extends ChessPiece{
 
+	
+	
 	public Bishop(int row, int column, boolean color) {
 		super(row, column, color);
 		// TODO Auto-generated constructor stub
+		
+		try {
+			image = ImageIO.read(new File("Bishop.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override

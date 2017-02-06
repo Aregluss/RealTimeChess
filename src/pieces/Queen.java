@@ -1,6 +1,10 @@
 package pieces;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Queen extends ChessPiece{
 
@@ -11,6 +15,14 @@ public class Queen extends ChessPiece{
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub
 		super.move(row, column);
+	
+		
+		try {
+			image = ImageIO.read(new File("queen.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

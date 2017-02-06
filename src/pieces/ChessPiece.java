@@ -2,6 +2,9 @@ package pieces;
 
 import game.*;
 import pieces.Square;
+
+import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
 
 public class ChessPiece 
@@ -10,10 +13,14 @@ public class ChessPiece
 	boolean color;
 	public ArrayList<Square> locations = new ArrayList<Square>();
 	int row, column;
+	Image image;
+	private int width, height;
 	public ChessPiece(int row, int column, boolean color) {
 		this.row = row;
 		this.column = column;
 		this.color = color;
+		width = 60;
+		height = 60;
 	}; 
 	public void move(int row, int column){};
 	public void attack(ChessPiece Enemy){};
@@ -34,11 +41,14 @@ public class ChessPiece
 	
 	public Square sendAttackSpot(){
 		getMoveLocations();
+		Square kappa = new Square();
 		for(Square movable: locations) {
 			if(movable.getCurrentPiece().getColor() != getColor() && movable.getCurrentPiece() != null) {
 			}
 			return movable;
-		}};
+		}
+		return kappa;
+		};
 		
 	public boolean getColor(){return status;};
 	
@@ -48,11 +58,17 @@ public class ChessPiece
 		if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color) {
 			return;
 		}
-		locations.add(new Square(row,col,false,false));
+		locations.add(new Square(row,col));
 		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			return;
 		}
 		recursion(row+rowIncre,col+colIncre, rowIncre, colIncre);
+	}
+	
+
+	public void draw(Graphics g)
+	{
+		g.drawImage(image, 10+column*80, 10+row*80, width, height, null);
 	}
 }

@@ -9,12 +9,13 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import menu.StartScreen;
 import pieces.Square;
+import game.GameBoard;
 
 public class RealTimeChess {
 
     private static JPanel menuContainer;
 	private static Window frame;
-	//private static Game game;
+	private static GameBoard ChessGame;
 	
 	public static void main(String[] args)
 	{
@@ -22,13 +23,15 @@ public class RealTimeChess {
 		JPanel gamePanel = new JPanel();
 		
 		frame = new Window();
-		//Map map = new Map();			
+		GraphicsBoard grBoard = new GraphicsBoard();
+		ChessGame = new GameBoard(1, grBoard);
+					
 		//Grid.initialize(map);
 		//game = new Game(map);
 		//HUD hud = new HUD();
 		
 		gamePanel.setLayout(new BorderLayout());
-		//gamePanel.add(map, BorderLayout.CENTER);
+		gamePanel.add(grBoard, BorderLayout.CENTER);
 		//gamePanel.add(hud, BorderLayout.SOUTH);
 		
 		
@@ -46,7 +49,7 @@ public class RealTimeChess {
 		
 		menuContainer.add(start,"1");
 	//	menuContainer.add(selection,"2");
-	//	menuContainer.add(gamePanel,"3");
+		menuContainer.add(gamePanel,"2");
 		
 		frame.add(menuContainer);
 
@@ -63,9 +66,9 @@ public class RealTimeChess {
 		((CardLayout)menuContainer.getLayout()).show(menuContainer, s);
 		frame.requestFocus();
 		
-		if(s.equals("3"))
+		if(s.equals("2"))
 		{
-			///new Thread(game).start();
+			new Thread(ChessGame).start();
 		}
 	}
 	public static void doUITasks(){

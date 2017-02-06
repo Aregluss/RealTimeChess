@@ -12,13 +12,16 @@ public class Square {
 	private String lightOn;
 	private boolean movable;
 	
-	public Square(int row, int colum, boolean wd, boolean bd)
+	public Square(int row, int colum)
 	{
 		currentPiece = null;
-		whiteDanger = wd;
-		blackDanger = bd;
 		lightOn = "none";
 		movable = false;
+		
+	}
+	
+	public Square()
+	{
 		
 	}
 	

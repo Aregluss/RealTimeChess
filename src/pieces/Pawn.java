@@ -1,6 +1,10 @@
 package pieces;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import game.GameBoard;
 import pieces.Square;
@@ -14,6 +18,13 @@ public class Pawn extends ChessPiece{
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
 		hasMoved = false;
+		
+		try {
+			image = ImageIO.read(new File("Pawn.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -41,19 +52,19 @@ public class Pawn extends ChessPiece{
 	@Override
 	public void getMoveLocations() {
 		if( GameBoard.Board[row+1][column].getCurrentPiece() != null ) {
-			locations.add(new Square(row + 1,column,false,false));	
+			locations.add(new Square(row + 1,column));	
 		}
 		
 		if(GameBoard.Board[row+2][column].getCurrentPiece() != null && hasMoved != true) {
-			locations.add(new Square(row + 2,column,false,false));	
+			locations.add(new Square(row + 2,column));	
 		}
 		
 		if(GameBoard.Board[row+1][column+1].getCurrentPiece().getColor() != getColor()) {
-			locations.add(new Square(row + 1,column + 1,false,false));	
+			locations.add(new Square(row + 1,column + 1));	
 		}
 		
 		if(GameBoard.Board[row+1][column-1].getCurrentPiece().getColor() != getColor()) {
-			locations.add(new Square(row + 1,column - 1,false,false));	
+			locations.add(new Square(row + 1,column - 1));	
 		}
 		
 	}

@@ -1,6 +1,10 @@
 package pieces;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import game.GameBoard;
 
@@ -9,6 +13,14 @@ public class Rook extends ChessPiece {
 	public Rook(int row, int column, boolean color) {
 		super(row, column, color);
 		// TODO Auto-generated constructor stub
+		
+		try {
+			image = ImageIO.read(new File("Rook.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	boolean canCaste;
