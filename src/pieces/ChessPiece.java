@@ -7,6 +7,13 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 
+// WHAT WE HAVE TO IMPLEMENT
+// Pawns - promotion.
+// King- Castling, Checking, Checkmate(if another piece can stop the checkmate)
+// Move - mouse Listener + updating gameboard
+// 
+
+
 public class ChessPiece 
 {	
 	public boolean status = true;

@@ -44,8 +44,8 @@ public class King extends ChessPiece{
  		{
  			for(int j= column-1; j<=column+1; j++)
  			{
-// 				if( (i < 0 || i > 8 ) && ( j < 0 || j > 8 ) && 
-// 						!(GameBoard.Board[i][j].checkDanger(color,i,j)) && 
+ //				if( (i < 0 || i > 8 ) && ( j < 0 || j > 8 ) && 
+ //						!(GameBoard.Board[i][j].checkDanger(color,i,j)) && 
 // 						(!(GameBoard.Board[i][j].getCurrentPiece().getColor() == color) || GameBoard.Board[i][j].getCurrentPiece() != null ) )
 // 				locations.add(new Square(i,j));						// Checks boundaries and then checks if location is dangerous, and then checks if a same colored piece is there
  			}

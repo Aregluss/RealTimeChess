@@ -12,19 +12,21 @@ public class Knight extends ChessPiece{
 
 	public Knight(int row, int column, boolean color){
 		super(row, column, color);
-	}
-	@Override
-	public void move(int row, int column) {
-		// TODO Auto-generated method stub
-		super.move(row, column);
-		
+
 		try {
-			image = ImageIO.read(new File("Pawn.png"));
+			image = ImageIO.read(new File("horse.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		
+		
+	}
+	@Override
+	public void move(int row, int column) {
+		// TODO Auto-generated method stub
+		super.move(row, column);
 	}
 
 	@Override
