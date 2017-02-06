@@ -35,7 +35,23 @@ public class ChessPiece
 		height = 60;
 	}; 
 	public void move(int row, int column){
-		//check();
+		getMoveLocations();
+		boolean canMove = false;
+		for(Square movable: locations)	{
+			if(	(row == movable.getRow()) && (column == movable.getColumn()))	{
+				canMove = true;
+			}			
+		}
+		if(canMove)	{
+			GameBoard.Board[row][column].setCurrentPiece(this);
+			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
+			this.row = row;
+			this.column = column;
+//			check()
+		}
+		else{
+			//invalid movable location... throw an error? idk
+		}
 	};
 	public void attack(ChessPiece Enemy){};
 	public void die(){status = false;};
