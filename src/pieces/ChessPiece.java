@@ -11,12 +11,8 @@ import java.util.ArrayList;
 Pawns - promotion.
 King- Castling, Checking, Checkmate(if another piece can stop the checkmate)
 Move - mouse Listener + updating gameboard
+Highlightlocation with Square
 */
-// WHAT WE HAVE TO IMPLEMENT
-// Pawns - promotion.
-// King- Castling, Checking, Checkmate(if another piece can stop the checkmate)
-// Move - mouse Listener + updating gameboard
-// 
 
 
 public class ChessPiece 
