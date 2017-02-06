@@ -1,7 +1,6 @@
 package game;
 
-public class Player{
-	public ChessPiece[] 
+public class Player{ 
 	public Player() {
 	}
 }
