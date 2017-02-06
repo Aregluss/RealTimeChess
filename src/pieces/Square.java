@@ -1,9 +1,12 @@
 
 package pieces;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import pieces.ChessPiece;
 
-public class Square {
+public class Square implements MouseListener{
 
 	private int row, column;
 	private ChessPiece currentPiece;
@@ -118,6 +121,56 @@ public class Square {
 		if (row != other.row)
 			return false;
 		return true;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int x = e.getX();
+		int y = e.getY();
+		
+		//double dx = x * (Map.REALWIDTH + 0.0) / map.getWidth();
+		//double dy = y * (Map.REALHEIGHT + 0.0) / map.getHeight();
+		
+		System.out.println("SEX");
+		
+		if(e.getButton() == MouseEvent.BUTTON3)
+		{
+			System.out.println("LEFT");
+		}
+		else if(e.getButton() == MouseEvent.BUTTON1)
+		{
+			System.out.println("ROIGHT");
+		}
+		//System.out.println(x + ", " + y);
+		
+	//	map.repaint();
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

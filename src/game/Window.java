@@ -17,7 +17,7 @@ public class Window extends JFrame{
 	
 	public Window()
 	{	
-		super("Defense of the Oincients");
+		super("RTC");
 		//should make game resizable
 		setBounds(100, 100, 800, 668);
 		
@@ -25,16 +25,8 @@ public class Window extends JFrame{
 		
 		setVisible(true);
 	    //make window go transparent when mouse leaves will look cool
-	    addMouseListener( new MouseAdapter() {
-	        public void mouseExited( MouseEvent e ) {
-	        	//System.out.println("OUT");
-	        }
-	        
-	        public void mouseEntered(MouseEvent e)
-	        {
-	        	//System.out.println("IN");
-	        }
-	    } );
+	    
+	   
        
 	}
 	
