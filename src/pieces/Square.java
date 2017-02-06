@@ -4,9 +4,11 @@ package pieces;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JPanel;
+
 import pieces.ChessPiece;
 
-public class Square implements MouseListener{
+public class Square extends JPanel implements MouseListener{
 
 	private int row, column;
 	private ChessPiece currentPiece;
@@ -21,6 +23,7 @@ public class Square implements MouseListener{
 		lightOn = "none";
 		movable = false;
 		
+		addMouseListener(this); //???????????????
 	}
 	
 	public Square()
@@ -164,7 +167,7 @@ public class Square implements MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("YEET BOI");
 	}
 
 	@Override

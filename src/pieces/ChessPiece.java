@@ -14,7 +14,7 @@ import java.util.ArrayList;
 // 
 
 
-public class ChessPiece 
+public class ChessPiece
 {	
 	public boolean status = true;
 	boolean color;
