@@ -2,10 +2,15 @@ package pieces;
 
 import game.*;
 import pieces.Square;
-
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+
+/*WHAT WE HAVE TO IMPLEMENT
+Pawns - promotion.
+King- Castling, Checking, Checkmate(if another piece can stop the checkmate)
+Move - mouse Listener + updating gameboard
+*/
 
 public class ChessPiece 
 {	
@@ -22,7 +27,9 @@ public class ChessPiece
 		width = 60;
 		height = 60;
 	}; 
-	public void move(int row, int column){};
+	public void move(int row, int column){
+		check()
+	};
 	public void attack(ChessPiece Enemy){};
 	public void die(){status = false;};
 	//either returns 2D array of squares, or 2D array of int
@@ -32,7 +39,7 @@ public class ChessPiece
 		getMoveLocations();
 		for(Square movable: locations) {
 			GameBoard.Board[movable.getRow()][movable.getColumn()].setLight("Move");
-			if(movable.getCurrentPiece().getColor() != getColor() && movable.getCurrentPiece() != null) {
+			if(movable.getCurrentPiece().getColor() != this.getColor() && movable.getCurrentPiece() != null) {
 				GameBoard.Board[movable.getRow()][movable.getColumn()].setLight("Attack");
 			}	
 		
@@ -43,7 +50,7 @@ public class ChessPiece
 		getMoveLocations();
 		Square kappa = new Square();
 		for(Square movable: locations) {
-			if(movable.getCurrentPiece().getColor() != getColor() && movable.getCurrentPiece() != null) {
+			if(movable.getCurrentPiece().getColor() != this.getColor() && movable.getCurrentPiece() != null) {
 			}
 			return movable;
 		}
