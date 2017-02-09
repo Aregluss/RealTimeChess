@@ -43,7 +43,20 @@ public class GameBoard implements Runnable
 			standardSetup();
 	}
 	
-	
+	// For testing
+	public GameBoard(int x) {
+		
+		Board = new Square[8][8];
+		
+		for(int i = 0; i < Board.length; i++)
+			for(int j = 0; j < Board[i].length; j++)
+			{
+				Board[i][j] = new Square(i,j);
+			}
+		
+		if(x == 1)
+			standardSetup();
+	}
 	
 	
 	public void standardSetup()

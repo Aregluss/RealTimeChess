@@ -19,11 +19,11 @@ public class ChessPiece
 {	
 	public boolean status = true;
 	public boolean hasMoved = false;
-	boolean color;
-	boolean canCastleKing = false;
-	boolean canCastleQueen = false;
+	public boolean color;
+	public boolean canCastleKing = false;
+	public boolean canCastleQueen = false;
 	public ArrayList<Square> locations = new ArrayList<Square>();
-	int row, column;
+	public int row, column;
 	Image image;
 	private int width, height;
 	public ChessPiece(int row, int column, boolean color) {
@@ -80,23 +80,34 @@ public class ChessPiece
 		return kappa;
 		};
 		
-	public boolean getColor(){return status;};
+	public boolean getColor(){return color;};
 	
 	public ArrayList<Square> returnLocations(){return locations;};
 	
 	public void recursion(int row, int col,int rowIncre, int colIncre) {
-		if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color) {
-			return;
-		}
-		locations.add(new Square(row,col));
 		
-		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
+		int newRow = row + rowIncre;
+		int newCol = col + colIncre;
+		
+		if( (newRow < 0 || newRow > 7 ) || ( newCol < 0 || newCol > 7 ) ) {
 			return;
 		}
+		
+		if(GameBoard.Board[newRow][newCol].getCurrentPiece() != null) {
+			if(GameBoard.Board[newRow][newCol].getCurrentPiece().getColor() == color) {		
+				return;
+			}
+		}
+		
+		locations.add(new Square(newRow,newCol));
+		
+		if(GameBoard.Board[newRow][newCol].getCurrentPiece() != null) {
+			return;
+		}
+	
 		recursion(row+rowIncre,col+colIncre, rowIncre, colIncre);
 	}
 	
-
 	public void draw(Graphics g)
 	{
 		g.drawImage(image, 10+column*80, 10+row*80, width, height, null);

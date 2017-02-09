@@ -12,7 +12,7 @@ import pieces.Square;
 
 public class Pawn extends ChessPiece{
 
-	boolean hasMoved;
+	public boolean hasMoved;
 	
 	
 	public Pawn(int row, int column, boolean color){
@@ -51,24 +51,51 @@ public class Pawn extends ChessPiece{
 
 	@Override
 	public void getMoveLocations() {
-		if( GameBoard.Board[row+1][column].getCurrentPiece() != null ) {
-			locations.add(new Square(row + 1,column));	
+		//Haven't considered pawn reaching end of board (promotion)
+		if(this.getColor() == true) {
+			if( GameBoard.Board[row-1][column].getCurrentPiece() == null ) {
+				locations.add(new Square(row - 1,column));	
+			}
+			System.out.println(GameBoard.Board[row-1][column].getCurrentPiece());
+			if((GameBoard.Board[row-1][column].getCurrentPiece() == null && GameBoard.Board[row-2][column].getCurrentPiece() == null) && hasMoved != true) {
+				locations.add(new Square(row - 2,column));	
+			}
+			
+			if(column-1 >= 0 && GameBoard.Board[row-1][column-1].getCurrentPiece() != null)  
+				if(GameBoard.Board[row-1][column-1].getCurrentPiece().getColor() != getColor()) {
+					locations.add(new Square(row - 1,column - 1));	
+			}
+		
+			if(column+1 < 8 && GameBoard.Board[row-1][column+1].getCurrentPiece() != null)  
+				if(GameBoard.Board[row-1][column+1].getCurrentPiece().getColor() != getColor()) {
+					locations.add(new Square(row - 1,column + 1));	
+			}
 		}
 		
-		if(GameBoard.Board[row+2][column].getCurrentPiece() != null && hasMoved != true) {
-			locations.add(new Square(row + 2,column));	
-		}
+		if(this.getColor() == false) {
+			
+			if( GameBoard.Board[row+1][column].getCurrentPiece() == null ) {
+				locations.add(new Square(row + 1,column));	
+			}
+			
+			if(GameBoard.Board[row+1][column].getCurrentPiece() == null && GameBoard.Board[row+2][column].getCurrentPiece() == null && hasMoved != true) {
+				locations.add(new Square(row + 2,column));	
+			}
+			
+			if(column-1 >= 0 && GameBoard.Board[row+1][column-1].getCurrentPiece() != null)  
+				if(GameBoard.Board[row+1][column-1].getCurrentPiece().getColor() != getColor()) {
+					locations.add(new Square(row + 1,column - 1));	
+			}
 		
-		if(GameBoard.Board[row+1][column+1].getCurrentPiece().getColor() != getColor()) {
-			locations.add(new Square(row + 1,column + 1));	
+			if(column+1 < 8 && GameBoard.Board[row+1][column+1].getCurrentPiece() != null)  
+				if(GameBoard.Board[row+1][column+1].getCurrentPiece().getColor() != getColor()) {
+					locations.add(new Square(row + 1,column + 1));	
+			}
 		}
-		
-		if(GameBoard.Board[row+1][column-1].getCurrentPiece().getColor() != getColor()) {
-			locations.add(new Square(row + 1,column - 1));	
-		}
+			
+			
 		
 	}
-
 
 	@Override
 	public void highightLocation() {

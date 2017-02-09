@@ -88,7 +88,10 @@ public class King extends ChessPiece{
   	}
 	
 	public boolean check(int i, int j, boolean color) {
-		
+		return true;
+	}
+	
+	public boolean checkRecursion() {
 		return true;
 	}
 	
