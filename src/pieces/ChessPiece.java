@@ -112,6 +112,7 @@ public class ChessPiece
 	{
 		g.drawImage(image, 10+column*80, 10+row*80, width, height, null);
 	}
+	
 	@Override
 	public String toString() {
 		return "ChessPiece [status=" + status + ", color=" + color + ", canCastleKing=" + canCastleKing
