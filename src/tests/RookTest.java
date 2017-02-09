@@ -30,29 +30,25 @@ public class RookTest {
 	
 	@Test 
 	public void BlackLeftRookMoveLoc() {
-		Rook wtf = (Rook) LeftBlack;
-		wtf.getMoveLocations();
+		LeftBlack.getMoveLocations();
 		assertEquals(10,LeftBlack.locations.size());
 	}
 	
 	@Test 
 	public void BlackRightRookMoveLoc() {
-		Rook wtf = (Rook) RightBlack;
-		wtf.getMoveLocations();
+		RightBlack.getMoveLocations();
 		assertEquals(9,RightBlack.locations.size());
 	}
 	
 	@Test 
 	public void WhiteLeftRookMoveLoc() {
-		Rook wtf = (Rook) LeftWhite;
-		wtf.getMoveLocations();
+		LeftWhite.getMoveLocations();
 		assertEquals(10,LeftWhite.locations.size());
 	}
 	
 	@Test 
 	public void WhiteRightRookMoveLoc() {
-		Rook wtf = (Rook) RightWhite;
-		wtf.getMoveLocations();
+		RightWhite.getMoveLocations();
 		assertEquals(9,RightWhite.locations.size());
 	}
 }

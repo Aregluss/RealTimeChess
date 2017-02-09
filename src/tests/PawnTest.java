@@ -50,59 +50,51 @@ public class PawnTest{
 	
 	@Test
 	public void WhitePawnCornerBoundary() {
-		Pawn wtf = (Pawn) WhitePawnCorner;
-		wtf.getMoveLocations();
-		assertEquals(2,wtf.locations.size());
+		WhitePawnCorner.getMoveLocations();
+		assertEquals(2,WhitePawnCorner.locations.size());
 	}
 	
 	@Test
 	public void BlackPawnCornerBoundary() {
-		Pawn wtf = (Pawn) BlackPawnCorner;
-		wtf.getMoveLocations();
-		assertEquals(2,wtf.locations.size());
+		BlackPawnCorner.getMoveLocations();
+		assertEquals(2,BlackPawnCorner.locations.size());
 	}
 	
 	@Test
 	public void WhitePawnStuck() {
-		Pawn wtf = (Pawn) WhiteStuck;
-		wtf.getMoveLocations();
-		assertEquals(0,wtf.locations.size());
+		WhiteStuck.getMoveLocations();
+		assertEquals(0,WhiteStuck.locations.size());
 	}
 	
 	@Test
 	public void BlackPawnStuck() {
-		Pawn wtf = (Pawn) BlackStuck;
-		wtf.getMoveLocations();
-		assertEquals(0,wtf.locations.size());
+		BlackStuck.getMoveLocations();
+		assertEquals(0,BlackStuck.locations.size());
 	}
 	
 	@Test
 	public void HasMovedWhitePawn() {
-		Pawn wtf = (Pawn) MovedWhitePawn;
 		MovedWhitePawn.hasMoved = true;
-		wtf.getMoveLocations();
-		assertEquals(3,wtf.locations.size());
+		MovedWhitePawn.getMoveLocations();
+		assertEquals(3,MovedWhitePawn.locations.size());
 	}
 	
 	@Test
 	public void HasMovedBlackPawn() {
-		Pawn wtf = (Pawn) MovedBlackPawn;
-		wtf.hasMoved = true;
-		wtf.getMoveLocations();
-		assertEquals(3,wtf.locations.size());
+		MovedBlackPawn.hasMoved = true;
+		MovedBlackPawn.getMoveLocations();
+		assertEquals(3,MovedBlackPawn.locations.size());
 	}
 	
 	@Test
 	public void RightBoundaryWhite() {
-		Pawn wtf = (Pawn) WhiteRightBoundary;
-		wtf.getMoveLocations();
-		assertEquals(3,wtf.locations.size());
+		WhiteRightBoundary.getMoveLocations();
+		assertEquals(3,WhiteRightBoundary.locations.size());
 	}
 	
 	@Test
 	public void RightBoundaryBlack() {
-		Pawn wtf = (Pawn) BlackRightBoundary;
-		wtf.getMoveLocations();
-		assertEquals(3,wtf.locations.size());
+		BlackRightBoundary.getMoveLocations();
+		assertEquals(3,BlackRightBoundary.locations.size());
 	}
 }

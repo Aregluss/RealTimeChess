@@ -40,8 +40,52 @@ public class KnightTest {
 	
 	@Test
 	public void BKLeftCorner() {
-		Knight wtf = (Knight) BKLeftCorner;
-		wtf.getMoveLocations();
-		assertEquals(2,wtf.locations.size());
+		BKLeftCorner.getMoveLocations();
+		assertEquals(2,BKLeftCorner.locations.size());
+	}
+	
+	@Test
+	public void WKLeftCorner() {
+		WKLeftCorner.getMoveLocations();
+		assertEquals(2,WKLeftCorner.locations.size());
+	}
+	
+	@Test
+	public void BKRightCorner() {
+		BKRightCorner.getMoveLocations();
+		assertEquals(2,BKRightCorner.locations.size());
+	}
+	
+	@Test
+	public void WKRightCorner() {
+		WKRightCorner.getMoveLocations();
+		assertEquals(2,WKRightCorner.locations.size());
+	}
+	
+	@Test
+	public void WK42() {
+		WK42.getMoveLocations();
+		for(Square movable: WK42.locations) {
+			System.out.println(movable);
+		}
+		assertEquals(7,WK42.locations.size());
+	}
+	
+	@Test
+	public void WK54() {
+		WK54.getMoveLocations();
+		assertEquals(7,WK54.locations.size());
+	}
+	
+	@Test
+	public void BK23() {
+		BK23.getMoveLocations();
+		assertEquals(7,BK23.locations.size());
+	}
+	
+	@Test
+	public void BK35() {
+		BK35.getMoveLocations();
+		assertEquals(7,BK35.locations.size());
 	}
 }

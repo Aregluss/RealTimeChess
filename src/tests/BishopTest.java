@@ -36,43 +36,37 @@ public class BishopTest {
 	
 	@Test 
 	public void BlackLeftBishopMoveLoc() {
-		Bishop wtf = (Bishop) LeftBlack;
-		wtf.getMoveLocations();
+		LeftBlack.getMoveLocations();
 		assertEquals(7,LeftBlack.locations.size());
 	}
 	
 	@Test 
 	public void BlackRightBishopMoveLoc() {
-		Bishop wtf = (Bishop) RightBlack;
-		wtf.getMoveLocations();
+		RightBlack.getMoveLocations();
 		assertEquals(7,RightBlack.locations.size());
 	}
 	
 	@Test 
 	public void WhiteLeftBishopMoveLoc() {
-		Bishop wtf = (Bishop) LeftWhite;
-		wtf.getMoveLocations();
+		LeftWhite.getMoveLocations();
 		assertEquals(7,LeftWhite.locations.size());
 	}
 	
 	@Test 
 	public void WhiteRightBishopMoveLoc() {
-		Bishop wtf = (Bishop) RightWhite;
-		wtf.getMoveLocations();
+		RightWhite.getMoveLocations();
 		assertEquals(7,RightWhite.locations.size());
 	}
 	
 	@Test
 	public void WhiteBishopAllyTest() {
-		Bishop wtf = (Bishop) WhiteBish;
-		wtf.getMoveLocations();
+		WhiteBish.getMoveLocations();
 		assertEquals(4,WhiteBish.locations.size());
 	}
 	
 	@Test
 	public void BlackBishopBoundaryTest() {
-		Bishop wtf = (Bishop) BlackBish;
-		wtf.getMoveLocations();
+		BlackBish.getMoveLocations();
 		assertEquals(7,BlackBish.locations.size());
 	}
 }
