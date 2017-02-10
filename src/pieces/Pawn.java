@@ -33,17 +33,8 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		super.move(row, column);
 		
-		if(color == true) {
-			if(row == 0) {
-				promote(choosePromotion());
-			}
-		}
-		
-		if(color == false) {
-			if(row == 7) {
-				promote(choosePromotion());
-			}
-		}
+
+
 	}
 
 

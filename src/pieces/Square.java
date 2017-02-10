@@ -1,9 +1,21 @@
 
 package pieces;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
 import pieces.ChessPiece;
 
-public class Square {
+public class Square extends JPanel{// implements MouseListener{
 
 	private int row, column;
 	private ChessPiece currentPiece;
@@ -11,12 +23,26 @@ public class Square {
 	private boolean blackDanger;
 	private String lightOn;
 	private boolean movable;
+	private Image light;
 	
 	public Square(int row, int column)
 	{
+		
+		try
+		{
+			light = ImageIO.read(new File("Rook.jpg"));
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		
 		currentPiece = null;
 		lightOn = "none";
 		movable = false;
+
+
 		this.row = row;
 		this.column = column;
 	}
@@ -128,6 +154,14 @@ public class Square {
 		return true;
 	}
 
+
+	/*public void turnItUp(Graphics g) ///????
+	{	
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		
+		g2.drawImage(light, 10, 10, 20, 20, this);
+	}	*/
 	@Override
 	public String toString() {
 		return "Square [row=" + row + ", column=" + column + ", currentPiece=" + currentPiece + "]";

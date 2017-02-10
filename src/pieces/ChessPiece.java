@@ -15,7 +15,7 @@ Highlight location with Square
 */
 
 
-public class ChessPiece 
+public class ChessPiece
 {	
 	public boolean status = true;
 	public boolean hasMoved = false;
@@ -30,8 +30,9 @@ public class ChessPiece
 		this.row = row;
 		this.column = column;
 		this.color = color;
-		width = 60;
-		height = 60;
+		width = GraphicsBoard.WIDTH/8;
+		height = GraphicsBoard.HEIGHT/8;
+		
 	}; 
 	
 	public void move(int row, int column){
@@ -112,7 +113,7 @@ public class ChessPiece
 	
 	public void draw(Graphics g)
 	{
-		g.drawImage(image, 10+column*80, 10+row*80, width, height, null);
+		g.drawImage(image, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 	}
 	
 	@Override

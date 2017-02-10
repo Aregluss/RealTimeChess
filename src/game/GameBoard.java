@@ -98,9 +98,6 @@ public class GameBoard implements Runnable
 	{
 		while(true)
 		{
-			if(Board[0][3].getCurrentPiece() == null)
-				System.out.println("No Queen");
-			
 			Graphics g = graphBoard.getGraphics();
 			if(g != null)
 			{
@@ -110,11 +107,11 @@ public class GameBoard implements Runnable
 						if(Board[i][j].getCurrentPiece() != null)
 						{
 							Board[i][j].getCurrentPiece().draw(g);
-							
 						}
 						
 					}
-					
+			
+				
 				
 			}
 			
