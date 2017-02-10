@@ -61,6 +61,7 @@ public class KnightTest {
 		WKRightCorner.getMoveLocations();
 		assertEquals(2,WKRightCorner.locations.size());
 	}
+
 	
 	@Test
 	public void WK42() {
@@ -88,4 +89,5 @@ public class KnightTest {
 		BK35.getMoveLocations();
 		assertEquals(7,BK35.locations.size());
 	}
+
 }

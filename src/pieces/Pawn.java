@@ -56,7 +56,6 @@ public class Pawn extends ChessPiece{
 			if( GameBoard.Board[row-1][column].getCurrentPiece() == null ) {
 				locations.add(new Square(row - 1,column));	
 			}
-			System.out.println(GameBoard.Board[row-1][column].getCurrentPiece());
 			if((GameBoard.Board[row-1][column].getCurrentPiece() == null && GameBoard.Board[row-2][column].getCurrentPiece() == null) && hasMoved != true) {
 				locations.add(new Square(row - 2,column));	
 			}

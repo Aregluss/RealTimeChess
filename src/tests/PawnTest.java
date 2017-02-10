@@ -76,14 +76,14 @@ public class PawnTest{
 	public void HasMovedWhitePawn() {
 		MovedWhitePawn.hasMoved = true;
 		MovedWhitePawn.getMoveLocations();
-		assertEquals(3,MovedWhitePawn.locations.size());
+		assertEquals(4,MovedWhitePawn.locations.size());
 	}
 	
 	@Test
 	public void HasMovedBlackPawn() {
 		MovedBlackPawn.hasMoved = true;
 		MovedBlackPawn.getMoveLocations();
-		assertEquals(3,MovedBlackPawn.locations.size());
+		assertEquals(4,MovedBlackPawn.locations.size());
 	}
 	
 	@Test
