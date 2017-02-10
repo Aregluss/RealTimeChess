@@ -49,6 +49,7 @@ public class ChessPiece
 			this.row = row;
 			this.column = column;
 			hasMoved = true;
+			locations.clear();
 //			check()
 		}
 		else{

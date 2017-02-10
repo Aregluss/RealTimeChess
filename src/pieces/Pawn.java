@@ -32,8 +32,19 @@ public class Pawn extends ChessPiece{
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub
 		super.move(row, column);
+		sethasMoved(true);
 		
-
+		if(color == true) {
+			if(row == 0) {
+				promote(choosePromotion());
+			}
+		}
+		
+		if(color == false) {
+			if(row == 7) {
+				promote(choosePromotion());
+			}
+		}
 
 	}
 

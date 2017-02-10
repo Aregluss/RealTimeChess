@@ -26,6 +26,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	
 	private Image background;
 	private int initalPress = 0;
+	private int row, col, row1, col1;
 	
 	public GraphicsBoard()
 	{
@@ -72,7 +73,6 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		int x = e.getX();
 		int y = e.getY();
 		//int initalPress = 0;
-		int r = -1, c = -1, r1 = -1, c1 = -1;
 		
 		//double dx = x * (Map.REALWIDTH + 0.0) / map.getWidth();
 		//double dy = y * (Map.REALHEIGHT + 0.0) / map.getHeight();
@@ -83,29 +83,44 @@ public class GraphicsBoard extends JPanel implements MouseListener
 			if(e.getButton() == MouseEvent.BUTTON3)
 			{
 				System.out.println("LEFT");
+				initalPress = 0;
 			}
 			else if(e.getButton() == MouseEvent.BUTTON1)
 			{
-				
-				
-				if(initalPress == 0)
-				{	
-					r = x/80;
-					c = y/80;
-					initalPress++;
-					System.out.println("IM SELECTED");
-				}
-				else
+
+				if(GameBoard.Board[y/80][x/80].getCurrentPiece() != null || initalPress == 1)
 				{
-					r1 = x/80;
-					c1 = y/80;
-					System.out.println("My X&Y: " + r1 +" " +c1);
-					GameBoard.Board[r][c].getCurrentPiece();//.move(r1,c1);
-					initalPress = 0;
-					System.out.println("MOVE ME DADDY");
+					if(initalPress == 0)
+					{	
+						row = y/80;
+						col = x/80;
+						initalPress++;
+						System.out.println("IM SELECTED");
+					}
+					else
+					{
+						System.out.println("R&C:" +row +" " +col);
+						row1 = y/80;
+						col1 = x/80;
+						if(row == row1 && col == col1)
+						{
+							initalPress = 0;
+							System.out.println("DO BETTER U CUC");
+						}
+						else
+						{
+							GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+							if(GameBoard.Board[row][col].getCurrentPiece() == null)
+							{
+								initalPress = 0;
+								System.out.println("MOVE ME DADDY");
+							}
+						}
+					}
 				}
 			}
 		}
+		 repaint(); //Redraws board to update images being moved
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
