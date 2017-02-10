@@ -4,6 +4,7 @@ Some notes
 -> Actually test move function
 -> Maybe think about adding assert to check viability of getColor()
 -> Restructure tests
+-> Fix the constructor for Squares + tie it into getMoveLocation()
 
 Overarching comment, knight + pawn do not apply to these, implement these seperately
 
