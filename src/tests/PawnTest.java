@@ -51,14 +51,13 @@ public class PawnTest{
 	@Test
 	public void WhitePawnCornerBoundary() {
 		WhitePawnCorner.getMoveLocations();
-		
-		assertEquals(3,WhitePawnCorner.locations.size());
+		assertEquals(2,WhitePawnCorner.locations.size());
 	}
 	
 	@Test
 	public void BlackPawnCornerBoundary() {
 		BlackPawnCorner.getMoveLocations();
-		assertEquals(3,BlackPawnCorner.locations.size());
+		assertEquals(2,BlackPawnCorner.locations.size());
 	}
 	
 	@Test
@@ -75,12 +74,12 @@ public class PawnTest{
 	
 	@Test
 	public void HasMovedWhitePawn() {
-		Pawn wtff = (Pawn) MovedBlackPawn;
+		Pawn wtff = (Pawn) MovedWhitePawn;
 		wtff.sethasMoved(true);
 		MovedWhitePawn.getMoveLocations();
-		/*for(Square movable: MovedWhitePawn.locations) {
+		for(Square movable: MovedWhitePawn.locations) {
 			System.out.println(movable);
-		}*/
+		}
 		assertEquals(3,MovedWhitePawn.locations.size());
 	}
 	
@@ -104,3 +103,4 @@ public class PawnTest{
 		assertEquals(3,BlackRightBoundary.locations.size());
 	}
 }
+
