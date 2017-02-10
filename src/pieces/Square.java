@@ -25,7 +25,7 @@ public class Square extends JPanel{// implements MouseListener{
 	private boolean movable;
 	private Image light;
 	
-	public Square(int row, int colum)
+	public Square(int row, int column)
 	{
 		
 		try
@@ -42,10 +42,20 @@ public class Square extends JPanel{// implements MouseListener{
 		lightOn = "none";
 		movable = false;
 
+
+		this.row = row;
+		this.column = column;
 	}
 	
-	public Square()
-	{
+	public Square(int row, int column, ChessPiece currentPiece) {
+		this.currentPiece = currentPiece;
+		lightOn = "none";
+		movable = false;
+		this.row = row;
+		this.column = column;
+	}
+	
+	public Square() {
 		
 	}
 	
@@ -144,6 +154,7 @@ public class Square extends JPanel{// implements MouseListener{
 		return true;
 	}
 
+
 	/*public void turnItUp(Graphics g) ///????
 	{	
 		super.paintComponent(g);
@@ -151,4 +162,9 @@ public class Square extends JPanel{// implements MouseListener{
 		
 		g2.drawImage(light, 10, 10, 20, 20, this);
 	}	*/
+	@Override
+	public String toString() {
+		return "Square [row=" + row + ", column=" + column + ", currentPiece=" + currentPiece + "]";
+	}
+	
 }

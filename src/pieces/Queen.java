@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class Queen extends ChessPiece{
-
+	public String check;
 	public Queen(int row, int column, boolean color){
 		super(row, column, color);
-		
 		try {
 			image = ImageIO.read(new File("queen.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		check = "queen";
 	}
+	
 	@Override
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub

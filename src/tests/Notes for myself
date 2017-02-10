@@ -1,0 +1,19 @@
+Some notes
+
+-> constructor test
+-> Actually test move function
+-> Maybe think about adding assert to check viability of getColor()
+-> Restructure tests
+-> Fix the constructor for Squares + tie it into getMoveLocation()
+
+Overarching comment, knight + pawn do not apply to these, implement these seperately
+
+-> Moving off king line of sight (ally) (pinned)
+	- Create instance variable called isVisible/Invisible 
+		- On getMoveLocations, sets itself Invisible, then calls King's check, if King is in Check cannot move unless it can attack the threatening piece
+		
+-> Moving into king LoS (body block)
+	-Check threatening piece's danger spots, if any piece can move into that danger spot, check is resolved
+	
+-> King Movement
+	- check every spot the king can move's danger zones,

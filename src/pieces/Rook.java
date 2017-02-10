@@ -20,10 +20,8 @@ public class Rook extends ChessPiece {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
-	boolean canCaste;
 
 	@Override
 	public void move(int row, int column) {
@@ -42,17 +40,16 @@ public class Rook extends ChessPiece {
 		// TODO Auto-generated method stub
 		super.die();
 	}
-
-	@Override
+	
+	
 	public void getMoveLocations() {
 		
 		recursion(row, column, 1 ,0);
 		recursion(row, column, 0, 1);
 		recursion(row, column,-1, 0);
-		recursion(row, column, 0,-1);
-	
+		recursion(row, column, 0,-1); 
 	}
-
+	
 	@Override
 	public void highightLocation() {
 		// TODO Auto-generated method stub
