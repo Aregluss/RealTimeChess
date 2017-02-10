@@ -33,6 +33,7 @@ public class ChessPiece
 		width = 60;
 		height = 60;
 	}; 
+	
 	public void move(int row, int column){
 		getMoveLocations();
 		boolean canMove = false;
@@ -53,6 +54,7 @@ public class ChessPiece
 			//invalid movable location... throw an error? idk
 		}
 	};
+	
 	public void attack(ChessPiece Enemy){};
 	public void die(){status = false;};
 	//either returns 2D array of squares, or 2D array of int

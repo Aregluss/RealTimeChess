@@ -29,6 +29,10 @@ public class Square {
 		this.column = column;
 	}
 	
+	public Square() {
+		
+	}
+	
 	public int getRow()
 	{
 		return row;	
