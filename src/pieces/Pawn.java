@@ -12,13 +12,13 @@ import pieces.Square;
 
 public class Pawn extends ChessPiece{
 
-	boolean hasMoved;
+	public boolean hasMoved = false;
+	public String check;
 	
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
-		hasMoved = false;
-		
+		check = "pawn";
 		try {
 			image = ImageIO.read(new File("Pawn.png"));
 		} catch (IOException e) {
@@ -32,6 +32,18 @@ public class Pawn extends ChessPiece{
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub
 		super.move(row, column);
+		
+		if(color == true) {
+			if(row == 0) {
+				promote(choosePromotion());
+			}
+		}
+		
+		if(color == false) {
+			if(row == 7) {
+				promote(choosePromotion());
+			}
+		}
 	}
 
 
@@ -51,24 +63,124 @@ public class Pawn extends ChessPiece{
 
 	@Override
 	public void getMoveLocations() {
-		if( GameBoard.Board[row+1][column].getCurrentPiece() != null ) {
-			locations.add(new Square(row + 1,column));	
+		//Haven't considered pawn reaching end of board (promotion)
+		getmovelocationLeft(color);
+		getmovelocationRight(color);
+		getmovelocationOne(color);
+		getmovelocationTwo(color);
+	}
+	
+	public void getmovelocationLeft(boolean color) {
+		if(column-1 < 0) {
+			return;
+		}
+		if(color == true) {
+			if(row-1 < 0){
+				return;
+			}
+			if(GameBoard.Board[row-1][column-1].getCurrentPiece() != null) {
+				if(GameBoard.Board[row-1][column-1].getCurrentPiece().getColor() != color) {
+					locations.add(new Square(row-1,column-1));
+				}
+			}
 		}
 		
-		if(GameBoard.Board[row+2][column].getCurrentPiece() != null && hasMoved != true) {
-			locations.add(new Square(row + 2,column));	
+		if(color == false) {
+			if(row+1 > 7) {
+				return;
+			}
+			if(GameBoard.Board[row+1][column-1].getCurrentPiece() != null)
+				if(GameBoard.Board[row+1][column-1].getCurrentPiece().getColor() != color) {
+				locations.add(new Square(row+1,column-1));
+				}
+		}
+	}
+	
+	public void getmovelocationRight(boolean color) {
+		if(column+1 > 7) {
+			return;
+		}
+		if(color == true) {
+			if(row-1 < 0){
+				return;
+			}
+			if(GameBoard.Board[row-1][column+1].getCurrentPiece() != null) {
+				if(GameBoard.Board[row-1][column+1].getCurrentPiece().getColor() != color) {
+					locations.add(new Square(row-1,column+1));
+				}
+			}
+		}
+		if(color == false) {
+			if(row+1 > 7) {
+				return;
+			}
+			if(GameBoard.Board[row+1][column+1].getCurrentPiece() != null) {
+				if(GameBoard.Board[row+1][column+1].getCurrentPiece().getColor() != color) {
+					locations.add(new Square(row+1,column+1));
+				}
+			}
+		}
+	}
+	
+	public void getmovelocationOne(boolean color) {
+		
+		if(color == true) {
+			if(row-1 < 0 || GameBoard.Board[row-1][column].getCurrentPiece() != null){
+				return;
+			}
+			locations.add(new Square(row-1,column));
 		}
 		
-		if(GameBoard.Board[row+1][column+1].getCurrentPiece().getColor() != getColor()) {
-			locations.add(new Square(row + 1,column + 1));	
+		if(color == false) {
+			if(row+1 > 7 || GameBoard.Board[row+1][column].getCurrentPiece() != null) {
+				return;
+			}
+			locations.add(new Square(row+1,column));
 		}
-		
-		if(GameBoard.Board[row+1][column-1].getCurrentPiece().getColor() != getColor()) {
-			locations.add(new Square(row + 1,column - 1));	
-		}
-		
 	}
 
+	public void getmovelocationTwo(boolean color) {
+		if(hasMoved == true){
+			return;
+		}
+		if(color == true) {
+			if(row-2 < 0 || row-1 < 0 || GameBoard.Board[row-1][column].getCurrentPiece() != null || 
+					GameBoard.Board[row-2][column].getCurrentPiece() != null){
+				return;
+			}
+			locations.add(new Square(row-2,column));
+		}
+		
+		if(color == false) {
+			if(row+2 > 7 || row+1 > 7 || GameBoard.Board[row+1][column].getCurrentPiece() != null || 
+					GameBoard.Board[row+2][column].getCurrentPiece() != null) {
+				
+				return;
+			}
+			locations.add(new Square(row+2,column));
+		}
+	}
+			
+	public void promote(String promotionPiece) {
+		// light pops, ui to ask player what they want the pawn to be promoted to
+		if(promotionPiece.equals("queen")) {
+			GameBoard.Board[row][column].setCurrentPiece(new Queen(row,column,color));
+		}
+		if(promotionPiece.equals("bishop")) {
+			GameBoard.Board[row][column].setCurrentPiece(new Bishop(row,column,color));
+		}
+		if(promotionPiece.equals("knight")) {
+			GameBoard.Board[row][column].setCurrentPiece(new Knight(row,column,color));
+		}
+		if(promotionPiece.equals("rook")) {
+			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
+		}
+	}
+	
+	public String choosePromotion() {
+		//UI STUFF HERE
+		return "queen";
+	}
 
 	@Override
 	public void highightLocation() {
@@ -89,10 +201,17 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		return super.getColor();
 	}
-	
-	public void promote() {
 		
+	public boolean gethasMoved() {
+		return hasMoved;
 	}
-
 	
+	public void sethasMoved(boolean setter) {
+		hasMoved = setter;
+	}
+	@Override
+	public String toString()
+	{
+		return check;
+	}
 }

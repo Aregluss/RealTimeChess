@@ -12,16 +12,24 @@ public class Square {
 	private String lightOn;
 	private boolean movable;
 	
-	public Square(int row, int colum)
+	public Square(int row, int column)
 	{
 		currentPiece = null;
 		lightOn = "none";
 		movable = false;
-		
+		this.row = row;
+		this.column = column;
 	}
 	
-	public Square()
-	{
+	public Square(int row, int column, ChessPiece currentPiece) {
+		this.currentPiece = currentPiece;
+		lightOn = "none";
+		movable = false;
+		this.row = row;
+		this.column = column;
+	}
+	
+	public Square() {
 		
 	}
 	
@@ -118,6 +126,11 @@ public class Square {
 		if (row != other.row)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Square [row=" + row + ", column=" + column + ", currentPiece=" + currentPiece + "]";
 	}
 	
 }

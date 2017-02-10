@@ -43,7 +43,20 @@ public class GameBoard implements Runnable
 			standardSetup();
 	}
 	
-	
+	// For testing
+	public GameBoard(int x) {
+		
+		Board = new Square[8][8];
+		
+		for(int i = 0; i < Board.length; i++)
+			for(int j = 0; j < Board[i].length; j++)
+			{
+				Board[i][j] = new Square(i,j);
+			}
+		
+		if(x == 1)
+			standardSetup();
+	}
 	
 	
 	public void standardSetup()
@@ -68,6 +81,8 @@ public class GameBoard implements Runnable
 					Board[0][3].setCurrentPiece(new Queen(0, 3, false));
 					Board[7][3].setCurrentPiece(new Queen(7, 3, true));
 					Board[7][4].setCurrentPiece(new King(7, 4, true));
+					King bob = new King(7,4,true);
+					bob.canCastle();
 					
 					//Pawns
 					for(int j=0; j < 8; j++)
