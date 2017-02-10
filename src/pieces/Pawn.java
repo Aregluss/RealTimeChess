@@ -32,6 +32,11 @@ public class Pawn extends ChessPiece{
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub
 		super.move(row, column);
+		
+		this.row = row;
+		this.column = column;
+		//GameBoard.Board[row][column]
+		
 	}
 
 

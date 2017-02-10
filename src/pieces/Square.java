@@ -1,14 +1,21 @@
 
 package pieces;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import pieces.ChessPiece;
 
-public class Square extends JPanel implements MouseListener{
+public class Square extends JPanel{// implements MouseListener{
 
 	private int row, column;
 	private ChessPiece currentPiece;
@@ -16,14 +23,25 @@ public class Square extends JPanel implements MouseListener{
 	private boolean blackDanger;
 	private String lightOn;
 	private boolean movable;
+	private Image light;
 	
 	public Square(int row, int colum)
 	{
+		
+		try
+		{
+			light = ImageIO.read(new File("Rook.jpg"));
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		
 		currentPiece = null;
 		lightOn = "none";
 		movable = false;
-		
-		addMouseListener(this); //???????????????
+
 	}
 	
 	public Square()
@@ -126,54 +144,11 @@ public class Square extends JPanel implements MouseListener{
 		return true;
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		int x = e.getX();
-		int y = e.getY();
+	/*public void turnItUp(Graphics g) ///????
+	{	
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
 		
-		//double dx = x * (Map.REALWIDTH + 0.0) / map.getWidth();
-		//double dy = y * (Map.REALHEIGHT + 0.0) / map.getHeight();
-		
-		System.out.println("SEX");
-		
-		if(e.getButton() == MouseEvent.BUTTON3)
-		{
-			System.out.println("LEFT");
-		}
-		else if(e.getButton() == MouseEvent.BUTTON1)
-		{
-			System.out.println("ROIGHT");
-		}
-		//System.out.println(x + ", " + y);
-		
-	//	map.repaint();
-		
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("YEET BOI");
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+		g2.drawImage(light, 10, 10, 20, 20, this);
+	}	*/
 }

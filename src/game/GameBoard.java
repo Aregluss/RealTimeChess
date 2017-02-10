@@ -91,11 +91,12 @@ public class GameBoard implements Runnable
 					{
 						if(Board[i][j].getCurrentPiece() != null)
 						{
-							Board[i][j].getCurrentPiece().draw(g);	
+							Board[i][j].getCurrentPiece().draw(g);
 						}
 						
 					}
-					
+			
+				
 				
 			}
 			
