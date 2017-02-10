@@ -21,9 +21,12 @@ public class Square {
 		this.column = column;
 	}
 	
-	public Square()
-	{
-		
+	public Square(int row, int column, ChessPiece currentPiece) {
+		this.currentPiece = currentPiece;
+		lightOn = "none";
+		movable = false;
+		this.row = row;
+		this.column = column;
 	}
 	
 	public int getRow()
