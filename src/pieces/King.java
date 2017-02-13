@@ -63,16 +63,15 @@ public class King extends ChessPiece{
 	@Override
 	public void getMoveLocations() {
 		locations.clear();
- 		for(int i = row-1; i<=row+1; i++)
- 		{
- 			for(int j= column-1; j<=column+1; j++)
- 			{
- 				if( (i < 0 || i > 8 ) && ( j < 0 || j > 8 ) && 
- 						!(this.check(i,j,this.getColor())) && 
- 						(!(GameBoard.Board[i][j].getCurrentPiece().getColor() == this.getColor()) || GameBoard.Board[i][j].getCurrentPiece() != null ) )
- 				locations.add(new Square(i,j));						// Checks boundaries and then checks if location is dangerous, and then checks if a same colored piece is there
- 			}
- 		}
+ 		
+		getmovelocationHelper(1 ,0);
+		getmovelocationHelper(0, 1);
+		getmovelocationHelper(-1, 0);
+		getmovelocationHelper(0,-1);
+		getmovelocationHelper(1 ,1);
+		getmovelocationHelper(1, -1);
+		getmovelocationHelper(-1, 1);
+		getmovelocationHelper(-1,-1);
  		
  		if(	(canCastleKing == true) )	{
  			if(	(GameBoard.Board[row][column+1].getCurrentPiece() == null) && (GameBoard.Board[row][column+2].getCurrentPiece() == null))
@@ -86,6 +85,70 @@ public class King extends ChessPiece{
  				locations.add(new Square(row,column-2));
  		}
   	}
+	
+	/*
+	public void getmovelocationRow(int rowIncre) {
+		int newRow = row + rowIncre;
+		//Checks boundaries
+		if (newRow > 7 || newRow < 0) {
+			return;
+		}
+		//Checks for same team
+		if(GameBoard.Board[newRow][column].getCurrentPiece() != null) {
+			if(GameBoard.Board[newRow][column].getCurrentPiece().getColor() == color) {		
+				return;
+			}
+		}
+		
+		//Checks for dangerspot
+		if(check(newRow,column,color)) {
+			locations.add(new Square(newRow,column));
+		}
+	}
+	
+	public void getmovelocationCol(int colIncre) {
+		int newCol = column + colIncre;
+		//Checks boundaries
+		if (newCol > 7 || newCol < 0) {
+			return;
+		}
+		//Checks for same team
+		if(GameBoard.Board[row][newCol].getCurrentPiece() != null) {
+			if(GameBoard.Board[row][newCol].getCurrentPiece().getColor() == color) {		
+				return;
+			}
+		}
+		
+		//Checks for dangerspots
+		if(check(row,newCol,color)) {
+			locations.add(new Square(row,newCol));
+		}
+	} */
+	
+	public void getmovelocationHelper(int rowIncre, int colIncre) {
+		int newRow = row + rowIncre;
+		int newCol = column + colIncre;
+		
+		//Checks Boundaries
+		if( (newRow < 0 || newRow > 7 ) || ( newCol < 0 || newCol > 7 ) ) {
+			return;
+		}
+	
+		//Checks for same team
+		if(GameBoard.Board[newRow][newCol].getCurrentPiece() != null) {
+			if(GameBoard.Board[newRow][newCol].getCurrentPiece().getColor() == color) {		
+				return;
+			}
+		}
+		
+		//Checks for dangerspots
+		if(check(newRow,newCol,color)) {
+			System.out.println("IM HERE")	;
+			locations.add(new Square(newRow,newCol));
+		}
+	}
+		
+	
 	
 	public boolean check(int i, int j, boolean color) {
 		return true;

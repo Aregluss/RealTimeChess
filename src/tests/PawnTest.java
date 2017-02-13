@@ -77,9 +77,6 @@ public class PawnTest{
 		Pawn wtff = (Pawn) MovedWhitePawn;
 		wtff.sethasMoved(true);
 		MovedWhitePawn.getMoveLocations();
-		for(Square movable: MovedWhitePawn.locations) {
-			System.out.println(movable);
-		}
 		assertEquals(3,MovedWhitePawn.locations.size());
 	}
 	
