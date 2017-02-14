@@ -8,4 +8,8 @@ public class Timer
 	{
 		return (clock.millis() - startTime)/1000; //returns seconds
 	}
+	public long return_milli_time()
+	{
+		return (clock.millis() - startTime); //return milliseconds
+	}
 }
