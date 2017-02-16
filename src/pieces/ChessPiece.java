@@ -34,7 +34,19 @@ public class ChessPiece
 		height = GraphicsBoard.HEIGHT/8;
 		 
 	}; 
+	public boolean gethasMoved() {
+		return hasMoved;
+	}
 	
+	public void sethasMoved(boolean setter) {
+		hasMoved = setter;
+	}
+	public void CastleMove(int row, int column){
+		GameBoard.Board[row][column].setCurrentPiece(this);
+		this.row = row;
+		this.column = column;
+		hasMoved = true;
+	}
 	public void move(int row, int column){
 		getMoveLocations();
 		boolean canMove = false;
@@ -48,8 +60,9 @@ public class ChessPiece
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			this.row = row;
 			this.column = column;
-			hasMoved = true;
+			this.sethasMoved(true);
 			locations.clear();
+			System.out.println(this.gethasMoved());
 //			check()
 		}
 		else{

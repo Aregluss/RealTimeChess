@@ -29,6 +29,7 @@ public class Rook extends ChessPiece {
 		super.move(row, column);
 	}
 
+
 	@Override
 	public void attack(ChessPiece Enemy) {
 		// TODO Auto-generated method stub

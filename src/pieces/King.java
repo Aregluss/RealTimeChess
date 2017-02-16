@@ -28,23 +28,24 @@ public class King extends ChessPiece{
 		// TODO Auto-generated method stub
 		
 		super.move(row, column);
-		if(column == this.column +2)	{
+		if(column == 6 && canCastleKing == true)	{
 			if(this.getColor() == true)	{
-				GameBoard.Board[7][7].getCurrentPiece().move(this.row, this.column+1); // moving rook
+				GameBoard.Board[7][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
 			}
 			if(this.getColor() == false){
-				GameBoard.Board[0][7].getCurrentPiece().move(this.row, this.column+1); // moving rook
+				GameBoard.Board[0][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
 			}
 		}
 		
-		if(column == this.column-2)	{
+		if(column == 2 && canCastleQueen == true)	{
 			if(this.getColor() == true)	{
-				GameBoard.Board[7][0].getCurrentPiece().move(this.row, this.column-1); // moving rook
+				GameBoard.Board[7][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
 			}
 			if(this.getColor() == false){
-				GameBoard.Board[0][0].getCurrentPiece().move(this.row, this.column-1); // moving rook
+				GameBoard.Board[0][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
 			}
 		}
+		// Modify BK and WK static pieces.
 		canCastleKing = false;
 		canCastleQueen = false;
 	}
@@ -63,7 +64,7 @@ public class King extends ChessPiece{
 	@Override
 	public void getMoveLocations() {
 		locations.clear();
- 		
+ 		this.canCastle();
 		getmovelocationHelper(1 ,0);
 		getmovelocationHelper(0, 1);
 		getmovelocationHelper(-1, 0);
@@ -73,6 +74,7 @@ public class King extends ChessPiece{
 		getmovelocationHelper(-1, 1);
 		getmovelocationHelper(-1,-1);
  		
+		System.out.println("Rook on the King side is: " + GameBoard.Board[7][7].getCurrentPiece().gethasMoved());
  		if(	(canCastleKing == true) )	{
  			if(	(GameBoard.Board[row][column+1].getCurrentPiece() == null) && (GameBoard.Board[row][column+2].getCurrentPiece() == null))
  				locations.add(new Square(row,column+2));
@@ -178,28 +180,32 @@ public class King extends ChessPiece{
 	// use the check function, however we do it, to check the locations where it has to move through to see if they are checked
 	public void canCastle() { 
 		Rook test = new Rook(0,0,true);
-		if(hasMoved == true)
+		if(hasMoved == true)	{
+			canCastleQueen = false;
+			canCastleKing = false;
 			return;
+		}
+
 		// calls check to test if its checked
 		if(this.getColor() == true) {
 			if(GameBoard.Board[7][0].getCurrentPiece().getClass() == test.getClass()) {
 				//System.out.println("ISACA" + GameBoard.Board[7][0].getCurrentPiece().getClass() + " "+ test.getClass());
-				if(GameBoard.Board[7][0].getCurrentPiece().hasMoved == true)
+				if(GameBoard.Board[7][0].getCurrentPiece().gethasMoved() == true)
 					canCastleQueen = false;
 			}
 			if(GameBoard.Board[7][7].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[7][7].getCurrentPiece().hasMoved == true)
+				if(GameBoard.Board[7][7].getCurrentPiece().gethasMoved() == true)
 					canCastleKing = false;
 			}
 		}
 		
 		if(this.getColor() == false) {
 			if(GameBoard.Board[0][0].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[0][0].getCurrentPiece().hasMoved == true)
+				if(GameBoard.Board[0][0].getCurrentPiece().gethasMoved() == true)
 					canCastleQueen = false;
 			}
 			if(GameBoard.Board[0][7].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[0][7].getCurrentPiece().hasMoved == true)
+				if(GameBoard.Board[0][7].getCurrentPiece().gethasMoved() == true)
 					canCastleKing = false;
 			}
 		}
