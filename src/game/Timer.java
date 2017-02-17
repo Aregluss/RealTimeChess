@@ -1,6 +1,8 @@
 package game;
 
-public class Timer 
+import java.time.Clock;
+
+public class Timer{ 
 	private static Clock clock = Clock.systemDefaultZone();
 	private long startTime = clock.millis();
 	
