@@ -32,7 +32,7 @@ public class ChessPiece
 		this.color = color;
 		width = GraphicsBoard.WIDTH/8;
 		height = GraphicsBoard.HEIGHT/8;
-		
+		 
 	}; 
 	
 	public void move(int row, int column){
@@ -49,6 +49,7 @@ public class ChessPiece
 			this.row = row;
 			this.column = column;
 			hasMoved = true;
+			locations.clear();
 //			check()
 		}
 		else{

@@ -11,6 +11,7 @@ import pieces.Queen;
 import pieces.Square;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import game.GraphicsBoard;
 
@@ -99,21 +100,21 @@ public class GameBoard implements Runnable
 		while(true)
 		{
 			Graphics g = graphBoard.getGraphics();
-			if(g != null)
+			Graphics2D g2 = (Graphics2D) g;
+			if(g2 != null)
 			{
 				for(int i = 0; i < Board.length; i++)
 					for(int j = 0; j < Board[i].length; j++)
 					{
 						if(Board[i][j].getCurrentPiece() != null)
 						{
-							Board[i][j].getCurrentPiece().draw(g);
+							Board[i][j].getCurrentPiece().draw(g2);
 						}
 						
 					}
-			
-				
-				
 			}
+			
+			
 			
 		}
 	}
