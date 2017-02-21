@@ -109,17 +109,24 @@ public class ChessPiece
 			this.column = column;
 			this.sethasMoved(true);
 			
+			//check()
 			if(color==true) {
 				if ( GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
 					checkKing(false);
+					if( ( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked == true) {
+						//FREEZE GAME, Check resolution
+					}
 				}
 			}
 			else {
 				if ( GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
 					checkKing(true);
+					if( ( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked == true) {
+						
+					}
 				}
 			}
-			//			check()
+			
 		}
 		else{
 			//invalid movable location... throw an error? idk
