@@ -22,6 +22,7 @@ Highlight location with Square
 */
 
 
+@SuppressWarnings("unused")
 public class ChessPiece
 {	
 	public boolean status = true;
@@ -200,7 +201,7 @@ public class ChessPiece
 			}
 		}
 		
-		locations.add(new Square(newRow,newCol));
+		locations.add(new Square(newRow,newCol,GameBoard.Board[newRow][newCol].getCurrentPiece()));
 		
 		if(GameBoard.Board[newRow][newCol].getCurrentPiece() != null) {
 			return;
@@ -213,6 +214,19 @@ public class ChessPiece
 	public void draw(Graphics g)
 	{
 		g.drawImage(image, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
+	}
+	
+	
+	public void checkResolution() {
+		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
+		if( ((King)this).attacking.size() > 1 ) {
+			//ONLY THE KING CAN MOVE
+		}
+		else {
+			//Save king.attacking, run attacking pieces getMoveLocations
+			// Compare w/ allied pieces
+			//OR King can move
+		}
 	}
 	
 	//Checks if the king is in check, called after every move function finishes

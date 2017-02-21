@@ -28,7 +28,6 @@ public class King extends ChessPiece{
 	}
 	@Override
 	public void move(int row, int column) {
-		// TODO Auto-generated method stub
 		
 		super.move(row, column);
 
@@ -122,7 +121,7 @@ public class King extends ChessPiece{
 		//Checks for dangerspots
 		if(!checkSquare(newRow,newCol)) {
 			//System.out.println(newRow + " " + newCol);
-				locations.add(new Square(newRow,newCol));
+				locations.add(new Square(newRow,newCol,GameBoard.Board[newRow][newCol].getCurrentPiece()));
 		}
 		
 		else {

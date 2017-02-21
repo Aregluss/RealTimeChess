@@ -82,7 +82,7 @@ public class Pawn extends ChessPiece{
 			}
 			if(GameBoard.Board[row-1][column-1].getCurrentPiece() != null) {
 				if(GameBoard.Board[row-1][column-1].getCurrentPiece().getColor() != color) {
-					locations.add(new Square(row-1,column-1));
+					locations.add(new Square(row-1,column-1,GameBoard.Board[row-1][column-1].getCurrentPiece()));
 				}
 			}
 		}
@@ -93,7 +93,7 @@ public class Pawn extends ChessPiece{
 			}
 			if(GameBoard.Board[row+1][column-1].getCurrentPiece() != null)
 				if(GameBoard.Board[row+1][column-1].getCurrentPiece().getColor() != color) {
-				locations.add(new Square(row+1,column-1));
+				locations.add(new Square(row+1,column-1,GameBoard.Board[row+1][column-1].getCurrentPiece()));
 				}
 		}
 	}
@@ -110,7 +110,7 @@ public class Pawn extends ChessPiece{
 			}
 			if(GameBoard.Board[row-1][column+1].getCurrentPiece() != null) {
 				if(GameBoard.Board[row-1][column+1].getCurrentPiece().getColor() != color) {
-					locations.add(new Square(row-1,column+1));
+					locations.add(new Square(row-1,column+1,GameBoard.Board[row-1][column+1].getCurrentPiece()));
 				}
 			}
 		}
@@ -120,7 +120,7 @@ public class Pawn extends ChessPiece{
 			}
 			if(GameBoard.Board[row+1][column+1].getCurrentPiece() != null) {
 				if(GameBoard.Board[row+1][column+1].getCurrentPiece().getColor() != color) {
-					locations.add(new Square(row+1,column+1));
+					locations.add(new Square(row+1,column+1,GameBoard.Board[row+1][column+1].getCurrentPiece()));
 				}
 			}
 		}
