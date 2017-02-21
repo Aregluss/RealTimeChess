@@ -39,32 +39,7 @@ public class GameBoard implements Runnable
 				
 		if(x == 1)
 			standardSetup();
-	}
-	
-	//ONLY FOR TESTING REMOVE THIS LATER
-	public GameBoard(int x, GraphicsBoard gb, int yo)
-	{	
-		graphBoard = gb;
-		
-		Board = new Square[8][8];
-		
-		for(int i = 0; i < Board.length; i++)
-			for(int j = 0; j < Board[i].length; j++)
-			{
-				Board[i][j] = new Square(i,j);
-			}
-				
-		if(x == 1) {
-			Board[2][2].setCurrentPiece(new King(2, 2, true));
-			Board[3][3].setCurrentPiece(new Queen(3, 3, true));
-			Board[6][0].setCurrentPiece(new Queen(6, 0, false));
-			Board[5][5].setCurrentPiece(new Queen(5, 5, false));
-			Wk.setRow(2);
-			Wk.setColumn(2);
-		}
-			
-	}
-	
+	}	
 	
 	// For testing
 	public GameBoard(int x) {

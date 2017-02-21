@@ -409,7 +409,7 @@ public class ChessPiece
 	public boolean checkSquare(int row, int column) {
 		ArrayList<ChessPiece> otherPieces = new ArrayList<ChessPiece>();
 		
-		if(color = true) {
+		if(color == true) {
 			otherPieces = ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking;
 
 		}
@@ -467,6 +467,15 @@ public class ChessPiece
 					if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 						//King is in check
 					}
+				}
+				
+				else if( Math.abs((oriRow-row)) == 1.0 && piecesFound < 1 ) {
+					piecesFound++;
+					
+					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King) {
+						otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
+						return;
+					}		
 				}
 				
 				else {
@@ -527,6 +536,14 @@ public class ChessPiece
 					if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 						//King is in check
 					}
+				}
+				
+				else if( ( Math.abs(oriCol-col) ) == (1.0) && piecesFound < 1 ) {
+					piecesFound++;
+					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King) {
+						otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
+						return;
+					}		
 				}
 				
 				else {
