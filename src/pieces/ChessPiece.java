@@ -108,7 +108,17 @@ public class ChessPiece
 			this.row = row;
 			this.column = column;
 			this.sethasMoved(true);
-
+			
+			if(color==true) {
+				if ( GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
+					checkKing(false);
+				}
+			}
+			else {
+				if ( GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
+					checkKing(true);
+				}
+			}
 			//			check()
 		}
 		else{
@@ -199,7 +209,7 @@ public class ChessPiece
 	}
 	
 	//Checks if the king is in check, called after every move function finishes
-	public boolean checkKing(boolean color) {
+	public void checkKing(boolean color) {
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = true;
@@ -209,7 +219,7 @@ public class ChessPiece
 			System.out.println("YO THE BLACK KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = true;
 		}
-		return false;
+		return;
 	}
 	
 	public boolean checkpinnedPiece() {
@@ -419,18 +429,19 @@ public class ChessPiece
 		}
 		
 		otherPieces.clear();
-		ArrayList<ChessPiece> knight = checkHorseHelper(row, column);
+		otherPieces = checkHorseHelper(row, column);
 		
 		checkPieceHorizontal(row, column, 1, column , 0, 0 ,otherPieces);
 		checkPieceHorizontal(row, column, -1, column , 0, 0,otherPieces);
 		checkPieceVertical(row, column, 1, row , 0, 0 ,otherPieces);
 		checkPieceVertical(row, column, -1, row , 0, 0 ,otherPieces);
+	
 		checkPieceDiagonals(row, column, 1,  1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, -1,  1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, 1,  -1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, -1,  -1,  row,  column, 0, 0 , otherPieces);
 
-		if(otherPieces.size() + knight.size() == 0) {
+		if(otherPieces.size() == 0) {
 			return false;
 		}
 			
@@ -446,24 +457,27 @@ public class ChessPiece
 		if( (row < 0 || row > 7 ) || ( col < 0 || col > 7 ) ) {
 			return;
 		}
+		
+		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color 
-					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {	
+					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true 
+					&& !GameBoard.Board[row][col].getCurrentPiece().equals(this)) {	
 				return;
 			}
 		}
-		
+
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color 
 					&& GameBoard.Board[row][col].getCurrentPiece().equals(this)) {	
 				spacesMoved++;
 			}
 		}
-		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color) {
 				if( Math.floor(Math.hypot((this.row-row), (this.column-col))) <= 1.0 && piecesFound < 1 && spacesMoved != 1 && oriRow == row) {
 					piecesFound++;
+
 					if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 						//King is in check
 					}
@@ -471,8 +485,9 @@ public class ChessPiece
 				
 				else if( Math.abs((oriRow-row)) == 1.0 && piecesFound < 1 ) {
 					piecesFound++;
-					
-					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King) {
+
+					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King || GameBoard.Board[row][col].getCurrentPiece() instanceof Queen 
+							|| GameBoard.Board[row][col].getCurrentPiece() instanceof Rook ) {
 						otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
 						return;
 					}		
@@ -482,6 +497,7 @@ public class ChessPiece
 					if(piecesFound == 0) {
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
+							return;
 						}
 						
 						else {
@@ -498,7 +514,7 @@ public class ChessPiece
 				}
 			}
 		}
-		
+
 		checkPieceVertical(row+rowIncre, col, rowIncre, oriRow, piecesFound, spacesMoved ,otherPieces);
 		return ;
 		
@@ -516,7 +532,8 @@ public class ChessPiece
 		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color 
-					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {	
+					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true 
+					&& !GameBoard.Board[row][col].getCurrentPiece().equals(this)) {	
 				return;
 			}
 		}
@@ -530,7 +547,7 @@ public class ChessPiece
 		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color) {
-				if( Math.floor(Math.hypot((this.row-row), (this.column-col))) <= 1.0 && piecesFound < 1 && spacesMoved != 1 && oriCol == col) {
+				if( Math.floor(Math.hypot((this.row-row), (this.column-col))) <= 1.0 && piecesFound < 1 && oriCol == col) {
 					piecesFound++;
 
 					if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
@@ -540,7 +557,8 @@ public class ChessPiece
 				
 				else if( ( Math.abs(oriCol-col) ) == (1.0) && piecesFound < 1 ) {
 					piecesFound++;
-					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King) {
+					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King || GameBoard.Board[row][col].getCurrentPiece() instanceof Queen 
+							|| GameBoard.Board[row][col].getCurrentPiece() instanceof Rook ) {
 						otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
 						return;
 					}		
@@ -550,6 +568,7 @@ public class ChessPiece
 					if(piecesFound == 0) {
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
+							return;
 						}
 						
 						else {
@@ -582,7 +601,8 @@ public class ChessPiece
 		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color 
-					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {	
+					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true
+					&& !GameBoard.Board[row][col].getCurrentPiece().equals(this)) {	
 				return;
 			}
 		}
