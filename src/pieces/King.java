@@ -9,6 +9,8 @@ import game.*;
 public class King extends ChessPiece{
 	
 	boolean isChecked;
+	public String name = "King";
+
 	
 	public King(int row, int column, boolean color){
 		super(row, column, color);
@@ -28,21 +30,27 @@ public class King extends ChessPiece{
 		// TODO Auto-generated method stub
 		
 		super.move(row, column);
+
 		if(column == 6 && canCastleKing == true)	{
+
 			if(this.getColor() == true)	{
 				GameBoard.Board[7][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
+				GameBoard.Board[7][7].setCurrentPiece(null);
 			}
 			if(this.getColor() == false){
 				GameBoard.Board[0][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
+				GameBoard.Board[0][7].setCurrentPiece(null);
 			}
 		}
 		
 		if(column == 2 && canCastleQueen == true)	{
 			if(this.getColor() == true)	{
 				GameBoard.Board[7][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
+				GameBoard.Board[7][0].setCurrentPiece(null);
 			}
 			if(this.getColor() == false){
 				GameBoard.Board[0][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
+				GameBoard.Board[0][0].setCurrentPiece(null);
 			}
 		}
 		// Modify BK and WK static pieces.
@@ -63,8 +71,8 @@ public class King extends ChessPiece{
 	
 	@Override
 	public void getMoveLocations() {
-		locations.clear();
  		this.canCastle();
+ 		setVisibility(false);
 		getmovelocationHelper(1 ,0);
 		getmovelocationHelper(0, 1);
 		getmovelocationHelper(-1, 0);
@@ -73,8 +81,8 @@ public class King extends ChessPiece{
 		getmovelocationHelper(1, -1);
 		getmovelocationHelper(-1, 1);
 		getmovelocationHelper(-1,-1);
- 		
-		System.out.println("Rook on the King side is: " + GameBoard.Board[7][7].getCurrentPiece().gethasMoved());
+		
+		
  		if(	(canCastleKing == true) )	{
  			if(	(GameBoard.Board[row][column+1].getCurrentPiece() == null) && (GameBoard.Board[row][column+2].getCurrentPiece() == null))
  				locations.add(new Square(row,column+2));
@@ -83,54 +91,21 @@ public class King extends ChessPiece{
  		
  		
  		if( (canCastleQueen == true))	{
- 			if(	(GameBoard.Board[row][column-1].getCurrentPiece() == null) && (GameBoard.Board[row][column-2].getCurrentPiece() == null) && (GameBoard.Board[row][column-3].getCurrentPiece() == null))
+ 			if(	(GameBoard.Board[row][column-1].getCurrentPiece() == null) && (GameBoard.Board[row][column-2].getCurrentPiece() == null) 
+ 					&& (GameBoard.Board[row][column-3].getCurrentPiece() == null))
  				locations.add(new Square(row,column-2));
  		}
+ 		
+ 		setVisibility(true);
+ 		
+ 		
   	}
 	
-	/*
-	public void getmovelocationRow(int rowIncre) {
-		int newRow = row + rowIncre;
-		//Checks boundaries
-		if (newRow > 7 || newRow < 0) {
-			return;
-		}
-		//Checks for same team
-		if(GameBoard.Board[newRow][column].getCurrentPiece() != null) {
-			if(GameBoard.Board[newRow][column].getCurrentPiece().getColor() == color) {		
-				return;
-			}
-		}
-		
-		//Checks for dangerspot
-		if(check(newRow,column,color)) {
-			locations.add(new Square(newRow,column));
-		}
-	}
-	
-	public void getmovelocationCol(int colIncre) {
-		int newCol = column + colIncre;
-		//Checks boundaries
-		if (newCol > 7 || newCol < 0) {
-			return;
-		}
-		//Checks for same team
-		if(GameBoard.Board[row][newCol].getCurrentPiece() != null) {
-			if(GameBoard.Board[row][newCol].getCurrentPiece().getColor() == color) {		
-				return;
-			}
-		}
-		
-		//Checks for dangerspots
-		if(check(row,newCol,color)) {
-			locations.add(new Square(row,newCol));
-		}
-	} */
 	
 	public void getmovelocationHelper(int rowIncre, int colIncre) {
 		int newRow = row + rowIncre;
 		int newCol = column + colIncre;
-		
+
 		//Checks Boundaries
 		if( (newRow < 0 || newRow > 7 ) || ( newCol < 0 || newCol > 7 ) ) {
 			return;
@@ -144,17 +119,16 @@ public class King extends ChessPiece{
 		}
 		
 		//Checks for dangerspots
-		if(check(newRow,newCol,color)) {
-			System.out.println("IM HERE")	;
-			locations.add(new Square(newRow,newCol));
+		if(!checkSquare(newRow,newCol)) {
+			//System.out.println(newRow + " " + newCol);
+				locations.add(new Square(newRow,newCol));
+		}
+		
+		else {
+			return;
 		}
 	}
 		
-	
-	
-	public boolean check(int i, int j, boolean color) {
-		return true;
-	}
 	
 	public boolean checkRecursion() {
 		return true;
@@ -209,6 +183,10 @@ public class King extends ChessPiece{
 					canCastleKing = false;
 			}
 		}
+	}
+	@Override
+	public String toString() {
+		return color + " " + name + " row: " + row + " col: " +column + " ";
 	}
 	
 }

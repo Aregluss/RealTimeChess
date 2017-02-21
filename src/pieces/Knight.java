@@ -10,6 +10,9 @@ import game.GameBoard;
 
 public class Knight extends ChessPiece{
 
+	public String name = "Knight";
+
+	
 	public Knight(int row, int column, boolean color){
 		super(row, column, color);
 		try {

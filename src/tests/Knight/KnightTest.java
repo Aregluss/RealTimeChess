@@ -1,4 +1,4 @@
-package tests;
+package tests.Knight;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

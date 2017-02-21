@@ -20,12 +20,9 @@ public class GameBoard implements Runnable
 	public static Square[][] Board;
 	public Player Player1, Player2;
 	public GraphicsBoard graphBoard;
-	public static Square Bk; // Holds information on black king, notably location
-	public static Square Wk; // Holds information on white king, notably location
+	public static Square Bk = new Square(0,4); // Holds information on black king, notably location
+	public static Square Wk = new Square(7,4); // Holds information on white king, notably location
 	
-	
-	
-
 	
 	
 	public GameBoard(int x, GraphicsBoard gb)
@@ -43,6 +40,7 @@ public class GameBoard implements Runnable
 		if(x == 1)
 			standardSetup();
 	}
+	
 	
 	// For testing
 	public GameBoard(int x) {
@@ -82,8 +80,6 @@ public class GameBoard implements Runnable
 					Board[0][3].setCurrentPiece(new Queen(0, 3, false));
 					Board[7][3].setCurrentPiece(new Queen(7, 3, true));
 					Board[7][4].setCurrentPiece(new King(7, 4, true));
-					King bob = new King(7,4,true);
-					bob.canCastle();
 					
 					//Pawns
 					for(int j=0; j < 8; j++)
@@ -91,7 +87,6 @@ public class GameBoard implements Runnable
 						Board[1][j].setCurrentPiece(new Pawn(1, j, false));
 						Board[6][j].setCurrentPiece(new Pawn(6, j, true));
 					}
-					
 		}
 
 	@Override

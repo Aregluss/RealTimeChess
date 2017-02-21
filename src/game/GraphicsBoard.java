@@ -96,9 +96,12 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						col = x/80;
 						initalPress++;
 						System.out.println("IM SELECTED");
+						GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();
+
 					}
 					else
 					{
+						
 						System.out.println("R&C:" +row +" " +col);
 						row1 = y/80;
 						col1 = x/80;

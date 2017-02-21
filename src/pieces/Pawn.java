@@ -13,12 +13,11 @@ import pieces.Square;
 public class Pawn extends ChessPiece{
 
 	public boolean hasMoved = false;
-	public String check;
+	public String name = "Pawn";
 	
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
-		check = "pawn";
 		try {
 			image = ImageIO.read(new File("Pawn.png"));
 		} catch (IOException e) {
@@ -211,9 +210,10 @@ public class Pawn extends ChessPiece{
 	public void sethasMoved(boolean setter) {
 		hasMoved = setter;
 	}
+	
 	@Override
-	public String toString()
-	{
-		return check;
+	public String toString() {
+		return color + " " + name + " row: " + row + " col: " +column + " ";
 	}
+	
 }

@@ -1,4 +1,4 @@
-package tests;
+package tests.Rook;
 //Some notes rook needs to have canCastle field updated on constructor
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
