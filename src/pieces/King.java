@@ -8,8 +8,9 @@ import javax.imageio.ImageIO;
 import game.*;
 public class King extends ChessPiece{
 	
-	boolean isChecked;
+	boolean isChecked = false;
 	public String name = "King";
+	ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
 
 	
 	public King(int row, int column, boolean color){

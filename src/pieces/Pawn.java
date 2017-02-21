@@ -75,6 +75,7 @@ public class Pawn extends ChessPiece{
 		if(column-1 < 0) {
 			return;
 		}
+		
 		if(color == true) {
 			if(row-1 < 0){
 				return;
@@ -101,6 +102,8 @@ public class Pawn extends ChessPiece{
 		if(column+1 > 7) {
 			return;
 		}
+		
+		
 		if(color == true) {
 			if(row-1 < 0){
 				return;
@@ -128,7 +131,8 @@ public class Pawn extends ChessPiece{
 		if(color == true) {
 			if(row-1 < 0 || GameBoard.Board[row-1][column].getCurrentPiece() != null){
 				return;
-			}
+			}		
+			
 			locations.add(new Square(row-1,column));
 		}
 		
@@ -136,6 +140,7 @@ public class Pawn extends ChessPiece{
 			if(row+1 > 7 || GameBoard.Board[row+1][column].getCurrentPiece() != null) {
 				return;
 			}
+			
 			locations.add(new Square(row+1,column));
 		}
 	}
@@ -149,6 +154,7 @@ public class Pawn extends ChessPiece{
 					GameBoard.Board[row-2][column].getCurrentPiece() != null){
 				return;
 			}
+		
 			locations.add(new Square(row-2,column));
 		}
 		
@@ -158,6 +164,7 @@ public class Pawn extends ChessPiece{
 				
 				return;
 			}
+			
 			locations.add(new Square(row+2,column));
 		}
 	}

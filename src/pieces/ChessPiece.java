@@ -77,11 +77,15 @@ public class ChessPiece
 	
 	public void move(int row, int column){
 		locations.clear();
-
+		this.setVisibility(false);
 		getMoveLocations();
+		if (checkpinnedPiece()) {
+			pinnedPieceMovementHelper();
+		}
+		this.setVisibility(true);
 		boolean canMove = false;
 		for(Square movable: locations)	{
-			if(	(row == movable.getRow()) && (column == movable.getColumn()))	{
+			if((row == movable.getRow()) && (column == movable.getColumn()))	{
 				canMove = true;
 			}			
 		}
@@ -171,7 +175,7 @@ public class ChessPiece
 		
 		if( (newRow < 0 || newRow > 7 ) || ( newCol < 0 || newCol > 7 ) ) {
 			return;
-		}
+		}	
 		
 		if(GameBoard.Board[newRow][newCol].getCurrentPiece() != null) {
 			if(GameBoard.Board[newRow][newCol].getCurrentPiece().getColor() == color) {		
@@ -198,14 +202,204 @@ public class ChessPiece
 	public boolean checkKing(boolean color) {
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");
+			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = true;
 		}
 		
 		else{
 			System.out.println("YO THE BLACK KING IS IN CHECK");
-
+			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = true;
 		}
 		return false;
 	}
+	
+	public boolean checkpinnedPiece() {
+		if(this.color == true) {
+			GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(false);
+			if(checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
+				GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(false);
+				return true;
+			}	
+			else {
+				GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(false);
+				return false;
+			}
+		}
+		
+		else {
+			GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setVisibility(false);
+			if(checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
+				GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setVisibility(true);
+				return true;
+			}
+			else {
+				GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setVisibility(true);
+				return false;
+			}
+		}
+	}
+	
+	public void pinnedPieceMovementHelper() {
+		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
+		if(color == true ) {
+			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking) {
+				attack.getMoveLocations();
+				if(attack instanceof Rook) {
+					if(attack.row == this.row && attack.column != this.column) {
+						for(int i = 0; i < locations.size() ; i++) {
+							if(locations.get(i).getRow() == this.row && attack.column != this.column) {
+								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+							}
+						}
+					}
+					if(attack.row != this.row && attack.column == this.column) {
+						for(int i = 0; i < locations.size() ; i++) {
+							if(attack.row != this.row && attack.column == this.column) {
+								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+							}
+						}
+					}
+						
+				}
+					
+				if(attack instanceof Bishop) {
+					// THIS WAY \\\\\\
+					if(((attack.row-this.row)-(attack.column-this.column)) == 0) {
+						for(int i = 0; i < locations.size() ; i++) {
+							if( ( (locations.get(i).getRow()-attack.row) - (locations.get(i).getColumn()-attack.column) ) == 0) {
+								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+							}
+						}	
+					}
+					//THIS WAY /////
+					if(((attack.row-this.row)+(attack.column-this.column)) ==0) {	
+						for(int i = 0; i < locations.size() ; i++) {
+								if(((locations.get(i).getRow()-attack.row) + (locations.get(i).getColumn()-attack.column)) == 0) {
+									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+								}
+							}
+						}
+					}
+					
+					if(attack instanceof Queen) {
+						// THIS WAY \\\\\\
+						if(((attack.row-this.row)-(attack.column-this.column)) == 0) {
+							for(int i = 0; i < locations.size() ; i++) {
+								if( ( (locations.get(i).getRow()-attack.row) - (locations.get(i).getColumn()-attack.column) ) == 0) {
+									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+								}
+							}	
+						}
+						//THIS WAY /////
+						if(((attack.row-this.row)+(attack.column-this.column)) ==0) {	
+							for(int i = 0; i < locations.size() ; i++) {
+									if(((locations.get(i).getRow()-attack.row) + (locations.get(i).getColumn()-attack.column)) == 0) {
+										modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+									}
+							}
+						}
+						
+						
+						if(attack.row == this.row && attack.column != this.column) {
+							for(int i = 0; i < locations.size() ; i++) {
+								if(locations.get(i).getRow() == this.row && attack.column != this.column) {
+									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+								}
+							}
+						}
+						if(attack.row != this.row && attack.column == this.column) {
+							for(int i = 0; i < locations.size() ; i++) {
+								if(locations.get(i).getRow() != this.row && attack.column == this.column) {
+									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+								}
+							}
+						}
+					}
+			}
+		}
+			
+		if(color == false ) {
+			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking) {
+				attack.getMoveLocations();
+				if(attack instanceof Rook) {
+					if(attack.row == this.row && attack.column != this.column) {
+						for(int i = 0; i < locations.size() ; i++) {
+							if(locations.get(i).getRow() == this.row && attack.column != this.column) {
+								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+							}
+						}
+					}
+					if(attack.row != this.row && attack.column == this.column) {
+						for(int i = 0; i < locations.size() ; i++) {
+							if(attack.row != this.row && attack.column == this.column) {
+								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+							}
+						}
+					}
+						
+				}
+					
+				if(attack instanceof Bishop) {
+					// THIS WAY \\\\\\
+					if(((attack.row-this.row)-(attack.column-this.column)) == 0) {
+						for(int i = 0; i < locations.size() ; i++) {
+							if( ( (locations.get(i).getRow()-attack.row) - (locations.get(i).getColumn()-attack.column) ) == 0) {
+								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+							}
+						}	
+					}
+					//THIS WAY /////
+					if(((attack.row-this.row)+(attack.column-this.column)) ==0) {	
+						for(int i = 0; i < locations.size() ; i++) {
+								if(((locations.get(i).getRow()-attack.row) + (locations.get(i).getColumn()-attack.column)) == 0) {
+									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+								}
+							}
+						}
+					}
+					
+					if(attack instanceof Queen) {
+						// THIS WAY \\\\\\
+						if(((attack.row-this.row)-(attack.column-this.column)) == 0) {
+							for(int i = 0; i < locations.size() ; i++) {
+								if( ( (locations.get(i).getRow()-attack.row) - (locations.get(i).getColumn()-attack.column) ) == 0) {
+									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+								}
+							}	
+						}
+						//THIS WAY /////
+						if(((attack.row-this.row)+(attack.column-this.column)) ==0) {							
+							for(int i = 0; i < locations.size() ; i++) {
+									if(((locations.get(i).getRow()-attack.row) + (locations.get(i).getColumn()-attack.column)) == 0) {
+										modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+									}
+							}
+						}
+						
+						
+						if(attack.row == this.row && attack.column != this.column) {
+							for(int i = 0; i < locations.size() ; i++) {
+								if(locations.get(i).getRow() == this.row && attack.column != this.column) {
+									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+								}
+							}
+						}
+						if(attack.row != this.row && attack.column == this.column) {
+							for(int i = 0; i < locations.size() ; i++) {
+								if(locations.get(i).getRow() != this.row && attack.column == this.column) {
+									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+								}
+							}
+						}
+					}
+			}
+		}
+		
+		locations.clear();
+		locations = modifiedLocations;
+	}
+	
+			
+		
 	
 	
 	//For counting purposes
@@ -213,8 +407,18 @@ public class ChessPiece
 	+ checkHelper(row, column, 1, -1) + checkHelper(row, column, -1, 1) + checkHelper(row, column, -1,-1); */
 	
 	public boolean checkSquare(int row, int column) {
-	
 		ArrayList<ChessPiece> otherPieces = new ArrayList<ChessPiece>();
+		
+		if(color = true) {
+			otherPieces = ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking;
+
+		}
+		
+		else {
+			otherPieces = ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking;	
+		}
+		
+		otherPieces.clear();
 		ArrayList<ChessPiece> knight = checkHorseHelper(row, column);
 		
 		checkPieceHorizontal(row, column, 1, column , 0, 0 ,otherPieces);
@@ -225,7 +429,7 @@ public class ChessPiece
 		checkPieceDiagonals(row, column, -1,  1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, 1,  -1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, -1,  -1,  row,  column, 0, 0 , otherPieces);
-		
+
 		if(otherPieces.size() + knight.size() == 0) {
 			return false;
 		}
@@ -242,7 +446,6 @@ public class ChessPiece
 		if( (row < 0 || row > 7 ) || ( col < 0 || col > 7 ) ) {
 			return;
 		}
-		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color 
 					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {	
@@ -396,6 +599,11 @@ public class ChessPiece
 						}
 					}
 				}
+				
+				else if((Math.hypot((this.row-row), (this.column-col))) == 1.0 && piecesFound < 1 && spacesMoved != 1 && oriCol == col && oriRow == row) {
+					piecesFound++;
+				}
+
 				
 				else if( (Math.hypot((oriRow-row), (oriCol-col))) == Math.sqrt(2.0) && piecesFound < 1 ) {
 						piecesFound++;
