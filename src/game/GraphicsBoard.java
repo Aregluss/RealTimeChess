@@ -90,18 +90,24 @@ public class GraphicsBoard extends JPanel implements MouseListener
 
 				if(GameBoard.Board[y/80][x/80].getCurrentPiece() != null || initalPress == 1)
 				{
-					if(initalPress == 0)
+					System.out.print("inital press: ");
+					System.out.println(initalPress);
+					boolean offCoolDown = (initalPress == 0 && GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown);
+					System.out.print("OffCoolDown: ");
+					System.out.println(offCoolDown);
+					if (GameBoard.Board[y/80][x/80].getCurrentPiece() != null)
+					{
+						GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown = (GameBoard.Board[y/80][x/80].getCurrentPiece().time_limit < GameBoard.Board[y/80][x/80].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[y/80][x/80].getCurrentPiece().time);
+					}
+					if(initalPress == 0 && offCoolDown)
 					{	
 						row = y/80;
 						col = x/80;
 						initalPress++;
-						System.out.println("IM SELECTED " + GameBoard.Board[row][col].getCurrentPiece());
-						GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();
-
+						System.out.println("IM SELECTED");
 					}
 					else
 					{
-						
 						System.out.println("R&C:" +row +" " +col);
 						row1 = y/80;
 						col1 = x/80;
@@ -112,7 +118,12 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						}
 						else
 						{
-							GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+							//System.out.println();
+							if(initalPress == 1 && GameBoard.Board[row][col].getCurrentPiece().offCoolDown)
+							{
+								System.out.println("initalpress1");
+								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+							}
 							if(GameBoard.Board[row][col].getCurrentPiece() == null)
 							{
 								initalPress = 0;
