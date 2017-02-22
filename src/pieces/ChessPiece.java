@@ -495,11 +495,12 @@ public class ChessPiece
 		
 		if(color == true) {
 			otherPieces = ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking;
-
+			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking.clear();
 		}
 		
 		else {
 			otherPieces = ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking;	
+			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking.clear();
 		}
 		
 		otherPieces.clear();
@@ -524,11 +525,8 @@ public class ChessPiece
 		
 		else {
 			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking = otherPieces;
-		}
-
-		
+		}	
 	
-		
 		if(otherPieces.size() == 0) {
 			return false;
 		}
@@ -559,6 +557,7 @@ public class ChessPiece
 				spacesMoved++;
 			}
 		}
+				
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color) {
 				if( Math.floor(Math.hypot((this.row-row), (this.column-col))) <= 1.0 && piecesFound < 1 && spacesMoved != 1 && oriRow == row) {
@@ -571,13 +570,16 @@ public class ChessPiece
 				
 				else if( Math.abs((oriRow-row)) == 1.0 && piecesFound < 1 ) {
 					piecesFound++;
-
 					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King || GameBoard.Board[row][col].getCurrentPiece() instanceof Queen 
 							|| GameBoard.Board[row][col].getCurrentPiece() instanceof Rook ) {
 						otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
 
 						return;
 					}		
+					
+					else {
+						return;
+					}
 				}
 				
 				else {
@@ -649,6 +651,9 @@ public class ChessPiece
 						otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
 						return;
 					}		
+					else {
+						return;
+					}
 				}
 				
 				else {
@@ -751,6 +756,9 @@ public class ChessPiece
 									return;
 								}
 							}
+						}
+						else {
+							return;
 						}
 				}
 				
