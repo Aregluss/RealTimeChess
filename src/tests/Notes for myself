@@ -6,7 +6,7 @@ Some notes
 -> Restructure tests
 -> Fix the constructor for Squares + tie it into getMoveLocation()
 
-Overarching comment, knight + pawn do not apply to these, implement these seperately
+Overarching comment, knight + pawn do not apply to these, implement these 
 
 -> Moving off king line of sight (ally) (pinned)
 	- Create instance variable called isVisible/Invisible 
