@@ -227,10 +227,35 @@ public class ChessPiece
 			}
 			return;
 		}
-		else {
+		if( ((King)this).attacking.size() == 1 ) {			
 			//Save king.attacking, run attacking pieces getMoveLocations
 			// Compare w/ allied pieces
 			//OR King can move
+			this.getMoveLocations();
+			checkResolutionAlliedPieces(originalAttackers.get(0));
+		}
+	}
+	
+	public void checkResolutionAlliedPieces(ChessPiece originalAttacker) {
+		//Vertical Attacking
+		if(originalAttacker.row == this.row && originalAttacker.column != this.column) {
+			
+		}
+		//Horizontal Attacking
+		if(originalAttacker.row != this.row && originalAttacker.column == this.column) {
+			
+		}
+		//Diagonal Attacking (\\\\\\)
+		if((originalAttacker.row - this.row) - (originalAttacker.column - this.column) == 0) {
+			
+		}
+		//Diagonal Attacking (///////)
+		if((originalAttacker.row - this.row) + (originalAttacker.column - this.column) == 0) {
+			
+		}
+		//Knight
+		if(originalAttacker instanceof Knight) {
+			
 		}
 	}
 	
