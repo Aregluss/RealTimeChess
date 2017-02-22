@@ -1,4 +1,4 @@
-package tests;
+package tests.Knight;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -66,9 +66,6 @@ public class KnightTest {
 	@Test
 	public void WK42() {
 		WK42.getMoveLocations();
-		for(Square movable: WK42.locations) {
-			System.out.println(movable);
-		}
 		assertEquals(7,WK42.locations.size());
 	}
 	

@@ -27,7 +27,7 @@ import game.RealTimeChess;
 
 /**It's the screen that game opens with, it contains links to server ,client and playing the game. 
  * 
- * @author Areg & Leon
+ * @author Areg and Leon
  *
  */
 public class StartScreen extends JPanel

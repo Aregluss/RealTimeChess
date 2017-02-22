@@ -1,4 +1,4 @@
-package tests;
+package tests.Pawn;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -77,9 +77,6 @@ public class PawnTest{
 		Pawn wtff = (Pawn) MovedWhitePawn;
 		wtff.sethasMoved(true);
 		MovedWhitePawn.getMoveLocations();
-		for(Square movable: MovedWhitePawn.locations) {
-			System.out.println(movable);
-		}
 		assertEquals(3,MovedWhitePawn.locations.size());
 	}
 	

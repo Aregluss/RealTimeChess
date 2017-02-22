@@ -18,9 +18,7 @@ import pieces.ChessPiece;
 public class Square extends JPanel{// implements MouseListener{
 
 	private int row, column;
-	private ChessPiece currentPiece;
-	private boolean whiteDanger;
-	private boolean blackDanger;
+	public ChessPiece currentPiece;
 	private String lightOn;
 	private boolean movable;
 	private Image light;
@@ -74,16 +72,6 @@ public class Square extends JPanel{// implements MouseListener{
 		return currentPiece;
 	}
 	
-	public boolean checkWhiteDanger()
-	{
-		return whiteDanger;
-	}
-	
-	public boolean checkBlackDanger()
-	{
-		return blackDanger;
-	}
-	
 	public String checkLight()
 	{
 		return lightOn;
@@ -109,15 +97,6 @@ public class Square extends JPanel{// implements MouseListener{
 		currentPiece = c;
 	}
 	
-	public void checkWhiteDanger(boolean d)
-	{
-		whiteDanger = d;
-	}
-
-	public void checkBlackDanger(boolean d)
-	{
-		blackDanger = d;
-	}
 	
 	public void setLight(String l)
 	{

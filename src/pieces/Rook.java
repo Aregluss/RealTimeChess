@@ -10,6 +10,8 @@ import game.GameBoard;
 
 public class Rook extends ChessPiece {
 
+	public String name = "Rook";
+	
 	public Rook(int row, int column, boolean color) {
 		super(row, column, color);
 		// TODO Auto-generated constructor stub
@@ -28,6 +30,7 @@ public class Rook extends ChessPiece {
 		// TODO Auto-generated method stub
 		super.move(row, column);
 	}
+
 
 	@Override
 	public void attack(ChessPiece Enemy) {
@@ -67,6 +70,9 @@ public class Rook extends ChessPiece {
 		// TODO Auto-generated method stub
 		return super.getColor();
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return color + " " + name + " row: " + row + " col: " +column + " ";
+	}
 }

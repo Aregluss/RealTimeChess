@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class Queen extends ChessPiece{
-	public String check;
+	public String name = "Queen";
+
 	public Queen(int row, int column, boolean color){
 		super(row, column, color);
 		try {
@@ -16,7 +17,6 @@ public class Queen extends ChessPiece{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		check = "queen";
 	}
 	
 	@Override
@@ -68,6 +68,9 @@ public class Queen extends ChessPiece{
 		return super.getColor();
 	}
 
-	
+	@Override
+	public String toString() {
+		return color + " " + name + " row: " + row + " col: " +column + " ";
+	}
 
 }

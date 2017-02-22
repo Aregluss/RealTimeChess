@@ -8,7 +8,10 @@ import javax.imageio.ImageIO;
 import game.*;
 public class King extends ChessPiece{
 	
-	boolean isChecked;
+	boolean isChecked = false;
+	public String name = "King";
+	ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
+
 	
 	public King(int row, int column, boolean color){
 		super(row, column, color);
@@ -25,26 +28,32 @@ public class King extends ChessPiece{
 	}
 	@Override
 	public void move(int row, int column) {
-		// TODO Auto-generated method stub
 		
 		super.move(row, column);
-		if(column == this.column +2)	{
+
+		if(column == 6 && canCastleKing == true)	{
+
 			if(this.getColor() == true)	{
-				GameBoard.Board[7][7].getCurrentPiece().move(this.row, this.column+1); // moving rook
+				GameBoard.Board[7][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
+				GameBoard.Board[7][7].setCurrentPiece(null);
 			}
 			if(this.getColor() == false){
-				GameBoard.Board[0][7].getCurrentPiece().move(this.row, this.column+1); // moving rook
+				GameBoard.Board[0][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
+				GameBoard.Board[0][7].setCurrentPiece(null);
 			}
 		}
 		
-		if(column == this.column-2)	{
+		if(column == 2 && canCastleQueen == true)	{
 			if(this.getColor() == true)	{
-				GameBoard.Board[7][0].getCurrentPiece().move(this.row, this.column-1); // moving rook
+				GameBoard.Board[7][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
+				GameBoard.Board[7][0].setCurrentPiece(null);
 			}
 			if(this.getColor() == false){
-				GameBoard.Board[0][0].getCurrentPiece().move(this.row, this.column-1); // moving rook
+				GameBoard.Board[0][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
+				GameBoard.Board[0][0].setCurrentPiece(null);
 			}
 		}
+		// Modify BK and WK static pieces.
 		canCastleKing = false;
 		canCastleQueen = false;
 	}
@@ -62,18 +71,18 @@ public class King extends ChessPiece{
 	
 	@Override
 	public void getMoveLocations() {
-		locations.clear();
- 		for(int i = row-1; i<=row+1; i++)
- 		{
- 			for(int j= column-1; j<=column+1; j++)
- 			{
- 				if( (i < 0 || i > 8 ) && ( j < 0 || j > 8 ) && 
- 						!(this.check(i,j,this.getColor())) && 
- 						(!(GameBoard.Board[i][j].getCurrentPiece().getColor() == this.getColor()) || GameBoard.Board[i][j].getCurrentPiece() != null ) )
- 				locations.add(new Square(i,j));						// Checks boundaries and then checks if location is dangerous, and then checks if a same colored piece is there
- 			}
- 		}
- 		
+ 		this.canCastle();
+ 		setVisibility(false);
+		getmovelocationHelper(1 ,0);
+		getmovelocationHelper(0, 1);
+		getmovelocationHelper(-1, 0);
+		getmovelocationHelper(0,-1);
+		getmovelocationHelper(1 ,1);
+		getmovelocationHelper(1, -1);
+		getmovelocationHelper(-1, 1);
+		getmovelocationHelper(-1,-1);
+		
+		
  		if(	(canCastleKing == true) )	{
  			if(	(GameBoard.Board[row][column+1].getCurrentPiece() == null) && (GameBoard.Board[row][column+2].getCurrentPiece() == null))
  				locations.add(new Square(row,column+2));
@@ -82,14 +91,44 @@ public class King extends ChessPiece{
  		
  		
  		if( (canCastleQueen == true))	{
- 			if(	(GameBoard.Board[row][column-1].getCurrentPiece() == null) && (GameBoard.Board[row][column-2].getCurrentPiece() == null) && (GameBoard.Board[row][column-3].getCurrentPiece() == null))
+ 			if(	(GameBoard.Board[row][column-1].getCurrentPiece() == null) && (GameBoard.Board[row][column-2].getCurrentPiece() == null) 
+ 					&& (GameBoard.Board[row][column-3].getCurrentPiece() == null))
  				locations.add(new Square(row,column-2));
  		}
+ 		
+ 		setVisibility(true);
+ 		
+ 		
   	}
 	
-	public boolean check(int i, int j, boolean color) {
-		return true;
+	
+	public void getmovelocationHelper(int rowIncre, int colIncre) {
+		int newRow = row + rowIncre;
+		int newCol = column + colIncre;
+
+		//Checks Boundaries
+		if( (newRow < 0 || newRow > 7 ) || ( newCol < 0 || newCol > 7 ) ) {
+			return;
+		}
+	
+		//Checks for same team
+		if(GameBoard.Board[newRow][newCol].getCurrentPiece() != null) {
+			if(GameBoard.Board[newRow][newCol].getCurrentPiece().getColor() == color) {		
+				return;
+			}
+		}
+		
+		//Checks for dangerspots
+		if(!checkSquare(newRow,newCol)) {
+			//System.out.println(newRow + " " + newCol);
+				locations.add(new Square(newRow,newCol,GameBoard.Board[newRow][newCol].getCurrentPiece()));
+		}
+		
+		else {
+			return;
+		}
 	}
+		
 	
 	public boolean checkRecursion() {
 		return true;
@@ -115,31 +154,39 @@ public class King extends ChessPiece{
 	// use the check function, however we do it, to check the locations where it has to move through to see if they are checked
 	public void canCastle() { 
 		Rook test = new Rook(0,0,true);
-		if(hasMoved == true)
+		if(hasMoved == true)	{
+			canCastleQueen = false;
+			canCastleKing = false;
 			return;
+		}
+
 		// calls check to test if its checked
 		if(this.getColor() == true) {
 			if(GameBoard.Board[7][0].getCurrentPiece().getClass() == test.getClass()) {
 				//System.out.println("ISACA" + GameBoard.Board[7][0].getCurrentPiece().getClass() + " "+ test.getClass());
-				if(GameBoard.Board[7][0].getCurrentPiece().hasMoved == true)
+				if(GameBoard.Board[7][0].getCurrentPiece().gethasMoved() == true)
 					canCastleQueen = false;
 			}
 			if(GameBoard.Board[7][7].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[7][7].getCurrentPiece().hasMoved == true)
+				if(GameBoard.Board[7][7].getCurrentPiece().gethasMoved() == true)
 					canCastleKing = false;
 			}
 		}
 		
 		if(this.getColor() == false) {
 			if(GameBoard.Board[0][0].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[0][0].getCurrentPiece().hasMoved == true)
+				if(GameBoard.Board[0][0].getCurrentPiece().gethasMoved() == true)
 					canCastleQueen = false;
 			}
 			if(GameBoard.Board[0][7].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[0][7].getCurrentPiece().hasMoved == true)
+				if(GameBoard.Board[0][7].getCurrentPiece().gethasMoved() == true)
 					canCastleKing = false;
 			}
 		}
+	}
+	@Override
+	public String toString() {
+		return color + " " + name + " row: " + row + " col: " +column + " ";
 	}
 	
 }

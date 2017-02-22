@@ -10,6 +10,9 @@ import game.GameBoard;
 
 public class Knight extends ChessPiece{
 
+	public String name = "Knight";
+
+	
 	public Knight(int row, int column, boolean color){
 		super(row, column, color);
 		try {
@@ -43,7 +46,7 @@ public class Knight extends ChessPiece{
 		if( (row +2 >= 0 && row +2 < 8 ) && ( column +1 >= 0 && column +1 < 8 )) {
 			if ( GameBoard.Board[row+2][column+1].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row+2][column+1].getCurrentPiece().getColor() == color)) {
-					locations.add(new Square(row+2,column+1));
+					locations.add(new Square(row+2,column+1,GameBoard.Board[row+2][column+1].getCurrentPiece()));
 				}
 			}
 			if ( GameBoard.Board[row+2][column+1].getCurrentPiece() == null) {
@@ -54,7 +57,7 @@ public class Knight extends ChessPiece{
 		if( (row +2 >= 0 && row +2 < 8 ) && ( column -1 >= 0 && column -1 < 8 )) {
 			if ( GameBoard.Board[row+2][column-1].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row+2][column-1].getCurrentPiece().getColor() == color)) {
-					locations.add(new Square(row+2,column-1));
+					locations.add(new Square(row+2,column-1,GameBoard.Board[row+2][column-1].getCurrentPiece()));
 				}
 			}
 			if ( GameBoard.Board[row+2][column-1].getCurrentPiece() == null) {
@@ -65,7 +68,7 @@ public class Knight extends ChessPiece{
 		if( (row -2 >= 0 && row -2 < 8 ) && ( column +1 >= 0 && column +1 < 8 )) {
 			if ( GameBoard.Board[row-2][column+1].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row-2][column+1].getCurrentPiece().getColor() == color)) {
-					locations.add(new Square(row-2,column+1));
+					locations.add(new Square(row-2,column+1,GameBoard.Board[row-2][column+1].getCurrentPiece()));
 				}
 			}
 			if ( GameBoard.Board[row-2][column+1].getCurrentPiece() == null) {
@@ -76,7 +79,7 @@ public class Knight extends ChessPiece{
 		if( (row -2 >= 0 && row -2 < 8 ) && ( column -1 >= 0 && column -1 < 8 )) {
 			if ( GameBoard.Board[row-2][column-1].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row-2][column-1].getCurrentPiece().getColor() == color)) {
-					locations.add(new Square(row-2,column-1));
+					locations.add(new Square(row-2,column-1,GameBoard.Board[row-2][column-1].getCurrentPiece()));
 				}
 			}
 			if ( GameBoard.Board[row-2][column-1].getCurrentPiece() == null) {
@@ -87,7 +90,7 @@ public class Knight extends ChessPiece{
 		if( (row +1 >= 0 && row +1 < 8 ) && ( column -2 >= 0 && column -2 < 8 )) {
 			if ( GameBoard.Board[row+1][column-2].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row+1][column-2].getCurrentPiece().getColor() == color)) {
-					locations.add(new Square(row+1,column-2));
+					locations.add(new Square(row+1,column-2,GameBoard.Board[row+1][column-2].getCurrentPiece()));
 				}
 			}
 			if ( GameBoard.Board[row+1][column-2].getCurrentPiece() == null) {
@@ -98,7 +101,7 @@ public class Knight extends ChessPiece{
 		if( (row +1 >= 0 && row +1 < 8 ) && ( column +2 >= 0 && column +2 < 8 )) {
 			if ( GameBoard.Board[row+1][column+2].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row+1][column+2].getCurrentPiece().getColor() == color)) {
-					locations.add(new Square(row+1,column+2));
+					locations.add(new Square(row+1,column+2,GameBoard.Board[row+1][column+2].getCurrentPiece()));
 				}
 			}
 			if ( GameBoard.Board[row+1][column+2].getCurrentPiece() == null) {
@@ -109,7 +112,7 @@ public class Knight extends ChessPiece{
 		if( (row -1 >= 0 && row -1 < 8 ) && ( column -2 >= 0 && column -2 < 8 )) {
 			if ( GameBoard.Board[row-1][column-2].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row-1][column-2].getCurrentPiece().getColor() == color)) {
-					locations.add(new Square(row-1,column-2));
+					locations.add(new Square(row-1,column-2,GameBoard.Board[row-1][column-2].getCurrentPiece()));
 				}
 			}
 			if ( GameBoard.Board[row-1][column-2].getCurrentPiece() == null) {
@@ -120,7 +123,7 @@ public class Knight extends ChessPiece{
 		if( (row -1 >= 0 && row -1 < 8 ) && ( column +2 >= 0 && column +2 < 8 )) {
 			if ( GameBoard.Board[row-1][column+2].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row-1][column+2].getCurrentPiece().getColor() == color)) {
-					locations.add(new Square(row-1,column+2));
+					locations.add(new Square(row-1,column+2,GameBoard.Board[row-1][column+2].getCurrentPiece()));
 				}
 			}
 			if ( GameBoard.Board[row-1][column+2].getCurrentPiece() == null) {
@@ -131,7 +134,6 @@ public class Knight extends ChessPiece{
 		
 
 	}
-
 	@Override
 	public void highightLocation() {
 		// TODO Auto-generated method stub
@@ -150,5 +152,10 @@ public class Knight extends ChessPiece{
 		return super.getColor();
 	}
 
-
+	@Override
+	public String toString() {
+		return color + " " + name + " row: " + row + " col: " +column + " ";
+	}
+	
+	
 }

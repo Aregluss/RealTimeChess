@@ -1,4 +1,4 @@
-package tests;
+package tests.Pawn;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -23,11 +23,9 @@ public class PawnPromotionTest {
 	
 	@Test
 	public void BlackPromotion() {
-		System.out.println(BlackPawn);
 		BlackPawn.hasMoved = true;
-		System.out.println(BlackPawn.hasMoved);
 		BlackPawn.move(7,0);
 		Queen hello = (Queen) GameBoard.Board[7][0].getCurrentPiece();
-		assertEquals("queen", hello.check);
+		assertEquals("queen", hello.name);
 	}
 }

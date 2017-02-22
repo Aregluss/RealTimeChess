@@ -10,7 +10,8 @@ import game.GameBoard;
 
 public class Bishop extends ChessPiece{
 
-	
+	public String name = "Bishop";
+
 	
 	public Bishop(int row, int column, boolean color) {
 		super(row, column, color);
@@ -69,5 +70,10 @@ public class Bishop extends ChessPiece{
 		// TODO Auto-generated method stub
 		return super.getColor();
 	}
-
+	
+	@Override
+	public String toString() {
+		return color + " " + name + " row: " + row + " col: " +column + " ";
+	}
+	
 }

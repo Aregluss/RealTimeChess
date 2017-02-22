@@ -1,4 +1,4 @@
-package tests;
+package tests.Queen;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
