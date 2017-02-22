@@ -18,7 +18,7 @@ import game.GraphicsBoard;
 public class GameBoard implements Runnable
 {
 	public static Square[][] Board;
-	public Player Player1, Player2;
+	public static Player Player1, Player2;
 	public GraphicsBoard graphBoard;
 	public static Square Bk = new Square(0,4); // Holds information on black king, notably location
 	public static Square Wk = new Square(7,4); // Holds information on white king, notably location
@@ -39,6 +39,8 @@ public class GameBoard implements Runnable
 				
 		if(x == 1)
 			standardSetup();
+		Player1 = new Player(true);
+		Player2 = new Player(false);
 	}	
 	
 	// For testing
