@@ -153,8 +153,7 @@ public class ChessPiece
 			if(movable.getCurrentPiece().getColor() != this.getColor() && movable.getCurrentPiece() != null) {
 				GameBoard.Board[movable.getRow()][movable.getColumn()].setLight("Attack");
 			}	
-		
-	}
+		}
 	};
 	
 	//I have no clue
@@ -296,10 +295,11 @@ public class ChessPiece
 	}
 	
 	public boolean checkpinnedPiece() {
-		if(this.color == true) {
+		if(color == true) {
 			GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(false);
+
 			if(checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
-				GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(false);
+				GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(true);
 				return true;
 			}	
 			else {
@@ -323,20 +323,21 @@ public class ChessPiece
 	
 	public void pinnedPieceMovementHelper() {
 		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
+
 		if(color == true ) {
 			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking) {
 				attack.getMoveLocations();
 				if(attack instanceof Rook) {
 					if(attack.row == this.row && attack.column != this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(locations.get(i).getRow() == this.row && attack.column != this.column) {
+							if(locations.get(i).getRow() == attack.row && attack.column != locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
 					}
 					if(attack.row != this.row && attack.column == this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(attack.row != this.row && attack.column == this.column) {
+							if(locations.get(i).getRow() != attack.row && attack.column == locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
@@ -384,14 +385,14 @@ public class ChessPiece
 						
 						if(attack.row == this.row && attack.column != this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() == this.row && attack.column != this.column) {
+								if(locations.get(i).getRow() == attack.row && locations.get(i).getColumn() != attack.column) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
 						}
 						if(attack.row != this.row && attack.column == this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() != this.row && attack.column == this.column) {
+								if(locations.get(i).getRow() != attack.row && locations.get(i).getColumn() == attack.column) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
@@ -406,14 +407,14 @@ public class ChessPiece
 				if(attack instanceof Rook) {
 					if(attack.row == this.row && attack.column != this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(locations.get(i).getRow() == this.row && attack.column != this.column) {
+							if(locations.get(i).getRow() == attack.row && attack.column != locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
 					}
 					if(attack.row != this.row && attack.column == this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(attack.row != this.row && attack.column == this.column) {
+							if(attack.row != locations.get(i).getRow() && attack.column == locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
@@ -461,14 +462,14 @@ public class ChessPiece
 						
 						if(attack.row == this.row && attack.column != this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() == this.row && attack.column != this.column) {
+								if(locations.get(i).getRow() == attack.row && attack.column != locations.get(i).getColumn()) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
 						}
 						if(attack.row != this.row && attack.column == this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() != this.row && attack.column == this.column) {
+								if(locations.get(i).getRow() != attack.row && attack.column == locations.get(i).getColumn()) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
@@ -504,16 +505,30 @@ public class ChessPiece
 		otherPieces.clear();
 		otherPieces = checkHorseHelper(row, column);
 		
+		
 		checkPieceHorizontal(row, column, 1, column , 0, 0 ,otherPieces);
 		checkPieceHorizontal(row, column, -1, column , 0, 0,otherPieces);
 		checkPieceVertical(row, column, 1, row , 0, 0 ,otherPieces);
 		checkPieceVertical(row, column, -1, row , 0, 0 ,otherPieces);
+
 	
 		checkPieceDiagonals(row, column, 1,  1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, -1,  1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, 1,  -1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, -1,  -1,  row,  column, 0, 0 , otherPieces);
+		
+		if(color == true) {
+			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking = otherPieces;
 
+		}
+		
+		else {
+			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking = otherPieces;
+		}
+
+		
+	
+		
 		if(otherPieces.size() == 0) {
 			return false;
 		}
@@ -526,12 +541,10 @@ public class ChessPiece
 	
 	public void checkPieceVertical(int row, int col, int rowIncre, int oriRow, int piecesFound, int spacesMoved ,ArrayList<ChessPiece> otherPieces) {
 		
-		
 		if( (row < 0 || row > 7 ) || ( col < 0 || col > 7 ) ) {
 			return;
 		}
-		
-		
+				
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color 
 					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true 
@@ -550,7 +563,7 @@ public class ChessPiece
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color) {
 				if( Math.floor(Math.hypot((this.row-row), (this.column-col))) <= 1.0 && piecesFound < 1 && spacesMoved != 1 && oriRow == row) {
 					piecesFound++;
-
+					
 					if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 						//King is in check
 					}
@@ -562,6 +575,7 @@ public class ChessPiece
 					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King || GameBoard.Board[row][col].getCurrentPiece() instanceof Queen 
 							|| GameBoard.Board[row][col].getCurrentPiece() instanceof Rook ) {
 						otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
+
 						return;
 					}		
 				}
