@@ -104,6 +104,7 @@ public class ChessPiece
 					GameBoard.Bk.setColumn(column);
 				}
 			}
+			//TODO kill the enemy piece correctly then update the player array list accordingly
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			this.row = row;
@@ -220,12 +221,38 @@ public class ChessPiece
 	public void checkResolution() {
 		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
 		if( ((King)this).attacking.size() > 1 ) {
-			//ONLY THE KING CAN MOVE
+			this.getMoveLocations();
+			if(checkmate(0)) {
+				//Game over
+			}
+			return;
 		}
 		else {
 			//Save king.attacking, run attacking pieces getMoveLocations
 			// Compare w/ allied pieces
 			//OR King can move
+		}
+	}
+	
+	public boolean checkmate(int condition) {
+		//TODO stub
+		if(condition == 0 ) {
+			if(locations.size() == 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		else {
+			//AND no pieces can save the king then gg
+			if(locations.size() == 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 	}
 	
