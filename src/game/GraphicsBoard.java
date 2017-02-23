@@ -103,7 +103,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						}
 						else {
 							System.out.println("normality");
-							GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();
+							GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();							
+							for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
+								System.out.println(movable);
+							}
 						}
 					}
 					else

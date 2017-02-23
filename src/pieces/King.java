@@ -72,6 +72,7 @@ public class King extends ChessPiece{
 	
 	@Override
 	public void getMoveLocations() {
+		locations.clear();
  		this.canCastle();
  		setVisibility(false);
 		getmovelocationHelper(1 ,0);
