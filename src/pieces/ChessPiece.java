@@ -260,6 +260,13 @@ public class ChessPiece
 	public void checkResolution() {
 		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
 		ChessPiece wtfisthisshit = originalAttackers.get(0);
+		//reset getMovelocations for both players
+		for( Square piece : GameBoard.Player1.pieces) {
+			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().locations.clear();
+		}
+		for( Square piece :GameBoard.Player2.pieces) {
+			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().locations.clear();
+		}
 		this.getMoveLocations();
 
 		if( ((King)this).attacking.size() > 1 ) {
