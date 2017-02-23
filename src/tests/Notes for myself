@@ -102,6 +102,18 @@ Overarching comment, knight + pawn do not apply to these, implement these
 	
 	YOOO
 	
+	this.setVisibility(false);
+		
+		getMoveLocations();
+		if (checkpinnedPiece()) {
+			pinnedPieceMovementHelper();
+		}
+		this.setVisibility(true);
+	
+	
+	
+	
+	
 	if(GameBoard.Board[newRow][newCol].getCurrentPiece() != null) {
 			if(GameBoard.Board[newRow][newCol].getCurrentPiece().getColor() != color) {
 

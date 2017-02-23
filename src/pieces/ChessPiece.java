@@ -304,6 +304,9 @@ public class ChessPiece
 	
 	public void checkResolutionAlliedPieces(ChessPiece originalAttacker,ChessPiece Ally) {
 		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
+		if(Ally instanceof King) {
+			return;
+		}
 		if(originalAttacker instanceof Pawn) {
 			for(Square movable :Ally.locations) {
 				if(movable.getRow() == originalAttacker.row && movable.getColumn() == originalAttacker.column) {
@@ -585,14 +588,14 @@ public class ChessPiece
 				if(attack instanceof Rook) {
 					if(attack.row == this.row && attack.column != this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(locations.get(i).getRow() == attack.row && attack.column != locations.get(i).getColumn()) {
+							if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
 					}
 					if(attack.row != this.row && attack.column == this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(attack.row != locations.get(i).getRow() && attack.column == locations.get(i).getColumn()) {
+							if(attack.row == locations.get(i).getRow() && attack.column == locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
@@ -640,14 +643,14 @@ public class ChessPiece
 						
 						if(attack.row == this.row && attack.column != this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() == attack.row && attack.column != locations.get(i).getColumn()) {
+								if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
 						}
 						if(attack.row != this.row && attack.column == this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() != attack.row && attack.column == locations.get(i).getColumn()) {
+								if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
