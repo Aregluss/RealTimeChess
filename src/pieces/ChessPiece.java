@@ -102,12 +102,10 @@ public class ChessPiece
 				if(color){
 					//update piece for player
 					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
-					GameBoard.Player1.pieces.add(new Square(row,column,GameBoard.Board[this.row][this.column].getCurrentPiece()));
 					GameBoard.Player2.pieces.remove(GameBoard.Board[row][column]);
 				}
 				else {
 					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
-					GameBoard.Player2.pieces.add(new Square(row,column,GameBoard.Board[this.row][this.column].getCurrentPiece()));
 					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
 				}
 			}
@@ -116,18 +114,25 @@ public class ChessPiece
 				if(color){
 					//update piece for player
 					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
-					GameBoard.Player1.pieces.add(new Square(row,column,GameBoard.Board[row][column].getCurrentPiece()));
 				}
 				else {
 					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
-					GameBoard.Player2.pieces.add(new Square(row,column,GameBoard.Board[row][column].getCurrentPiece()));
 				}
 			}
+			
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			this.row = row;
 			this.column = column;
 			this.sethasMoved(true);
+			
+			if(color){
+				//add piece for player
+				GameBoard.Player1.pieces.add(new Square(row,column,this));
+			}
+			else {
+				GameBoard.Player2.pieces.add(new Square(row,column,this));
+			}
 			
 			if(GameBoard.gameState == 2) {
 				GameBoard.gameState = 1;
@@ -261,6 +266,7 @@ public class ChessPiece
 		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
 		ChessPiece wtfisthisshit = originalAttackers.get(0);
 		//reset getMovelocations for both players
+		
 		for( Square piece : GameBoard.Player1.pieces) {
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().locations.clear();
 		}
@@ -285,26 +291,30 @@ public class ChessPiece
 			GameBoard.Board[wtfisthisshit.row][wtfisthisshit.column].getCurrentPiece().setVisibility(false);
 			if(this.getColor()) {
 				for( Square piece : GameBoard.Player1.pieces) {
-					piece.getCurrentPiece().getMoveLocations();
-					this.checkResolutionAlliedPieces(wtfisthisshit, piece.getCurrentPiece());
+					if(!(piece.getCurrentPiece() instanceof King)){
+						piece.getCurrentPiece().getMoveLocations();
+						this.checkResolutionAlliedPieces(wtfisthisshit, piece.getCurrentPiece());
+					}
 				}
 			}
 			else {
 				for( Square piece :GameBoard.Player2.pieces) {
-					piece.getCurrentPiece().getMoveLocations();
-					this.checkResolutionAlliedPieces(wtfisthisshit, piece.getCurrentPiece());
+					if(!(piece.getCurrentPiece() instanceof King)){
+						piece.getCurrentPiece().getMoveLocations();
+						this.checkResolutionAlliedPieces(wtfisthisshit, piece.getCurrentPiece());
+					}
 				}
 			}
 			
-			}
-			
-			GameBoard.gameState = 2;
-			GameBoard.Board[wtfisthisshit.row][wtfisthisshit.column].getCurrentPiece().setVisibility(true);
-			if(this.checkmate(1)) {
-				//Games over
-				System.out.println("GAME IS OVER");
-			}
 		}
+					
+		GameBoard.gameState = 2;
+		GameBoard.Board[wtfisthisshit.row][wtfisthisshit.column].getCurrentPiece().setVisibility(true);
+		if(this.checkmate(1)) {
+			//Games over
+			System.out.println("GAME IS OVER");
+		}
+	}
 	
 	
 	
@@ -697,10 +707,10 @@ public class ChessPiece
 		
 		checkPieceHorizontal(row, column, 1, column , 0, 0 ,otherPieces);
 		checkPieceHorizontal(row, column, -1, column , 0, 0,otherPieces);
+		
 		checkPieceVertical(row, column, 1, row , 0, 0 ,otherPieces);
 		checkPieceVertical(row, column, -1, row , 0, 0 ,otherPieces);
 
-	
 		checkPieceDiagonals(row, column, 1,  1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, -1,  1,  row,  column, 0, 0 , otherPieces);
 		checkPieceDiagonals(row, column, 1,  -1,  row,  column, 0, 0 , otherPieces);
@@ -730,7 +740,7 @@ public class ChessPiece
 		if( (row < 0 || row > 7 ) || ( col < 0 || col > 7 ) ) {
 			return;
 		}
-				
+		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() == color 
 					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true 

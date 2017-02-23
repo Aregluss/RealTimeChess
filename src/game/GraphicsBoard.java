@@ -99,17 +99,17 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						System.out.println("IM SELECTED " + GameBoard.Board[row][col].getCurrentPiece());
 						if(GameBoard.gameState == 2) {
 							//lol
-							for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
-								System.out.println(movable);
-							}
 							System.out.println("THIS IS CHECKED BOYS");
+							/*for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
+								System.out.println(movable);
+							}*/
 						}
 						else {
 							System.out.println("normality");
 							GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();							
-							for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
+							/*for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
 								System.out.println(movable);
-							}
+							}*/
 						}
 					}
 					else
