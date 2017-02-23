@@ -4,7 +4,7 @@ import game.*;
 import pieces.*;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.ArrayList;
+import java.util.*;
 import java.math.*;
 
 
@@ -25,6 +25,7 @@ Highlight location with Square
 @SuppressWarnings("unused")
 public class ChessPiece
 {	
+	public boolean checkMove = true;
 	public boolean status = true;
 	public boolean hasMoved = false;
 	public boolean color;
@@ -77,14 +78,8 @@ public class ChessPiece
 	 *  in their own respective move functions */
 	
 	public void move(int row, int column){
-		locations.clear();
-		this.setVisibility(false);
-		getMoveLocations();
-		if (checkpinnedPiece()) {
-			pinnedPieceMovementHelper();
-		}
-		this.setVisibility(true);
 		boolean canMove = false;
+		
 		for(Square movable: locations)	{
 			if((row == movable.getRow()) && (column == movable.getColumn()))	{
 				canMove = true;
@@ -93,30 +88,58 @@ public class ChessPiece
 		if(canMove)	{
 			if(GameBoard.Board[this.row][this.column].getCurrentPiece() instanceof King) {
 				if(this.color == true) {
-
 					GameBoard.Wk.setRow(row);
 					GameBoard.Wk.setColumn(column);
 				}
 	
 				if (color == false) {
-
 					GameBoard.Bk.setRow(row);
 					GameBoard.Bk.setColumn(column);
 				}
 			}
 			//TODO kill the enemy piece correctly then update the player array list accordingly
+			if(GameBoard.Board[row][column].getCurrentPiece() != null) {
+				if(color){
+					//update piece for player
+					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
+					GameBoard.Player1.pieces.add(new Square(row,column,GameBoard.Board[this.row][this.column].getCurrentPiece()));
+					GameBoard.Player2.pieces.remove(GameBoard.Board[row][column]);
+				}
+				else {
+					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
+					GameBoard.Player2.pieces.add(new Square(row,column,GameBoard.Board[this.row][this.column].getCurrentPiece()));
+					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
+				}
+			}
+			
+			else {
+				if(color){
+					//update piece for player
+					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
+					GameBoard.Player1.pieces.add(new Square(row,column,GameBoard.Board[row][column].getCurrentPiece()));
+				}
+				else {
+					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
+					GameBoard.Player2.pieces.add(new Square(row,column,GameBoard.Board[row][column].getCurrentPiece()));
+				}
+			}
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			this.row = row;
 			this.column = column;
 			this.sethasMoved(true);
 			
+			if(GameBoard.gameState == 2) {
+				GameBoard.gameState = 1;
+			}
+			
 			//check()
 			if(color==true) {
 				if ( GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
 					checkKing(false);
 					if( ( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked == true) {
-						//FREEZE GAME, Check resolution
+						//FREEZE GAME, disable enemy, Check resolution
+						( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
 					}
 				}
 			}
@@ -124,9 +147,21 @@ public class ChessPiece
 				if ( GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
 					checkKing(true);
 					if( ( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked == true) {
-						
+						( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
 					}
 				}
+			}
+			
+			
+			
+			
+			if(GameBoard.gameState == 1) {
+				//CHECK RESOLVED
+				GameBoard.gameState = 0;
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).saviors.clear();
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).saviors.clear();
+				//unfreeze the game + enable enemy pieces 
+				System.out.println("CHECK RESOLVED!!");
 			}
 			
 		}
@@ -142,7 +177,13 @@ public class ChessPiece
 	public void die(){status = false;};
 	
 	/** Creates a list of all possible movement locations for that current piece*/
-	public void getMoveLocations(){}; 
+	public void getMoveLocations(){
+		locations.clear();
+		this.setVisibility(false);
+		if(GameBoard.gameState == 2) {
+			return;
+		}
+	}; 
 	
 	/** visual representation of where a piece can move, differentiates attacking
 	 *  and movement */
@@ -190,7 +231,6 @@ public class ChessPiece
 		
 		int newRow = row + rowIncre;
 		int newCol = col + colIncre;
-		
 		if( (newRow < 0 || newRow > 7 ) || ( newCol < 0 || newCol > 7 ) ) {
 			return;
 		}	
@@ -219,47 +259,185 @@ public class ChessPiece
 	
 	public void checkResolution() {
 		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
+		ChessPiece wtfisthisshit = originalAttackers.get(0);
+		this.getMoveLocations();
+
 		if( ((King)this).attacking.size() > 1 ) {
-			this.getMoveLocations();
-			if(checkmate(0)) {
-				//Game over
+			GameBoard.gameState = 2;
+			if(this.checkmate(0)) {
+				//Games over
+				System.out.println("GAME IS OVER");
 			}
 			return;
 		}
+		
 		if( ((King)this).attacking.size() == 1 ) {			
 			//Save king.attacking, run attacking pieces getMoveLocations
 			// Compare w/ allied pieces
 			//OR King can move
-			this.getMoveLocations();
-			checkResolutionAlliedPieces(originalAttackers.get(0));
+			GameBoard.Board[wtfisthisshit.row][wtfisthisshit.column].getCurrentPiece().setVisibility(false);
+			if(this.getColor()) {
+				for( Square piece : GameBoard.Player1.pieces) {
+					piece.getCurrentPiece().getMoveLocations();
+					this.checkResolutionAlliedPieces(wtfisthisshit, piece.getCurrentPiece());
+				}
+			}
+			else {
+				for( Square piece :GameBoard.Player2.pieces) {
+					piece.getCurrentPiece().getMoveLocations();
+					this.checkResolutionAlliedPieces(wtfisthisshit, piece.getCurrentPiece());
+				}
+			}
+			
+			}
+			
+			GameBoard.gameState = 2;
+			GameBoard.Board[wtfisthisshit.row][wtfisthisshit.column].getCurrentPiece().setVisibility(true);
+			if(this.checkmate(1)) {
+				//Games over
+				System.out.println("GAME IS OVER");
+			}
 		}
-	}
 	
-	public void checkResolutionAlliedPieces(ChessPiece originalAttacker) {
-		//Vertical Attacking
-		if(originalAttacker.row == this.row && originalAttacker.column != this.column) {
-			
+	
+	
+	
+	public void checkResolutionAlliedPieces(ChessPiece originalAttacker,ChessPiece Ally) {
+		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
+		if(originalAttacker instanceof Pawn) {
+			for(Square movable :Ally.locations) {
+				if(movable.getRow() == originalAttacker.row && movable.getColumn() == originalAttacker.column) {
+					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),originalAttacker));
+				}
+			}
+			if(modifiedLocations.size() != 0) {
+				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+			}
+			Ally.locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations = modifiedLocations;
+			return;
 		}
+		
 		//Horizontal Attacking
+		if(originalAttacker.row == this.row && originalAttacker.column != this.column) {
+			int colSmall, colBig; 
+			if(originalAttacker.column < this.column) {
+				colSmall = originalAttacker.column;
+				colBig = this.column - 1;
+			}
+			else {
+				colSmall = this.column + 1;
+				colBig = originalAttacker.column;
+			}
+			for(Square movable :Ally.locations) {
+				if(movable.getRow() == originalAttacker.row && (movable.getColumn() >= colBig  || movable.getColumn() <= colSmall ) ) {
+					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
+				}
+			}
+			if(modifiedLocations.size() != 0) {
+				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+			}
+			Ally.locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations = modifiedLocations;
+			return;
+		}
+		
+		//Vertical Attacking
 		if(originalAttacker.row != this.row && originalAttacker.column == this.column) {
-			
+			int rowSmall, rowBig; 
+			if(originalAttacker.row < this.row) {
+				rowSmall = originalAttacker.row;
+				rowBig = this.row - 1;
+			}
+			else {
+				rowSmall = this.row + 1;
+				rowBig = originalAttacker.row;
+			}
+	
+			for(Square movable :Ally.locations) {			
+				if(movable.getColumn() == originalAttacker.column && (movable.getRow() >= rowBig  || movable.getRow() <= rowSmall ) ) {
+					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));			
+				}
+			}
+			if(modifiedLocations.size() != 0) {
+				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+			}
+			Ally.locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations = modifiedLocations;
+			return;
 		}
 		//Diagonal Attacking (\\\\\\)
 		if((originalAttacker.row - this.row) - (originalAttacker.column - this.column) == 0) {
-			
+			ArrayList<Integer> rows = new ArrayList<Integer>();
+			ArrayList<Integer> cols = new ArrayList<Integer>();
+			rows.add(originalAttacker.row); rows.add(this.row);
+			cols.add(originalAttacker.column); cols.add(this.column);
+			Collections.sort(rows);
+			Collections.sort(cols);
+			for(Square movable :Ally.locations) {
+				if( ((movable.getRow() - this.row) - (movable.getColumn() - this.column) == 0) 
+						&& movable.getRow() != this.row 
+						&& movable.getColumn() != this.column
+						&& (movable.getRow() >= rows.get(0) || movable.getRow() <= rows.get(1)) 
+						&& (movable.getColumn() >= cols.get(0) || movable.getColumn() <= cols.get(1))) {
+					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
+				}
+			}
+			if(modifiedLocations.size() != 0) {
+				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+			}
+			Ally.locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations = modifiedLocations;
+			return;
 		}
 		//Diagonal Attacking (///////)
 		if((originalAttacker.row - this.row) + (originalAttacker.column - this.column) == 0) {
-			
+			ArrayList<Integer> rows = new ArrayList<Integer>();
+			ArrayList<Integer> cols = new ArrayList<Integer>();
+			rows.add(originalAttacker.row); rows.add(this.row);
+			cols.add(originalAttacker.column); cols.add(this.column);
+			Collections.sort(rows);
+			Collections.sort(cols);
+			for(Square movable :Ally.locations) {
+				if( ((movable.getRow() - this.row) + (movable.getColumn() - this.column) == 0) 
+						&& movable.getRow() != this.row 
+						&& movable.getColumn() != this.column
+						&& (movable.getRow() >= rows.get(0) || movable.getRow() <= rows.get(1)) 
+						&& (movable.getColumn() >= cols.get(0) || movable.getColumn() <= cols.get(1))) {
+					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
+				}
+			}
+			if(modifiedLocations.size() != 0) {
+				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+			}
+			Ally.locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations = modifiedLocations;
+			return;
 		}
+		
 		//Knight
 		if(originalAttacker instanceof Knight) {
-			
+			for(Square movable :Ally.locations) {
+				if(movable.getRow() == originalAttacker.row && movable.getColumn() == originalAttacker.column) {
+					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),originalAttacker));
+				}
+			}
+			if(modifiedLocations.size() != 0) {
+				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+			}
+			Ally.locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
+			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations = modifiedLocations;
+			return;
 		}
 	}
 	
 	public boolean checkmate(int condition) {
-		//TODO stub
 		if(condition == 0 ) {
 			if(locations.size() == 0) {
 				return true;
@@ -271,7 +449,7 @@ public class ChessPiece
 		
 		else {
 			//AND no pieces can save the king then gg
-			if(locations.size() == 0) {
+			if(locations.size() == 0 && ((King)this).saviors.size() == 0) {
 				return true;
 			}
 			else {
@@ -559,7 +737,8 @@ public class ChessPiece
 		}
 				
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
-			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color) {
+			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color 
+					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {
 				if( Math.floor(Math.hypot((this.row-row), (this.column-col))) <= 1.0 && piecesFound < 1 && spacesMoved != 1 && oriRow == row) {
 					piecesFound++;
 					
@@ -635,7 +814,8 @@ public class ChessPiece
 		}
 		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
-			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color) {
+			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color
+					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {
 				if( Math.floor(Math.hypot((this.row-row), (this.column-col))) <= 1.0 && piecesFound < 1 && oriCol == col) {
 					piecesFound++;
 
@@ -707,7 +887,8 @@ public class ChessPiece
 		}
 		
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
-			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color) {
+			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color
+					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {
 				if( (Math.hypot((this.row-row), (this.column-col))) == Math.sqrt(2.0) && piecesFound < 1 && spacesMoved != 1 && oriCol == col && oriRow == row) {
 					piecesFound++;
 					if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Bishop 
@@ -900,8 +1081,6 @@ public class ChessPiece
 		if (color != other.color)
 			return false;
 		if (column != other.column)
-			return false;
-		if (isVisible != other.isVisible)
 			return false;
 		if (name == null) {
 			if (other.name != null)

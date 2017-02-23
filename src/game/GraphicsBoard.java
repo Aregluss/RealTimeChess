@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import pieces.Square; //remove later
 
 
 public class GraphicsBoard extends JPanel implements MouseListener
@@ -96,8 +97,12 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						col = x/80;
 						initalPress++;
 						System.out.println("IM SELECTED " + GameBoard.Board[row][col].getCurrentPiece());
-						GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();
-
+						if(GameBoard.gameState == 2) {
+							//lol
+						}
+						else {
+							GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();
+						}
 					}
 					else
 					{

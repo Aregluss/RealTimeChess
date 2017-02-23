@@ -46,11 +46,15 @@ public class Bishop extends ChessPiece{
 
 	@Override
 	public void getMoveLocations() {
-		
+		super.getMoveLocations();
 		recursion(row, column, 1 ,1);
 		recursion(row, column, 1, -1);
 		recursion(row, column, -1, 1);
 		recursion(row, column, -1,-1);
+		if (checkpinnedPiece()) {
+			pinnedPieceMovementHelper();
+		}
+		setVisibility(true);
 	}
 
 	@Override

@@ -65,10 +65,15 @@ public class Pawn extends ChessPiece{
 	@Override
 	public void getMoveLocations() {
 		//Haven't considered pawn reaching end of board (promotion)
+		super.getMoveLocations();
 		getmovelocationLeft(color);
 		getmovelocationRight(color);
 		getmovelocationOne(color);
 		getmovelocationTwo(color);
+		if (checkpinnedPiece()) {
+			pinnedPieceMovementHelper();
+		}
+		setVisibility(true);
 	}
 	
 	public void getmovelocationLeft(boolean color) {
