@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+
+import pieces.ChessPiece;
 
 
 public class GraphicsBoard extends JPanel implements MouseListener
@@ -27,6 +30,8 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	private Image background;
 	private int initalPress = 0;
 	private int row, col, row1, col1;
+	//BufferedImage bf = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	
 	
 	public GraphicsBoard()
 	{
@@ -90,18 +95,26 @@ public class GraphicsBoard extends JPanel implements MouseListener
 
 				if(GameBoard.Board[y/80][x/80].getCurrentPiece() != null || initalPress == 1)
 				{
-					if(initalPress == 0)
+					//Graphics g = graphBoard.getGraphics();
+					//Graphics2D g2 = (Graphics2D) g;
+					System.out.print("inital press: ");
+					System.out.println(initalPress);
+					boolean offCoolDown = (initalPress == 0 && GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown);
+					System.out.print("OffCoolDown: ");
+					System.out.println(offCoolDown);
+					if (GameBoard.Board[y/80][x/80].getCurrentPiece() != null)
+					{
+						GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown = (GameBoard.Board[y/80][x/80].getCurrentPiece().time_limit < GameBoard.Board[y/80][x/80].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[y/80][x/80].getCurrentPiece().time);
+					}
+					if(initalPress == 0 && offCoolDown)
 					{	
 						row = y/80;
 						col = x/80;
 						initalPress++;
-						System.out.println("IM SELECTED " + GameBoard.Board[row][col].getCurrentPiece());
-						GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();
-
+						System.out.println("IM SELECTED");
 					}
 					else
 					{
-						
 						System.out.println("R&C:" +row +" " +col);
 						row1 = y/80;
 						col1 = x/80;
@@ -112,7 +125,19 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						}
 						else
 						{
-							GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+							//System.out.println();
+							if(initalPress == 1 && GameBoard.Board[row][col].getCurrentPiece().offCoolDown)
+							{
+								System.out.println("initalpress1");
+								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+								//GameBoard.Board[row][col].getCurrentPiece().draw(g2);
+								//GameBoard.drawPiece(row, col);
+								Rectangle a = new Rectangle(col * 80, row * 80, (col+1) * 80, (row+1)*80);
+								Rectangle b = new Rectangle(col1 * 80, row1 * 80, (col1+1) * 80, (row1+1)*80);
+								repaint(a);
+								repaint(b);
+								
+							}
 							if(GameBoard.Board[row][col].getCurrentPiece() == null)
 							{
 								initalPress = 0;
@@ -123,7 +148,9 @@ public class GraphicsBoard extends JPanel implements MouseListener
 				}
 			}
 		}
-		 repaint(); //Redraws board to update images being moved
+		//animation(bf.getGraphics());
+		//g.drawImage(bf,0,0,null);
+		 //repaint(); //Redraws board to update images being moved
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
