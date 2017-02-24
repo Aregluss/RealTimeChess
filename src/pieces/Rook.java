@@ -46,11 +46,15 @@ public class Rook extends ChessPiece {
 	
 	
 	public void getMoveLocations() {
-		
+		super.getMoveLocations();
 		recursion(row, column, 1 ,0);
 		recursion(row, column, 0, 1);
 		recursion(row, column,-1, 0);
 		recursion(row, column, 0,-1); 
+		if (checkpinnedPiece()) {
+			pinnedPieceMovementHelper();
+		}
+		setVisibility(true);
 	}
 	
 	@Override

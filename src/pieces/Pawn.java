@@ -65,12 +65,22 @@ public class Pawn extends ChessPiece{
 	@Override
 	public void getMoveLocations() {
 		//Haven't considered pawn reaching end of board (promotion)
+		super.getMoveLocations();
 		getmovelocationLeft(color);
 		getmovelocationRight(color);
 		getmovelocationOne(color);
 		getmovelocationTwo(color);
+		if (checkpinnedPiece()) {
+			pinnedPieceMovementHelper();
+		}
+		setVisibility(true);
 	}
-	
+	/** Precondition: getMovelocations for a pawn is called
+	 *  Postcondition: locations for pawn is modified accordingly
+	 *  checks if a pawn can attack to the left diagonal
+	 *  if so adds it to pawn's location
+	 * @param color of pawn
+	 */
 	public void getmovelocationLeft(boolean color) {
 		if(column-1 < 0) {
 			return;
@@ -98,6 +108,13 @@ public class Pawn extends ChessPiece{
 		}
 	}
 	
+	/**
+	 * Precondition: getMovelocations for a pawn is called
+	 *  Postcondition: locations for pawn is modified accordingly
+	 *  checks if a pawn can attack to the right diagonal
+	 *  if so adds it to pawn's location
+	 * @param color of pawn
+	 */
 	public void getmovelocationRight(boolean color) {
 		if(column+1 > 7) {
 			return;
@@ -126,6 +143,13 @@ public class Pawn extends ChessPiece{
 		}
 	}
 	
+	/**
+	 * Precondition: getMovelocations for a pawn is called
+	 *  Postcondition: locations for pawn is modified accordingly
+	 *  checks if a pawn can move one space forward
+	 *  if so adds it to pawn's location
+	 * @param color of pawn
+	 */
 	public void getmovelocationOne(boolean color) {
 		
 		if(color == true) {
@@ -145,6 +169,13 @@ public class Pawn extends ChessPiece{
 		}
 	}
 
+	/**
+	 * Precondition: getMovelocations for a pawn is called
+	 *  Postcondition: locations for pawn is modified accordingly
+	 *  checks if a pawn can move two spaces, checks if a pawn has moved before
+	 *  if so adds it to pawn's location
+	 * @param color of pawn
+	 */
 	public void getmovelocationTwo(boolean color) {
 		if(hasMoved == true){
 			return;
@@ -169,6 +200,13 @@ public class Pawn extends ChessPiece{
 		}
 	}
 			
+	/**
+	 * Precondition called when the pawn hits the end of the board
+	 * Postcondition promotes the pawn to the selected promotion
+	 * 
+	 * @param promotionPiece, which piece the pawn wants to promote to
+	 */
+	//TODO let the player choose + update player arrays accordingly
 	public void promote(String promotionPiece) {
 		// light pops, ui to ask player what they want the pawn to be promoted to
 		if(promotionPiece.equals("queen")) {
@@ -184,6 +222,12 @@ public class Pawn extends ChessPiece{
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
 	}
+	
+	/**
+	 * Precondition: called when the pawn hits the end of the board
+	 * Postcondition
+	 * @return String that reflect what the player has chosen for their pawn
+	 */
 	
 	public String choosePromotion() {
 		//UI STUFF HERE

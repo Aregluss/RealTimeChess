@@ -10,7 +10,8 @@ public class King extends ChessPiece{
 	
 	boolean isChecked = false;
 	public String name = "King";
-	ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
+	public ArrayList<ChessPiece> saviors = new ArrayList<ChessPiece>();
+	public ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
 
 	
 	public King(int row, int column, boolean color){
@@ -71,6 +72,7 @@ public class King extends ChessPiece{
 	
 	@Override
 	public void getMoveLocations() {
+		locations.clear();
  		this.canCastle();
  		setVisibility(false);
 		getmovelocationHelper(1 ,0);

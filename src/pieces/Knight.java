@@ -43,6 +43,7 @@ public class Knight extends ChessPiece{
 
 	@Override
 	public void getMoveLocations() {
+		super.getMoveLocations();
 		if( (row +2 >= 0 && row +2 < 8 ) && ( column +1 >= 0 && column +1 < 8 )) {
 			if ( GameBoard.Board[row+2][column+1].getCurrentPiece() != null) { 				
 				if (!(GameBoard.Board[row+2][column+1].getCurrentPiece().getColor() == color)) {
@@ -131,7 +132,10 @@ public class Knight extends ChessPiece{
 			}
 		}
 		
-		
+		if (checkpinnedPiece()) {
+			pinnedPieceMovementHelper();
+		}
+		setVisibility(true);
 
 	}
 	@Override
