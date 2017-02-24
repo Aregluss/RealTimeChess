@@ -100,7 +100,7 @@ public class ChessPiece
     
 		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
 		if(canMove && (hasMoved == false || offCoolDown))	{
-			offCoolDown = 
+			offCoolDown = false;
 			if(GameBoard.Board[this.row][this.column].getCurrentPiece() instanceof King) {
 				if(this.color == true) {
 					GameBoard.Wk.setRow(row);
