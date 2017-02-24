@@ -15,14 +15,11 @@ import java.math.*;
  */
 
 /*WHAT WE HAVE TO IMPLEMENT
-Pawns - promotion.
-King- Castling, Checking, Checkmate(if another piece can stop the checkmate)
-Move - mouse Listener + updating gameboard
+Pawns - promotion selection.
 Highlight location with Square
 */
 
 
-@SuppressWarnings("unused")
 public class ChessPiece
 {	
 	public boolean checkMove = true;
@@ -43,7 +40,7 @@ public class ChessPiece
 	 * Generic constructor to initialize piece on top on the Graphics and GameBoard 
 	 * @param row, row that the piece will be created in
 	 * @param column, column that the piece will be created in
-	 * @param color, Black or White the team the piece is associated with 
+	 * @param color, Black (false) or White(true) the team the piece is associated with 
 	 */
 	
 	public ChessPiece(int row, int column, boolean color) {
@@ -55,18 +52,24 @@ public class ChessPiece
 		 
 	}; 
 	
-	/**  returns if the the piece has moved before useful for Castling and Pawns */
+	/**  returns if the the piece has moved before, useful for Castling and Pawns
+	 * @return boolean, whether the piece has moved or not */
 	public boolean gethasMoved() {
 		return hasMoved;
 	}
 	
-	/** Called when a piece first moves */
-	
+	/** Called when a piece first moves 
+	 * @param setter, set to true when a piece moves for the first time
+	 * */
 	public void sethasMoved(boolean setter) {
 		hasMoved = setter;
 	}
 	
-	/** Only invoked when the king initiates a Castle, special move function */
+	/** Only invoked when the king initiates a Castle, special move function 
+	 * @param row row to move the king to 
+	 * @param col column to move the king to
+	 * */
+	//TODO update the player board accordingly after castling
 	public void CastleMove(int row, int column){
 		GameBoard.Board[row][column].setCurrentPiece(this);
 		this.row = row;
@@ -75,16 +78,23 @@ public class ChessPiece
 	}
 	
 	/** Function that actually moves the pieces, children all call this first 
-	 *  in their own respective move functions */
+	 *  in their own respective move functions 
+	 *  Preconditions : getMoveLocations or a modified version of it (for checking and pinning )has already been run,
+	 *  Postconditions: the piece has been moved to the indicated position, the GameBoard + player piece arrays have been updated accordingly 
+	 *  @param row row to move the piece
+	 *  @param col column to move the piece
+	 *  */
 	
 	public void move(int row, int column){
 		boolean canMove = false;
-		
+	
+		//Search the locations array (created by GetMoveLocations), if a valid move set canMove to true
 		for(Square movable: locations)	{
 			if((row == movable.getRow()) && (column == movable.getColumn()))	{
 				canMove = true;
 			}			
 		}
+		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
 		if(canMove)	{
 			if(GameBoard.Board[this.row][this.column].getCurrentPiece() instanceof King) {
 				if(this.color == true) {
@@ -97,7 +107,8 @@ public class ChessPiece
 					GameBoard.Bk.setColumn(column);
 				}
 			}
-			//TODO kill the enemy piece correctly then update the player array list accordingly
+			
+			//checks if moving will kill an enemy piece, if so update the player arraylists accordingly
 			if(GameBoard.Board[row][column].getCurrentPiece() != null) {
 				if(color){
 					//update piece for player
@@ -109,7 +120,7 @@ public class ChessPiece
 					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
 				}
 			}
-			
+			//for moving to an empty space
 			else {
 				if(color){
 					//update piece for player
@@ -119,7 +130,7 @@ public class ChessPiece
 					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 				}
 			}
-			
+			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			this.row = row;
@@ -134,16 +145,20 @@ public class ChessPiece
 				GameBoard.Player2.pieces.add(new Square(row,column,this));
 			}
 			
+			//Indicates that the game is in checkresolution once a piece moves, sets the state to normal
+			//with no bugs, a piece can ONLY move if it resolves the check
 			if(GameBoard.gameState == 2) {
 				GameBoard.gameState = 1;
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = false;
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = false;
 			}
 			
-			//check()
+			//Checks if the piece moving caused a check on the enemy king, if this is true then check resolution occurs
+			//FREEZE GAME, disable enemy, Check resolution
 			if(color==true) {
 				if ( GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
 					checkKing(false);
 					if( ( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked == true) {
-						//FREEZE GAME, disable enemy, Check resolution
 						( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
 					}
 				}
@@ -162,6 +177,7 @@ public class ChessPiece
 			
 			if(GameBoard.gameState == 1) {
 				//CHECK RESOLVED
+				//Reset the arraylist containing pieces that can save the king
 				GameBoard.gameState = 0;
 				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).saviors.clear();
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).saviors.clear();
@@ -176,12 +192,21 @@ public class ChessPiece
 	};
 	
 	/** Unused for now */
+	//Maybe break move up a bit and add that bit of code in here, things to look at for 2nd iteration
 	public void attack(ChessPiece Enemy){};
 	
 	/** Called when a piece is successfully attacked */
+	//Same comment as above
 	public void die(){status = false;};
 	
-	/** Creates a list of all possible movement locations for that current piece*/
+	/** Creates a list of all possible movement locations for that current piece
+	 * Each piece has it's own implementation of this. but calls on this parent function
+	 * before it does its own 
+	 * This parent version does a couple of things 
+	 * 1) clears the existing locations arraylist created previously
+	 * 2) sets the piece's visiblity to false (useful for checking if the piece is pinned)
+	 * 3) if the gamestate is in checkresolution, a new locations arraylist will NOT be created
+	 * this effectively prevents enemy pieces + allied pieces that cannot resolve the check from moving*/
 	public void getMoveLocations(){
 		locations.clear();
 		this.setVisibility(false);
@@ -192,6 +217,7 @@ public class ChessPiece
 	
 	/** visual representation of where a piece can move, differentiates attacking
 	 *  and movement */
+	//TODO yet to be fully implemented
 	public void highightLocation(){
 		getMoveLocations();
 		for(Square movable: locations) {
@@ -214,10 +240,14 @@ public class ChessPiece
 		return kappa;
 		};
 	
-	/** returns the piece's associated color*/	
+	/** @return the piece's associated color
+	 * */	
 	public boolean getColor(){return color;};
 	
-	// ????
+	/**
+	 * Precondition: getmoveLocations or a variant must be run before this
+	 * Postcondition @return arraylist of where a piece can move
+	 */
 	public ArrayList<Square> returnLocations(){return locations;};
 	
 	/** getMoveLocation implementation for Rook, Bishop, Queen
@@ -228,7 +258,7 @@ public class ChessPiece
 	 *  @param colIncre, how much to increment the col by
 	 *  
 	 *  Begins to check each spot in the direction indicated by rowIncre and colIncre
-	 *  stops when it hits an enemy piece, an allied piece, or hit the border of
+	 *  stops when it hits an enemy piece, an allied piece, or hits the border of
 	 *  the chessboard
 	 *  */
 	
@@ -261,10 +291,21 @@ public class ChessPiece
 		g.drawImage(image, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 	}
 	
-	
+	/**
+	 * Precondition an enemy piece has moved and is now capable of attacking the king, gameState has changed in checkResolution
+	 * Postcondition all possible moves to resolve the check as been run and pieces have been updated accordingly unless checkmate has occurred 
+	 * 
+	 * This function examines how many pieces are attacking the king and based off of that creates a list of viable moves to resolve the check
+	 * Two different checkResolutions
+	 * 1) More than one piece is checking the king
+	 * 		-> Run the king's getmovelocation
+	 * 2) Only one piece is checking the king
+	 * 		-> Run the king's getmovelocations
+	 * 		->Iterate through all the allies and check whether or not they can move to save the king (calls a helper function to do so) 
+	 */
 	public void checkResolution() {
 		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
-		ChessPiece wtfisthisshit = originalAttackers.get(0);
+		ChessPiece attacker = originalAttackers.get(0);
 		//reset getMovelocations for both players
 		
 		for( Square piece : GameBoard.Player1.pieces) {
@@ -288,12 +329,12 @@ public class ChessPiece
 			//Save king.attacking, run attacking pieces getMoveLocations
 			// Compare w/ allied pieces
 			//OR King can move
-			GameBoard.Board[wtfisthisshit.row][wtfisthisshit.column].getCurrentPiece().setVisibility(false);
+			GameBoard.Board[attacker.row][attacker.column].getCurrentPiece().setVisibility(false);
 			if(this.getColor()) {
 				for( Square piece : GameBoard.Player1.pieces) {
 					if(!(piece.getCurrentPiece() instanceof King)){
 						piece.getCurrentPiece().getMoveLocations();
-						this.checkResolutionAlliedPieces(wtfisthisshit, piece.getCurrentPiece());
+						this.checkResolutionAlliedPieces(attacker, piece.getCurrentPiece());
 					}
 				}
 			}
@@ -301,7 +342,7 @@ public class ChessPiece
 				for( Square piece :GameBoard.Player2.pieces) {
 					if(!(piece.getCurrentPiece() instanceof King)){
 						piece.getCurrentPiece().getMoveLocations();
-						this.checkResolutionAlliedPieces(wtfisthisshit, piece.getCurrentPiece());
+						this.checkResolutionAlliedPieces(attacker, piece.getCurrentPiece());
 					}
 				}
 			}
@@ -309,7 +350,7 @@ public class ChessPiece
 		}
 					
 		GameBoard.gameState = 2;
-		GameBoard.Board[wtfisthisshit.row][wtfisthisshit.column].getCurrentPiece().setVisibility(true);
+		GameBoard.Board[attacker.row][attacker.column].getCurrentPiece().setVisibility(true);
 		if(this.checkmate(1)) {
 			//Games over
 			System.out.println("GAME IS OVER");
@@ -318,7 +359,18 @@ public class ChessPiece
 	
 	
 	
-	
+	/**
+	 * Preconditions: The game is in checkResolution, only one piece is checking the king,
+	 * Postconditions: all pieces have been evaluated and their locations array has been updated accordingly
+	 * 
+	 * @param originalAttacker the original piece attacking the king 
+	 * @param Ally the ally that locations is being creates for (cannot be a king (the kings getmovelocations function will handle this))
+	 * 
+	 * What this function does is it determines what is attacking the king and what direction that piece is attacking for
+	 * e.g. if it's a pawn/knight then you cannot bodyblock, you must kill the piece outright
+	 * 
+	 * 
+	 */
 	public void checkResolutionAlliedPieces(ChessPiece originalAttacker,ChessPiece Ally) {
 		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
 		if(Ally instanceof King) {
@@ -457,6 +509,17 @@ public class ChessPiece
 		}
 	}
 	
+	/**
+	 * 
+	 * @param condition, 0 = more than one piece is checking the king , 1 = only one piece is checking the king
+	 * @return true if checkmate, false if a piece can resolve
+	 * 
+	 * Checking for checkmate
+	 * 1) if the king is being checked by more than one enemy piece, an allied piece cannot save the king 
+	 * if the king cannot move as well, then checkmate has occurred
+	 * 2) if the king is only being checked by one enemy piece, then an allied piece may bodyblock for the king or the king can move
+	 * 	if neither of these options are valid, checkmate has occurred
+	 */
 	public boolean checkmate(int condition) {
 		if(condition == 0 ) {
 			if(locations.size() == 0) {
@@ -478,7 +541,10 @@ public class ChessPiece
 		}
 	}
 	
-	//Checks if the king is in check, called after every move function finishes
+	/**
+	 * Checks if the king is in check, called after every move function finishes, if the king is checked sets isChecked to true
+	 * @param color, true for white king, false for black king
+	 */
 	public void checkKing(boolean color) {
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");
@@ -492,6 +558,14 @@ public class ChessPiece
 		return;
 	}
 	
+	/**
+	 * this function checks whether or not a piece is pinned, called in getmovelocations and after the original getmovelocation is created
+	 * the piece moving will make itself invisible and calls on the king's check function, if it is check then the piece is considered pinned
+	 * 
+	 * Precondition: getmovelocations has been called
+	 * Postcondition 
+	 * @return returns true if a piece is pinned (moving will cause allied king to go into check)
+	 */
 	public boolean checkpinnedPiece() {
 		if(color == true) {
 			GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(false);
@@ -519,13 +593,24 @@ public class ChessPiece
 		}
 	}
 	
+	/**
+	 * This function is called when a piece is pinned, it looks at the locations array of the piece and will modify it accordingly
+	 * based on what is attacking the king should it move, 
+	 * e.g. if a rook is attacking vertically then a pinned piece can move along the same row the enemy rook is
+	 * 
+	 * Precondition : checkpinnedPiece has been called and has returned true, getMovelocations has been called and a locations array has
+	 * been created
+	 * Postcondition: locations array has been modified to include only moves that would not check the king 
+	 */
 	public void pinnedPieceMovementHelper() {
 		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
 
 		if(color == true ) {
 			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking) {
 				attack.getMoveLocations();
+				//Checks if the attacker is a rook
 				if(attack instanceof Rook) {
+					//Checks the direction the rook is attacking from, Horizontally
 					if(attack.row == this.row && attack.column != this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
 							if(locations.get(i).getRow() == attack.row && attack.column != locations.get(i).getColumn()) {
@@ -533,6 +618,7 @@ public class ChessPiece
 							}
 						}
 					}
+					//Vertically
 					if(attack.row != this.row && attack.column == this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
 							if(locations.get(i).getRow() != attack.row && attack.column == locations.get(i).getColumn()) {
