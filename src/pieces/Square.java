@@ -106,9 +106,9 @@ public class Square extends JPanel{// implements MouseListener{
 		return lightOn;
 	}
 
-	/**
-	 * ???
-	 * @return
+	/**Get movable status of piece
+	 * 
+	 * @return movable status
 	 */
 	public boolean getMovable()
 	{

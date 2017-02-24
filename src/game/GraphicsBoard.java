@@ -45,17 +45,21 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		repaint();
 		
 	}
-	
+	/**Draws the chessboard backround
+	 * @param g, Graphics object for drawing
+	 */
 	public void paintComponent(Graphics g)
 	{	
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		//g2.setBackground(Color.RED);
-		
 		g2.drawImage(background, 0, 0, WIDTH, HEIGHT, this);
 	}	
 	
-	
+	/**Getter for the backround image
+	 * 
+	 * @return the background
+	 */
 	public Image getImage()
 	{
 		return background;
@@ -68,6 +72,12 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	}
 
 	@Override
+	/**This is where moving chess pieces happens
+	 * Right click selects the piece, records time where piece was selected
+	 * moves when pressed again on an empty space
+	 * Left click cancels a current move
+	 * Keep track of if its first click to select or second click to move
+	 */
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
@@ -121,7 +131,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						if(row == row1 && col == col1)
 						{
 							initalPress = 0;
-							System.out.println("DO BETTER U CUC");
+							System.out.println("Moving me to same spot?");
 						}
 						else
 						{
@@ -129,7 +139,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 							if(GameBoard.Board[row][col].getCurrentPiece() == null)
 							{
 								initalPress = 0;
-								System.out.println("MOVE ME DADDY");
+								System.out.println("I've been moved");
 							}
 						}
 					}

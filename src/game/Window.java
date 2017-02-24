@@ -19,7 +19,7 @@ public class Window extends JFrame{
 	{	
 		super("RTC");
 		//should make game resizable
-		setBounds(100, 100, 800, 668);
+		setBounds(100, 100, 800, 700);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
