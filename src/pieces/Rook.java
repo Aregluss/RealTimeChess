@@ -16,11 +16,21 @@ public class Rook extends ChessPiece {
 		super(row, column, color);
 		// TODO Auto-generated constructor stub
 		
-		try {
-			image = ImageIO.read(new File("Rook.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(color)
+			try {
+				image = ImageIO.read(new File("whiteRook.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+		{
+			try {
+				image = ImageIO.read(new File("blackRook.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

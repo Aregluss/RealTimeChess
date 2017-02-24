@@ -16,12 +16,21 @@ public class Bishop extends ChessPiece{
 	public Bishop(int row, int column, boolean color) {
 		super(row, column, color);
 		// TODO Auto-generated constructor stub
-		
-		try {
-			image = ImageIO.read(new File("Bishop.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(color)
+			try {
+				image = ImageIO.read(new File("whiteBishop.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+		{
+			try {
+				image = ImageIO.read(new File("blackBishop.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
