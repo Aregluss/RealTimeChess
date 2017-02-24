@@ -33,6 +33,9 @@ public class ChessPiece
 	public boolean isVisible = true;
 	public int row, column;
 	Image image;
+	public boolean offCoolDown = true;
+	public long time, time_limit = 3000;
+	public Timer A_Clock = new Timer();
 	private int width, height;
 	public String name;
 	
@@ -94,8 +97,10 @@ public class ChessPiece
 				canMove = true;
 			}			
 		}
+    
 		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
-		if(canMove)	{
+		if(canMove && (hasMoved == false || offCoolDown))	{
+			offCoolDown = 
 			if(GameBoard.Board[this.row][this.column].getCurrentPiece() instanceof King) {
 				if(this.color == true) {
 					GameBoard.Wk.setRow(row);
