@@ -648,6 +648,7 @@ public class ChessPiece
 						}
 					}
 					
+					//essentially just uses the bishop + rook implementations
 					if(attack instanceof Queen) {
 						// THIS WAY \\\\\\
 						if(((attack.row-this.row)-(attack.column-this.column)) == 0) {
@@ -684,7 +685,7 @@ public class ChessPiece
 					}
 			}
 		}
-			
+		//Same thing but for black
 		if(color == false ) {
 			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking) {
 				attack.getMoveLocations();
@@ -767,13 +768,15 @@ public class ChessPiece
 	}
 	
 			
-		
-	
-	
-	//For counting purposes
-	/*checkHelper(row, column, 1 ,0) + checkHelper(row, column, 0, 1) + checkHelper(row, column,-1, 0) + checkHelper(row, column, 0,-1) + checkHelper(row, column, 1 ,1) 
-	+ checkHelper(row, column, 1, -1) + checkHelper(row, column, -1, 1) + checkHelper(row, column, -1,-1); */
-	
+	/**
+	 * This function checks whether or not a square is under attack by an enemy piece, it does this by checked every direction a piece can attack from
+	 *  
+	 * 
+	 * @param row, row to check
+	 * @param column, column to check
+	 * @return boolean that indicates whether or not that space is being attacked or not
+	 */
+			
 	public boolean checkSquare(int row, int column) {
 		ArrayList<ChessPiece> otherPieces = new ArrayList<ChessPiece>();
 		
@@ -821,6 +824,19 @@ public class ChessPiece
 		
 	}
 	
+	/**
+	 * This is a helper function that is called in checkSquare, recursively finds enemy pieces in the vertical direction
+	 * PreCondition: checkSquare is called
+	 * Postcondition: any enemy pieces found have been added to arraylist OtherPieces
+	 * 
+	 * @param row, row of square to check
+	 * @param col, col of square to check
+	 * @param rowIncre, how much to increment the row by
+	 * @param oriRow, the original row
+	 * @param piecesFound, how many pieces that have been found 
+	 * @param spacesMoved, applicable if the original square was the king
+	 * @param otherPieces, arraylist that stores attacking pieces
+	 */
 	public void checkPieceVertical(int row, int col, int rowIncre, int oriRow, int piecesFound, int spacesMoved ,ArrayList<ChessPiece> otherPieces) {
 		
 		if( (row < 0 || row > 7 ) || ( col < 0 || col > 7 ) ) {
@@ -896,7 +912,19 @@ public class ChessPiece
 	}
 
 	
-	
+	/**
+	 * This is a helper function that is called in checkSquare, recursively finds enemy pieces in the horizontal direction
+	 * PreCondition: checkSquare is called
+	 * Postcondition: any enemy pieces found have been added to arraylist OtherPieces
+	 * 
+	 * @param row, row of square to check
+	 * @param col, col of square to check
+	 * @param colIncre, how much to increment the col by
+	 * @param oriRow, the original row
+	 * @param piecesFound, how many pieces that have been found 
+	 * @param spacesMoved, applicable if the original square was the king
+	 * @param otherPieces, arraylist that stores attacking pieces
+	 */
 	public void checkPieceHorizontal(int row, int col, int colIncre, int oriCol,int piecesFound, int spacesMoved ,ArrayList<ChessPiece> otherPieces) {
 		
 		
@@ -970,7 +998,21 @@ public class ChessPiece
 		
 	}
 	
-	
+	/**
+	 * This is a helper function that is called in checkSquare, recursively finds enemy pieces in the diagonal direction
+	 * PreCondition: checkSquare is called
+	 * Postcondition: any enemy pieces found have been added to arraylist OtherPieces
+	 * 
+	 * @param row of square that is being checked
+	 * @param col of square that is being checked
+	 * @param rowIncre how much to increment the row for
+	 * @param colIncre how much to increment the col for
+	 * @param oriRow the original row that the recursive function started on
+	 * @param oriCol the original col that that recursive function started on
+	 * @param piecesFound how many pieces the function has found
+	 * @param spacesMoved important when the original row and column start on the king
+	 * @param otherPieces arraylist that enemy pieces are added to
+	 */
 	public void checkPieceDiagonals(int row, int col,int rowIncre, int colIncre, int oriRow, int oriCol,int piecesFound,int spacesMoved ,ArrayList<ChessPiece> otherPieces) {
 		
 		if( (row < 0 || row > 7 ) || ( col < 0 || col > 7 ) ) {
@@ -1072,7 +1114,14 @@ public class ChessPiece
 		return; 
 	}
 		
-	//FUCK YEAH IT WORKS
+	/**
+	 * This is a helper function that is called in checkSquare,  finds enemy horses
+	 * PreCondition: checkSquare is called
+	 * Postcondition: any enemy horses found have been added to arraylist OtherPieces 
+	 * @param row  to check
+	 * @param column to check
+	 * @return arraylist full of enemy horses
+	 */
 	public ArrayList<ChessPiece> checkHorseHelper(int row, int column) {
 		ArrayList<ChessPiece> EnemyPieces = new ArrayList<ChessPiece>();
 		if( (row +2 >= 0 && row +2 < 8 ) && ( column +1 >= 0 && column +1 < 8 )) {
@@ -1149,11 +1198,19 @@ public class ChessPiece
 		
 		return EnemyPieces;
 	}
-	
+	/**
+	 * sets a pieces visibility relative to other pieces
+	 * 
+	 * @param Visibility, true to set the piece to isVisible, false if the piece is invisible
+	 */
 	public void setVisibility(boolean Visibility) {
 		isVisible = Visibility;
 	}
 	
+	/**
+	 * 
+	 * @return the visibility of the piece, true if yes, false if no
+	 */
 	public boolean getVisibility() {
 		return isVisible;
 	}
@@ -1197,14 +1254,5 @@ public class ChessPiece
 			return false;
 		return true;
 	}
-	
-//** and overridden implementation of toString to check the ChessPiece
-	/*@Override
-	public String toString() {
-		return "ChessPiece [status=" + status + ", color=" + color + ", canCastleKing=" + canCastleKing
-				+ ", canCastleQueen=" + canCastleQueen + ", locations=" + locations + ", row=" + row + ", column="
-				+ column + ", image=" + image + ", width=" + width + ", height=" + height + "]";
-	}
-    */
 	
 }

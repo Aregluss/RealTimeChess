@@ -23,6 +23,11 @@ public class Square extends JPanel{// implements MouseListener{
 	private boolean movable;
 	private Image light;
 	
+	/**
+	 * Standard constructor for a square,
+	 * @param row, row of the square
+	 * @param column, column of the square
+	 */
 	public Square(int row, int column)
 	{
 		
@@ -44,7 +49,12 @@ public class Square extends JPanel{// implements MouseListener{
 		this.row = row;
 		this.column = column;
 	}
-	
+	/**
+	 * Constructor for square, useful for adding pieces to that square
+	 * @param row, of the square
+	 * @param column of the square
+	 * @param currentPiece the current piece on that square
+	 */
 	public Square(int row, int column, ChessPiece currentPiece) {
 		this.currentPiece = currentPiece;
 		lightOn = "none";
@@ -53,45 +63,80 @@ public class Square extends JPanel{// implements MouseListener{
 		this.column = column;
 	}
 	
+	/**
+	 * default constructor
+	 */
 	public Square() {
 		
 	}
 	
+	/**
+	 * 
+	 * @return row of square
+	 */
 	public int getRow()
 	{
 		return row;	
 	}
 	
+	/**
+	 * 
+	 * @return column of square
+	 */
 	public int getColumn()
 	{
 		return column;
 	}
 	
+	/**
+	 * 
+	 * @return chesspiece on square or null if empty
+	 */
 	public ChessPiece getCurrentPiece()
 	{
 		return currentPiece;
 	}
 	
+	/**
+	 * 
+	 * @return if the light is on or not (highlighting the square)
+	 */
 	public String checkLight()
 	{
 		return lightOn;
 	}
 
+	/**
+	 * ???
+	 * @return
+	 */
 	public boolean getMovable()
 	{
 		return movable;
 	}
 	
+	/**
+	 * 
+	 * @param r, row to set the square's row to
+	 */
 	public void setRow(int r)
 	{
 		row = r;	
 	}
 	
+	/**
+	 * 
+	 * @param c, row to set the square's column to
+	 */
 	public void setColumn(int c)
 	{
 		column = c;
 	}
 	
+	/**
+	 * 
+	 * @param c, chesspiece to set to square
+	 */
 	public void setCurrentPiece(ChessPiece c)
 	{
 		currentPiece = c;
