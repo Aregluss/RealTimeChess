@@ -145,10 +145,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						else
 						{
 							if(initalPress == 1 && GameBoard.Board[row][col].getCurrentPiece().offCoolDown)
- +							{
- +								System.out.println("initalpress1");
- +								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
- +							}
+ 							{
+ 								System.out.println("initalpress1");
+ 								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+ 							}
  							if(GameBoard.Board[row][col].getCurrentPiece() == null)
   							{
   								initalPress = 0;
