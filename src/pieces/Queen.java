@@ -11,12 +11,24 @@ public class Queen extends ChessPiece{
 
 	public Queen(int row, int column, boolean color){
 		super(row, column, color);
-		try {
-			image = ImageIO.read(new File("queen.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		if(color)
+			try {
+				image = ImageIO.read(new File("whiteQueen.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+		{
+			try {
+				image = ImageIO.read(new File("blackQueen.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 	}
 	
 	@Override

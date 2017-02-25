@@ -19,11 +19,22 @@ public class King extends ChessPiece{
 		isChecked = false;
 		canCastleKing = true;
 		canCastleQueen = true;
-		try {
-			image = ImageIO.read(new File("King.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		if(color)
+			try {
+				image = ImageIO.read(new File("whiteKing.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+		{
+			try {
+				image = ImageIO.read(new File("blackKing.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}

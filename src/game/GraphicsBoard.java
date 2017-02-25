@@ -34,7 +34,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		
 		try
 		{
-			background = ImageIO.read(new File("board.png"));
+			background = ImageIO.read(new File("Board.jpg"));
 		}
 		catch(IOException e)
 		{

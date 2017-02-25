@@ -30,16 +30,7 @@ public class Square extends JPanel{// implements MouseListener{
 	 */
 	public Square(int row, int column)
 	{
-		
-		try
-		{
-			light = ImageIO.read(new File("Rook.jpg"));
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		
+		//light
 		
 		currentPiece = null;
 		lightOn = "none";

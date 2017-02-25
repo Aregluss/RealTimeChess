@@ -18,11 +18,22 @@ public class Pawn extends ChessPiece{
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
-		try {
-			image = ImageIO.read(new File("Pawn.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		if(color)
+			try {
+				image = ImageIO.read(new File("whitePawn.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+		{
+			try {
+				image = ImageIO.read(new File("blackPawn.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
