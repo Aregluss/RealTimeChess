@@ -95,17 +95,26 @@ public class GraphicsBoard extends JPanel implements MouseListener
 
 				if(GameBoard.Board[y/80][x/80].getCurrentPiece() != null || initalPress == 1)
 				{
-					//Graphics g = graphBoard.getGraphics();
-					//Graphics2D g2 = (Graphics2D) g;
-					System.out.print("inital press: ");
+										System.out.print("inital press: ");
 					System.out.println(initalPress);
-					boolean offCoolDown = (initalPress == 0 && GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown);
+					//boolean offCoolDown = (initalPress == 0 && GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown);
 					System.out.print("OffCoolDown: ");
-					System.out.println(offCoolDown);
-					if (GameBoard.Board[y/80][x/80].getCurrentPiece() != null && GameBoard.Board[y/80][x/80].getCurrentPiece().hasMoved == true)
+					//System.out.println(offCoolDown);
+					if (GameBoard.Board[y/80][x/80].getCurrentPiece() != null)
 					{
-						GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown = (GameBoard.Board[y/80][x/80].getCurrentPiece().time_limit < GameBoard.Board[y/80][x/80].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[y/80][x/80].getCurrentPiece().time);
+						if(GameBoard.Board[y/80][x/80].getCurrentPiece().hasMoved = true)
+						{
+							if(GameBoard.Board[y/80][x/80].getCurrentPiece().time_limit <= GameBoard.Board[y/80][x/80].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[y/80][x/80].getCurrentPiece().time)
+							{	
+								GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown = true;
+								//offCoolDown = GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown;
+							}
+						}
+						//System.out.print("Piece CoolDown: ");
+						//System.out.println(GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown );
 					}
+					boolean offCoolDown = (initalPress == 0 && GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown);
+					System.out.println(offCoolDown);
 					if(initalPress == 0 && offCoolDown)
 					{	
 						row = y/80;
