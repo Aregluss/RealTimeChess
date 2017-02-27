@@ -321,10 +321,11 @@ public class ChessPiece
 		for( Square piece :GameBoard.Player2.pieces) {
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().locations.clear();
 		}
-		this.getMoveLocations();
+		
 
 		if( ((King)this).attacking.size() > 1 ) {
 			GameBoard.gameState = 2;
+			this.getMoveLocations();
 			if(this.checkmate(0)) {
 				//Games over
 				System.out.println("GAME IS OVER");
@@ -357,6 +358,7 @@ public class ChessPiece
 		}
 					
 		GameBoard.gameState = 2;
+		this.getMoveLocations();
 		GameBoard.Board[attacker.row][attacker.column].getCurrentPiece().setVisibility(true);
 		if(this.checkmate(1)) {
 			//Games over
