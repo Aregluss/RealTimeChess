@@ -45,13 +45,14 @@ public class Pawn extends ChessPiece{
 		sethasMoved(true);
 		
 		if(color == true) {
-			if(row == 0) {
+			if(row == 0 && this.row == 0) {
 				promote(choosePromotion());
+				
 			}
 		}
 		
 		if(color == false) {
-			if(row == 7) {
+			if(row == 7 && this.row == 7) {
 				promote(choosePromotion());
 			}
 		}
@@ -231,6 +232,15 @@ public class Pawn extends ChessPiece{
 		}
 		if(promotionPiece.equals("rook")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
+		}
+		if(color){
+			//update piece for player
+			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
+			GameBoard.Player1.pieces.add(new Square(row,column,this));
+		}
+		else {
+			GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
+			GameBoard.Player2.pieces.add(new Square(row,column,this));
 		}
 	}
 	

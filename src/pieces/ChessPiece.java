@@ -1,14 +1,37 @@
 package pieces;
 
 import game.*;
-import game.Timer;
 import pieces.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.*;
 import java.math.*;
+import java.awt.image.BufferedImage;
+import javax.swing.Timer;
 
+//Cooldown shit 
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /** This is the class that every piece inherits from
  * @author Alexander Ngo, Isaac Fu
@@ -21,7 +44,7 @@ Highlight location with Square
 */
 
 
-public class ChessPiece
+public class ChessPiece// extends JPanel
 {	
 	public boolean checkMove = true;
 	public boolean status = true;
@@ -33,12 +56,20 @@ public class ChessPiece
 	public ArrayList<Square> dangerSpots = new ArrayList<Square>();
 	public boolean isVisible = true;
 	public int row, column;
-	Image image;
+	BufferedImage image;
 	public boolean offCoolDown = true;
 	public long time, time_limit = 3000;
-	public Timer A_Clock = new Timer();
+	public TimerClock A_Clock = new TimerClock();
 	private int width, height;
 	public String name;
+	
+	//CoolDown Variables
+    //private BufferedImage background;
+    public float progress = 0;
+    public long startedAt;
+    public int timeout = 3000; //3 seconds
+
+    public Timer timer; //lol
 	
 	/**
 	 * Generic constructor to initialize piece on top on the Graphics and GameBoard 
@@ -75,9 +106,23 @@ public class ChessPiece
 	 * */
 	//TODO update the player board accordingly after castling
 	public void CastleMove(int row, int column){
+		if(color){
+			//update piece for player
+			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
+		}
+		else {
+			GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
+		}
 		GameBoard.Board[row][column].setCurrentPiece(this);
 		this.row = row;
 		this.column = column;
+		if(color){
+			//add piece for player
+			GameBoard.Player1.pieces.add(new Square(row,column,this));
+		}
+		else {
+			GameBoard.Player2.pieces.add(new Square(row,column,this));
+		}
 		hasMoved = true;
 	}
 	
@@ -295,8 +340,97 @@ public class ChessPiece
 	/** draw method draws the image associated with the piece*/
 	public void draw(Graphics g)
 	{
-		g.drawImage(image, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
+		AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f);
+		
+		Graphics2D g2d = (Graphics2D)g;
+		
+		
+		
+		
+		g2d.drawImage(image, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 	}
+	
+	public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setProgress(float progress) {
+        this.progress = progress;
+        //repaint();
+    }
+
+    public float getProgress() {
+        return progress;
+    }
+
+    public void executeTimeout(Graphics g) {
+        if (timer == null) {
+            timer = new Timer(0, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    long diff = A_Clock.return_milli_time() - startedAt;
+                    float progress = diff / (float) timeout;
+                    CoolDownAnimation(g);
+                    if (diff >= timeout) {
+                        progress = 1f;
+                        timer.stop();
+                    }
+                    setProgress(progress);
+                    
+                }
+            });
+        } else if (timer.isRunning()) {
+            timer.stop();
+        }
+
+        startedAt = A_Clock.return_milli_time();
+        timer.start();
+    }
+
+    public Dimension getPreferredSize() {
+    	double x = image.getWidth() * 0.1;
+    	double y = image.getHeight() * 0.1;
+    	
+    	int intx = (int) x;
+    	int inty = (int) y;
+        return image == null ? new Dimension(200, 200) : new Dimension(intx, inty);
+    }
+
+    public void CoolDownAnimation(Graphics g) {
+        //super.CoolDownAnimation(g);
+        if (image != null) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            //applyQualityRenderingHints(g2d);
+            //int xloc = x; 
+            //int yloc = y;
+            //g2d.drawImage(image , (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
+
+            //g2d.setComposite(AlphaComposite.SrcOver.derive(0.5f));
+            //g2d.setColor(Color.BLACK);
+
+            int radius = Math.max((int) (height), (int) (width)) / 2;
+
+            g2d.fillArc((int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), 90, (int) (360f * (1f - progress)));
+
+            g2d.dispose();
+        }
+    }
+
+    public void applyQualityRenderingHints(Graphics2D g2d) {
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+    }
+
 	
 	/**
 	 * Precondition an enemy piece has moved and is now capable of attacking the king, gameState has changed in checkResolution
@@ -809,10 +943,10 @@ public class ChessPiece
 		checkPieceVertical(row, column, 1, row , 0, 0 ,otherPieces);
 		checkPieceVertical(row, column, -1, row , 0, 0 ,otherPieces);
 
-		checkPieceDiagonals(row, column, 1,  1,  row,  column, 0, 0 , otherPieces);
-		checkPieceDiagonals(row, column, -1,  1,  row,  column, 0, 0 , otherPieces);
-		checkPieceDiagonals(row, column, 1,  -1,  row,  column, 0, 0 , otherPieces);
-		checkPieceDiagonals(row, column, -1,  -1,  row,  column, 0, 0 , otherPieces);
+		checkPieceDiagonals(row, column, 1,  1,  row,  column, 0, 0 , otherPieces,null);
+		checkPieceDiagonals(row, column, -1,  1,  row,  column, 0, 0 , otherPieces,null);
+		checkPieceDiagonals(row, column, 1,  -1,  row,  column, 0, 0 , otherPieces,null);
+		checkPieceDiagonals(row, column, -1,  -1,  row,  column, 0, 0 , otherPieces,null);
 		
 		if(color == true) {
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking = otherPieces;
@@ -1022,7 +1156,7 @@ public class ChessPiece
 	 * @param spacesMoved important when the original row and column start on the king
 	 * @param otherPieces arraylist that enemy pieces are added to
 	 */
-	public void checkPieceDiagonals(int row, int col,int rowIncre, int colIncre, int oriRow, int oriCol,int piecesFound,int spacesMoved ,ArrayList<ChessPiece> otherPieces) {
+	public void checkPieceDiagonals(int row, int col,int rowIncre, int colIncre, int oriRow, int oriCol,int piecesFound,int spacesMoved ,ArrayList<ChessPiece> otherPieces, ChessPiece found) {
 		
 		if( (row < 0 || row > 7 ) || ( col < 0 || col > 7 ) ) {
 			return;
@@ -1048,6 +1182,7 @@ public class ChessPiece
 					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {
 				if( (Math.hypot((this.row-row), (this.column-col))) == Math.sqrt(2.0) && piecesFound < 1 && spacesMoved != 1 && oriCol == col && oriRow == row) {
 					piecesFound++;
+					found = GameBoard.Board[row][col].getCurrentPiece();
 					if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Bishop 
 							|| GameBoard.Board[row][col].getCurrentPiece() instanceof King)) {
 						//King is in check
@@ -1069,11 +1204,13 @@ public class ChessPiece
 				
 				else if((Math.hypot((this.row-row), (this.column-col))) == 1.0 && piecesFound < 1 && spacesMoved != 1 && oriCol == col && oriRow == row) {
 					piecesFound++;
+					found = GameBoard.Board[row][col].getCurrentPiece();
 				}
 
 				
 				else if( (Math.hypot((oriRow-row), (oriCol-col))) == Math.sqrt(2.0) && piecesFound < 1 ) {
 						piecesFound++;
+						found = GameBoard.Board[row][col].getCurrentPiece();
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Bishop 
 								|| GameBoard.Board[row][col].getCurrentPiece() instanceof King)) {
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
@@ -1113,13 +1250,27 @@ public class ChessPiece
 					if(piecesFound == 1) {
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Bishop)) {
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
-
+							
+						}
+						if(GameBoard.Board[row][col].getCurrentPiece() instanceof Pawn) {
+							if(color){
+								//row ++
+								if( (found.row == row + 1 && found.column == col -1) || (found.row == row + 1 && found.column == col + 1)) {
+									otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
+								}
+							}
+							//row --
+							else {
+								if( (found.row == row - 1 && found.column == col -1) || (found.row == row - 1 && found.column == col + 1)) {
+									otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
+								}
+							}
 						}
 					}
 				}
 			}
 		}
-		checkPieceDiagonals(row+rowIncre, col+colIncre, rowIncre ,colIncre,oriRow, oriCol, piecesFound, spacesMoved ,otherPieces);
+		checkPieceDiagonals(row+rowIncre, col+colIncre, rowIncre ,colIncre,oriRow, oriCol, piecesFound, spacesMoved ,otherPieces, found);
 		return; 
 	}
 		
