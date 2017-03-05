@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import game.*;
 public class King extends ChessPiece{
@@ -21,21 +22,10 @@ public class King extends ChessPiece{
 		canCastleQueen = true;
 		
 		if(color)
-			try {
-				image = ImageIO.read(new File("whiteKing.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = new ImageIcon("whiteKing.png").getImage();
 		else
-		{
-			try {
-				image = ImageIO.read(new File("blackKing.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			image = new ImageIcon("blackKing.png").getImage();
+		
 		
 	}
 	@Override

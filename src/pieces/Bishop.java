@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import game.GameBoard;
 
@@ -16,22 +17,11 @@ public class Bishop extends ChessPiece{
 	public Bishop(int row, int column, boolean color) {
 		super(row, column, color);
 		// TODO Auto-generated constructor stub
+	
 		if(color)
-			try {
-				image = ImageIO.read(new File("whiteBishop.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = new ImageIcon("whiteBishop.png").getImage();
 		else
-		{
-			try {
-				image = ImageIO.read(new File("blackBishop.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			image = new ImageIcon("blackBishop.png").getImage();
 		
 	}
 

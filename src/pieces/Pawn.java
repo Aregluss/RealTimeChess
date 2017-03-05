@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import game.GameBoard;
 import pieces.Square;
@@ -18,23 +19,13 @@ public class Pawn extends ChessPiece{
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
+	
 		
 		if(color)
-			try {
-				image = ImageIO.read(new File("whitePawn.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = new ImageIcon("whitePawn.png").getImage();
 		else
-		{
-			try {
-				image = ImageIO.read(new File("blackPawn.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			image = new ImageIcon("blackPawn.png").getImage();
+
 	}
 
 

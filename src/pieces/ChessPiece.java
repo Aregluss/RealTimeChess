@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -34,7 +35,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /** This is the class that every piece inherits from
- * @author Alexander Ngo, Isaac Fu
+ * @author Alexander Ngo 60%, -Isaac Fu- 34.5%, Areg Nersisyan 5%, David Sun 0.5%
  *
  */
 
@@ -56,7 +57,7 @@ public class ChessPiece// extends JPanel
 	public ArrayList<Square> dangerSpots = new ArrayList<Square>();
 	public boolean isVisible = true;
 	public int row, column;
-	BufferedImage image;
+	Image image;
 	public boolean offCoolDown = true;
 	public long time, time_limit = 3000;
 	public TimerClock A_Clock = new TimerClock();
@@ -340,12 +341,13 @@ public class ChessPiece// extends JPanel
 	/** draw method draws the image associated with the piece*/
 	public void draw(Graphics g)
 	{
-		AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f);
+		BufferedImage bi = new BufferedImage(400, 300, BufferedImage.TYPE_INT_ARGB);
+       // Graphics2D g2d = bi.createGraphics();
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
 		
-		
+        //g2d.drawImage(image, 0, 0, null);
 		
 		g2d.drawImage(image, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 	}
@@ -391,14 +393,14 @@ public class ChessPiece// extends JPanel
         timer.start();
     }
 
-    public Dimension getPreferredSize() {
+ /*   public Dimension getPreferredSize() {
     	double x = image.getWidth() * 0.1;
     	double y = image.getHeight() * 0.1;
     	
     	int intx = (int) x;
     	int inty = (int) y;
         return image == null ? new Dimension(200, 200) : new Dimension(intx, inty);
-    }
+    }*/
 
     public void CoolDownAnimation(Graphics g) {
         //super.CoolDownAnimation(g);
