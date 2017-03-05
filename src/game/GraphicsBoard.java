@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -14,7 +16,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import pieces.Square; //remove later
-
+import pieces.ChessPiece;
+import game.TimerClock;
+import javax.swing.Timer;
 
 public class GraphicsBoard extends JPanel implements MouseListener
 {
@@ -109,7 +113,13 @@ public class GraphicsBoard extends JPanel implements MouseListener
 					if (GameBoard.Board[y/80][x/80].getCurrentPiece() != null)
 					{
 						GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown = (GameBoard.Board[y/80][x/80].getCurrentPiece().time_limit < GameBoard.Board[y/80][x/80].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[y/80][x/80].getCurrentPiece().time);
+						offCoolDown = (initalPress == 0 && GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown);
+						if(GameBoard.Board[y/80][x/80].getCurrentPiece().hasMoved == false)
+						{
+							offCoolDown = (initalPress == 0);
+						}
 					}
+					
 					if(initalPress == 0 && offCoolDown)
 					{	
 						row = y/80;
@@ -148,7 +158,21 @@ public class GraphicsBoard extends JPanel implements MouseListener
  							{
  								System.out.println("initalpress1");
  								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+ 								//GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout();
+ 								//GameBoard.Board[row1][col1].getCurrentPiece().
+ 								//Rectangle a = new Rectangle(col * 80, row * 80, (col+1) * 80, (row+1)*80);
+								//Rectangle b = new Rectangle(col1 * 80, row1 * 80, (col1+1) * 80, (row1+1)*80);
+								Graphics g = getGraphics();
+								if(GameBoard.Board[row1][col1].getCurrentPiece() != null && GameBoard.Board[row][col].getCurrentPiece() == null)
+								{
+									GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout(g);
+								}
+								//executeTimeout(g, GameBoard.Board[row1][col1].getCurrentPiece(), row1, col1);
+								//GameBoard.Board[row1][col1].getCurrentPiece().CoolDownAnimation(g, row1, col1);
+								//repaint(a);
+								//repaint(b);
  							}
+ 								
  							if(GameBoard.Board[row][col].getCurrentPiece() == null)
   							{
   								initalPress = 0;
@@ -178,5 +202,31 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		// TODO Auto-generated method stub
 		
 	}
+	
+    /*public void executeTimeout(Graphics g, ChessPiece piece, int row1, int col1) {
+        if (piece.timer == null) {
+            piece.timer = new Timer(0, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    long diff =  System.currentTimeMillis() - piece.startedAt;
+                    float progress = diff / (float) piece.timeout;
+                    piece.CoolDownAnimation(g);
+                    if (diff >= piece.timeout) {
+                        progress = 1f;
+                        piece.timer.stop();
+                    }
+                    piece.setProgress(progress);
+                    Rectangle b = new Rectangle(col1 * 80, row1 * 80, ((col1)+1 * 80), ((row1)+1*80));
+                    repaint(b);
+                    
+                }
+            });
+        } else if (piece.timer.isRunning()) {
+            piece.timer.stop();
+        }
+
+        piece.startedAt = System.currentTimeMillis();
+        piece.timer.start();
+    }*/
 	
 }

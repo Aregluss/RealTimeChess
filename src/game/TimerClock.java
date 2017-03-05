@@ -2,7 +2,7 @@ package game;
 
 import java.time.Clock;
 
-public class Timer{ 
+public class TimerClock{ 
 	private static Clock clock = Clock.systemDefaultZone();
 	private long startTime = clock.millis();
 	
