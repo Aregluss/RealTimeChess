@@ -85,7 +85,7 @@ public class ChessPiece// extends JPanel
 		this.color = color;
 		width = GraphicsBoard.WIDTH/8;
 		height = GraphicsBoard.HEIGHT/8;
-		 
+		
 	}; 
 	
 	/**  returns if the the piece has moved before, useful for Castling and Pawns
@@ -341,13 +341,9 @@ public class ChessPiece// extends JPanel
 	/** draw method draws the image associated with the piece*/
 	public void draw(Graphics g)
 	{
-		BufferedImage bi = new BufferedImage(400, 300, BufferedImage.TYPE_INT_ARGB);
-       // Graphics2D g2d = bi.createGraphics();
+//		BufferedImage bi = new BufferedImage(400, 300, BufferedImage.TYPE_INT_ARGB);
 		
 		Graphics2D g2d = (Graphics2D)g;
-		
-		
-        //g2d.drawImage(image, 0, 0, null);
 		
 		g2d.drawImage(image, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 	}
@@ -412,13 +408,15 @@ public class ChessPiece// extends JPanel
             //g2d.drawImage(image , (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 
             //g2d.setComposite(AlphaComposite.SrcOver.derive(0.5f));
-            //g2d.setColor(Color.BLACK);
+         //   g2d.setColor(Color.CYAN);
 
             int radius = Math.max((int) (height), (int) (width)) / 2;
 
             g2d.fillArc((int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), 90, (int) (360f * (1f - progress)));
-
+           // g2d.fillArc(x, y, radius, radius, startAngle, arcAngle);
+            //g2d.clearRect((int)(width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8));
             g2d.dispose();
+       
         }
     }
 

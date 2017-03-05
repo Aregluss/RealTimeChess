@@ -23,8 +23,8 @@ import javax.swing.Timer;
 public class GraphicsBoard extends JPanel implements MouseListener
 {
 
-	public static final int WIDTH = 640;
-	public static final int HEIGHT = 640;
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 800;
 	
 	//public static final int REALWIDTH = 800;
 	//public static final int REALHEIGHT = 600;
@@ -60,6 +60,15 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		g2.drawImage(background, 0, 0, WIDTH, HEIGHT, this);
 	}	
 	
+	public int getW()
+	{
+		return getWidth();
+	}
+
+	public int getH()
+	{
+		return getHeight();
+	}
 	/**Getter for the backround image
 	 * 
 	 * @return the background
@@ -93,8 +102,11 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		//double dy = y * (Map.REALHEIGHT + 0.0) / map.getHeight();
 		
 		System.out.println("x & y = " +x +" & "+y);
-		if(x <= WIDTH && y <= HEIGHT)
+		if(x < WIDTH && y < HEIGHT)
 		{
+			int yx = y/(HEIGHT/8);
+			int xx = x/(WIDTH/8);
+			
 			if(e.getButton() == MouseEvent.BUTTON3)
 			{
 				System.out.println("LEFT");
@@ -102,19 +114,19 @@ public class GraphicsBoard extends JPanel implements MouseListener
 			}
 			else if(e.getButton() == MouseEvent.BUTTON1)
 			{
-
-				if(GameBoard.Board[y/80][x/80].getCurrentPiece() != null || initalPress == 1)
+				
+				if(GameBoard.Board[yx][xx].getCurrentPiece() != null || initalPress == 1)
 				{
 					System.out.print("inital press: ");
 					System.out.println(initalPress);
-					boolean offCoolDown = (initalPress == 0 && GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown);
+					boolean offCoolDown = (initalPress == 0 && GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown);
 					System.out.print("OffCoolDown: ");
 					System.out.println(offCoolDown);
-					if (GameBoard.Board[y/80][x/80].getCurrentPiece() != null)
+					if (GameBoard.Board[yx][xx].getCurrentPiece() != null)
 					{
-						GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown = (GameBoard.Board[y/80][x/80].getCurrentPiece().time_limit < GameBoard.Board[y/80][x/80].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[y/80][x/80].getCurrentPiece().time);
-						offCoolDown = (initalPress == 0 && GameBoard.Board[y/80][x/80].getCurrentPiece().offCoolDown);
-						if(GameBoard.Board[y/80][x/80].getCurrentPiece().hasMoved == false)
+						GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown = (GameBoard.Board[yx][xx].getCurrentPiece().time_limit < GameBoard.Board[yx][xx].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[yx][xx].getCurrentPiece().time);
+						offCoolDown = (initalPress == 0 && GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown);
+						if(GameBoard.Board[yx][xx].getCurrentPiece().hasMoved == false)
 						{
 							offCoolDown = (initalPress == 0);
 						}
@@ -122,8 +134,8 @@ public class GraphicsBoard extends JPanel implements MouseListener
 					
 					if(initalPress == 0 && offCoolDown)
 					{	
-						row = y/80;
-						col = x/80;
+						row = yx;
+						col = xx;
 						initalPress++;
 						System.out.println("IM SELECTED " + GameBoard.Board[row][col].getCurrentPiece());
 						if(GameBoard.gameState == 2) {
@@ -145,8 +157,8 @@ public class GraphicsBoard extends JPanel implements MouseListener
 					{
 						
 						System.out.println("R&C:" +row +" " +col);
-						row1 = y/80;
-						col1 = x/80;
+						row1 = yx;
+						col1 = xx;
 						if(row == row1 && col == col1)
 						{
 							initalPress = 0;
@@ -183,7 +195,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 				}
 			}
 		}
-		 repaint(); //Redraws board to update images being moved
+		repaint();
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -202,6 +214,8 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		// TODO Auto-generated method stub
 		
 	}
+
+
 	
     /*public void executeTimeout(Graphics g, ChessPiece piece, int row1, int col1) {
         if (piece.timer == null) {
