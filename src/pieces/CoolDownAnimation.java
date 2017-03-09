@@ -25,16 +25,24 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import java.util.*; //new timer?
+
 //import javax.swing.Timer;
 //import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import game.TimerClock;
 import pieces.ChessPiece;
 
-public class CoolDownAnimation extends JPanel{
+public class CoolDownAnimation extends JPanel {
 	
 	//CoolDown Variables
     //private BufferedImage background;
@@ -44,14 +52,15 @@ public class CoolDownAnimation extends JPanel{
     private long startedAt;
     private int timeout = 3000; //3 seconds
     private int width, height, column, row;
-
+    private ScheduledExecutorService ex = Executors.newSingleThreadScheduledExecutor();
+    ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
     //public Timer timer; //lol
     
     public Timer timer;
      
 	public CoolDownAnimation(ChessPiece A_Piece)
 	{
-		A_Clock = A_Piece.A_Clock;
+		A_Clock = ChessPiece.A_Clock;
 		width = A_Piece.width;
 		height = A_Piece.height;
 		column = A_Piece.column;
@@ -78,23 +87,23 @@ public class CoolDownAnimation extends JPanel{
 
     public void executeTimeout(Graphics g) {
         if (timer == null) {
-            timer = new Timer(0, new ActionListener() {
+            timer = new Timer(0, new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e) {
                 	boolean wasPaused = false;
-                	if(A_Clock.get_isPaused())
+                	/*if(A_Clock.get_isPaused())
                 	{
-                		long now = A_Clock.return_milli_time();
-                		//long diff = now - startedAt;
-                		timer.stop();
-                		wasPaused = true;
+                		while(A_Clock.get_isPaused())
+                		{
+                			//timer.setDelay(1);
+                		}
                 	}
                 	else if(timer != null && !A_Clock.get_isPaused() && wasPaused)
                 	{
                 		executeTimeout(g);
                 		timer.start();
                 		wasPaused = false;
-                	}
+                	}*/
                 	
                     long diff = A_Clock.return_milli_time() - startedAt;
                     float progress = diff / (float) timeout;
@@ -115,6 +124,10 @@ public class CoolDownAnimation extends JPanel{
         startedAt = A_Clock.return_milli_time();
         timer.start();
     }
+
+
+        //startedAt = A_Clock.return_milli_time();
+    
 
     public void CoolDownAnimation(Graphics g) {
         //super.CoolDownAnimation(g);
@@ -137,7 +150,31 @@ public class CoolDownAnimation extends JPanel{
             g2d.dispose();
        
     }
+    /*public void CoolDown(Graphics g) {
+        //super.CoolDownAnimation(g);
+    	startedAt = A_Clock.return_milli_time();
+    	final Runnable drawer = new Runnable() {
+    	       public void run() {
+            Graphics2D g2d = (Graphics2D) g.create();
+            //int radius = Math.max((int) (height), (int) (width)) / 2;
 
+            g2d.fillArc((int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), 90, (int) (360f * (1f - progress)));
+            g2d.dispose();}
+    	};
+    	final ScheduledFuture<?> drawerHandle = scheduledExecutorService.scheduleAtFixedRate(drawer, 10, 10, TimeUnit.MILLISECONDS);
+    	scheduledExecutorService.schedule(new Runnable() {
+    		       public void run() { 
+    		    	   long diff = A_Clock.return_milli_time() - startedAt;
+                       float progress = diff / (float) timeout;
+                       //CoolDownAnimation(g);
+                       if (diff >= timeout) {
+                           progress = 1f;
+                           timer.stop();
+                       }
+    		    	   drawerHandle.cancel(true); setProgress(progress); }
+    		     }, 3000, TimeUnit.MILLISECONDS);
+    }*/
+    
     public void applyQualityRenderingHints(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
