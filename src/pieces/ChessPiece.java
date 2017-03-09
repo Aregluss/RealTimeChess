@@ -397,8 +397,8 @@ public class ChessPiece// extends JPanel
 		}
 					
 		GameBoard.gameState = 2;
-		this.getMoveLocations();
 		GameBoard.Board[attacker.row][attacker.column].getCurrentPiece().setVisibility(true);
+		this.getMoveLocations();
 		if(this.checkmate(1)) {
 			//Games over
 			System.out.println("GAME IS OVER");
@@ -886,7 +886,6 @@ public class ChessPiece// extends JPanel
 	 * @param otherPieces, arraylist that stores attacking pieces
 	 */
 	public void checkPieceVertical(int row, int col, int rowIncre, int oriRow, int piecesFound, int spacesMoved ,ArrayList<ChessPiece> otherPieces) {
-		
 		if( (row < 0 || row > 7 ) || ( col < 0 || col > 7 ) ) {
 			return;
 		}
@@ -934,6 +933,7 @@ public class ChessPiece// extends JPanel
 				else {
 					if(piecesFound == 0) {
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
+							System.out.println(" hello!s "+GameBoard.Board[row][col].getCurrentPiece());
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
 							return;
 						}
