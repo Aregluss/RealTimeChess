@@ -28,6 +28,7 @@ public class King extends ChessPiece{
 		
 		
 	}
+	
 	@Override
 	public void move(int row, int column) {
 		

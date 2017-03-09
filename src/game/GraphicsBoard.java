@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import pieces.Square; //remove later
 import pieces.ChessPiece;
+import pieces.CoolDownAnimation;
 import game.TimerClock;
 import javax.swing.Timer;
 
@@ -125,7 +126,8 @@ public class GraphicsBoard extends JPanel implements MouseListener
 					if (GameBoard.Board[yx][xx].getCurrentPiece() != null)
 					{
 						GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown = (GameBoard.Board[yx][xx].getCurrentPiece().time_limit < GameBoard.Board[yx][xx].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[yx][xx].getCurrentPiece().time);
-						offCoolDown = (initalPress == 0 && GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown);
+						GameBoard.Board[yx][xx].getCurrentPiece();
+						offCoolDown = (initalPress == 0 && (GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown) || ChessPiece.A_Clock.get_isPaused());
 						if(GameBoard.Board[yx][xx].getCurrentPiece().hasMoved == false)
 						{
 							offCoolDown = (initalPress == 0);
@@ -159,6 +161,8 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						System.out.println("R&C:" +row +" " +col);
 						row1 = yx;
 						col1 = xx;
+						//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
+						//System.out.println(GameBoard.Board[row][col].getCurrentPiece().hasMoved);
 						if(row == row1 && col == col1)
 						{
 							initalPress = 0;
@@ -166,10 +170,14 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						}
 						else
 						{
-							if(initalPress == 1 && GameBoard.Board[row][col].getCurrentPiece().offCoolDown)
+							boolean paused = ChessPiece.A_Clock.get_isPaused();
+							System.out.println(paused);
+							if(initalPress == 1 && (GameBoard.Board[row][col].getCurrentPiece().offCoolDown || !GameBoard.Board[row][col].getCurrentPiece().hasMoved || ChessPiece.A_Clock.get_isPaused()))
  							{
  								System.out.println("initalpress1");
  								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+ 								
+ 								//GameBoard.Board[row1][col1].getCurrentPiece().hasMoved = true;
  								//GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout();
  								//GameBoard.Board[row1][col1].getCurrentPiece().
  								//Rectangle a = new Rectangle(col * 80, row * 80, (col+1) * 80, (row+1)*80);
@@ -177,7 +185,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 								Graphics g = getGraphics();
 								if(GameBoard.Board[row1][col1].getCurrentPiece() != null && GameBoard.Board[row][col].getCurrentPiece() == null)
 								{
-									GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout(g);
+									new CoolDownAnimation(GameBoard.Board[row1][col1].getCurrentPiece()).executeTimeout(g);
 								}
 								//executeTimeout(g, GameBoard.Board[row1][col1].getCurrentPiece(), row1, col1);
 								//GameBoard.Board[row1][col1].getCurrentPiece().CoolDownAnimation(g, row1, col1);
@@ -189,7 +197,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
   							{
   								initalPress = 0;
  								System.out.println("This is moved");
- 							}
+ 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time_limit < GameBoard.Board[row1][col1].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[row1][col1].getCurrentPiece().time)
+ 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
+ 								System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().offCoolDown);
+  							}
 						}
 					}
 				}

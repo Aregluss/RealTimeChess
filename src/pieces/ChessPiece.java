@@ -3,36 +3,12 @@ package pieces;
 import game.*;
 import pieces.*;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.*;
 import java.math.*;
 import java.awt.image.BufferedImage;
 import javax.swing.Timer;
-
-//Cooldown shit 
-
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /** This is the class that every piece inherits from
  * @author Alexander Ngo 60%, -Isaac Fu- 34.5%, Areg Nersisyan 5%, David Sun 0.5%
@@ -60,17 +36,10 @@ public class ChessPiece// extends JPanel
 	Image image;
 	public boolean offCoolDown = true;
 	public long time, time_limit = 3000;
-	public TimerClock A_Clock = new TimerClock();
-	private int width, height;
+	public static TimerClock A_Clock = new TimerClock();
+	public int width, height;
 	public String name;
 	
-	//CoolDown Variables
-    //private BufferedImage background;
-    public float progress = 0;
-    public long startedAt;
-    public int timeout = 3000; //3 seconds
-
-    public Timer timer; //lol
 	
 	/**
 	 * Generic constructor to initialize piece on top on the Graphics and GameBoard 
@@ -101,6 +70,10 @@ public class ChessPiece// extends JPanel
 		hasMoved = setter;
 	}
 	
+	public void setoffCoolDown(boolean setter)
+	{
+		offCoolDown = setter;
+	}
 	/** Only invoked when the king initiates a Castle, special move function 
 	 * @param row row to move the king to 
 	 * @param col column to move the king to
@@ -146,7 +119,7 @@ public class ChessPiece// extends JPanel
 		}
     
 		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
-		if(canMove && (hasMoved == false || offCoolDown))	{
+		if(canMove)	{
 			offCoolDown = false;
 			time = A_Clock.return_milli_time();
 			if(GameBoard.Board[this.row][this.column].getCurrentPiece() instanceof King) {
@@ -188,7 +161,7 @@ public class ChessPiece// extends JPanel
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			this.row = row;
 			this.column = column;
-			this.sethasMoved(true);
+			hasMoved = true;
 			
 			if(color){
 				//add piece for player
@@ -212,6 +185,8 @@ public class ChessPiece// extends JPanel
 				if ( GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
 					checkKing(false);
 					if( ( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked == true) {
+						A_Clock.pause();
+						//GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setoffCoolDown(true);
 						( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
 					}
 				}
@@ -220,6 +195,8 @@ public class ChessPiece// extends JPanel
 				if ( GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
 					checkKing(true);
 					if( ( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked == true) {
+						A_Clock.pause();
+						//GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setoffCoolDown(true);
 						( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
 					}
 				}
@@ -236,6 +213,7 @@ public class ChessPiece// extends JPanel
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).saviors.clear();
 				//unfreeze the game + enable enemy pieces 
 				System.out.println("CHECK RESOLVED!!");
+				A_Clock.continueTime();
 			}
 			
 		}
@@ -347,47 +325,7 @@ public class ChessPiece// extends JPanel
 		
 		g2d.drawImage(image, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 	}
-	
-	public void setTimeout(int timeout) {
-        this.timeout = timeout;
-    }
 
-    public int getTimeout() {
-        return timeout;
-    }
-
-    public void setProgress(float progress) {
-        this.progress = progress;
-        //repaint();
-    }
-
-    public float getProgress() {
-        return progress;
-    }
-
-    public void executeTimeout(Graphics g) {
-        if (timer == null) {
-            timer = new Timer(0, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    long diff = A_Clock.return_milli_time() - startedAt;
-                    float progress = diff / (float) timeout;
-                    CoolDownAnimation(g);
-                    if (diff >= timeout) {
-                        progress = 1f;
-                        timer.stop();
-                    }
-                    setProgress(progress);
-                    
-                }
-            });
-        } else if (timer.isRunning()) {
-            timer.stop();
-        }
-
-        startedAt = A_Clock.return_milli_time();
-        timer.start();
-    }
 
  /*   public Dimension getPreferredSize() {
     	double x = image.getWidth() * 0.1;
@@ -397,39 +335,6 @@ public class ChessPiece// extends JPanel
     	int inty = (int) y;
         return image == null ? new Dimension(200, 200) : new Dimension(intx, inty);
     }*/
-
-    public void CoolDownAnimation(Graphics g) {
-        //super.CoolDownAnimation(g);
-        if (image != null) {
-            Graphics2D g2d = (Graphics2D) g.create();
-            //applyQualityRenderingHints(g2d);
-            //int xloc = x; 
-            //int yloc = y;
-            //g2d.drawImage(image , (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
-
-            //g2d.setComposite(AlphaComposite.SrcOver.derive(0.5f));
-         //   g2d.setColor(Color.CYAN);
-
-            int radius = Math.max((int) (height), (int) (width)) / 2;
-
-            g2d.fillArc((int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), 90, (int) (360f * (1f - progress)));
-           // g2d.fillArc(x, y, radius, radius, startAngle, arcAngle);
-            //g2d.clearRect((int)(width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8));
-            g2d.dispose();
-       
-        }
-    }
-
-    public void applyQualityRenderingHints(Graphics2D g2d) {
-        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-    }
 
 	
 	/**
