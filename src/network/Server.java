@@ -21,10 +21,10 @@ public class Server implements Runnable{
 	private static GameBoard ChessGame;
 	public static boolean sent = false;
 	public volatile boolean truth = true;
-	public PrintWriter output1;
+	public static PrintWriter output1;
 	public BufferedReader input1;
 	int i =0;
-	String sending;
+	public static String sending;
 	public Server() throws IOException
 	  {
 	    if (!isRunning)
@@ -60,8 +60,8 @@ public class Server implements Runnable{
 	    try
 	      { 
 	    	while(truth){
-		    	send();
-		    	//receive();
+	    		System.out.println("wasting");
+	    		receive();	
 		    }
 
 	       }
@@ -71,18 +71,15 @@ public class Server implements Runnable{
 	   
 	  }
 	  
-	  public void send(){
+	  public static void send(){
 		 // System.out.println("In send stuff: " +);
-		  if(GraphicsBoard.isMoved() == true){
 			  	System.out.println("Before sending output!!!!!!");
 			  	sending = ("[" + Integer.toString(GraphicsBoard.y1) + ",");
 		        sending = sending.concat(Integer.toString(GraphicsBoard.x1) + ",");
 		        sending = sending.concat(Integer.toString(GraphicsBoard.y2) + ",");
 		        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + "]");
 		        output1.println(sending);
-		    	System.out.println("After sending output!!!!");
-	    		GraphicsBoard.setMoved(false);	 
-		  }
+		    	System.out.println("After sending output!!!!"); 
 	  }
 	  public void receive() throws IOException{
 			String temp_input;

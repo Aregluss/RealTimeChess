@@ -16,10 +16,10 @@ public class Client implements Runnable{
 	public Socket socket;
 	private static int port = 5555;
 	public static boolean sent = false;
-	public PrintWriter output1;
+	public static PrintWriter output1;
 	public BufferedReader input1;
 	public volatile boolean truth = true;
-	String sending;
+	public static String sending;
 	
 	public Client(String IPAddress) throws UnknownHostException, IOException{
 		IP = IPAddress;
@@ -46,18 +46,15 @@ public class Client implements Runnable{
 		}
 		System.out.println("client is done.");
 		}
-	public void send(){
+	public static void send(){
 		 // System.out.println("In send stuff: " +);
-		  if(GraphicsBoard.isMoved() == true){
 			  	System.out.println("Before sending output!!!!!!");
 			  	sending = ("[" + Integer.toString(GraphicsBoard.y1) + ",");
 		        sending = sending.concat(Integer.toString(GraphicsBoard.x1) + ",");
 		        sending = sending.concat(Integer.toString(GraphicsBoard.y2) + ",");
 		        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + "]");
 		        output1.println(sending);
-		    	System.out.println("After sending output!!!!");
-	    		GraphicsBoard.setMoved(false);	 
-		  }
+		    	System.out.println("After sending output!!!!");	 
 	  }
 	public void receive() throws IOException{
 

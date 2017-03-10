@@ -19,6 +19,8 @@ import pieces.Square; //remove later
 import pieces.ChessPiece;
 import pieces.CoolDownAnimation;
 import game.TimerClock;
+import network.*;
+
 import javax.swing.Timer;
 
 public class GraphicsBoard extends JPanel implements MouseListener
@@ -211,7 +213,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		 							{
 		 								System.out.println("initalpress1");
 		 								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
-		 								setMoved(true);
+		 								if(color==true)
+		 									Server.send();
+		 								if(color == false)
+		 									Client.send();
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().hasMoved = true;
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout();
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().
