@@ -87,14 +87,14 @@ public class King extends ChessPiece{
 		getmovelocationHelper(-1,-1);
 		
 		
- 		if(	(canCastleKing == true && isChecked == false) )	{
+ 		if(	(canCastleKing == true && isChecked == false && !checkSquare(row,column+2) ) )	{
  			if(	(GameBoard.Board[row][column+1].getCurrentPiece() == null) && (GameBoard.Board[row][column+2].getCurrentPiece() == null))
  				locations.add(new Square(row,column+2));
  			
  		}
  		
  		
- 		if( (canCastleQueen == true && isChecked == false ))	{
+ 		if( (canCastleQueen == true && isChecked == false && !checkSquare(row,column-2)))	{
  			if(	(GameBoard.Board[row][column-1].getCurrentPiece() == null) && (GameBoard.Board[row][column-2].getCurrentPiece() == null) 
  					&& (GameBoard.Board[row][column-3].getCurrentPiece() == null))
  				locations.add(new Square(row,column-2));
