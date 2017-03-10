@@ -150,6 +150,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						if(GameBoard.Board[row1][col1].getCurrentPiece() != null) {
 							GameBoard.Board[row1][col1].getCurrentPiece().unhighlightLocation(row1, col1);
 						}
+					}
 					else if(e.getButton() == MouseEvent.BUTTON1)
 					{
 						
@@ -254,6 +255,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 					}
 				}
 				repaint();
+				
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
