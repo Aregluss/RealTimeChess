@@ -122,7 +122,6 @@ public class GraphicsBoard extends JPanel implements MouseListener
 				int x = e.getX();
 				int y = e.getY();
 				//int initalPress = 0;
-
 				
 				//double dx = x * (Map.REALWIDTH + 0.0) / map.getWidth();
 				//double dy = y * (Map.REALHEIGHT + 0.0) / map.getHeight();
@@ -139,6 +138,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 					if(initalPress ==1){
 						x2 = xx;
 						y2 = yx;
+
 					}
 					if(e.getButton() == MouseEvent.BUTTON3)
 					{

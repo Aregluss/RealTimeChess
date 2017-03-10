@@ -1,10 +1,12 @@
 package menu;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -30,7 +33,7 @@ import network.*;
 
 /**It's the screen that game opens with, it contains links to server ,client and playing the game. 
  * 
- * @author Areg and Leon
+ * @author Areg
  *
  */
 public class StartScreen extends JPanel
@@ -46,7 +49,13 @@ public class StartScreen extends JPanel
 	
 	public StartScreen()
 	{
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+	//	setLayout(new BoxLayout(this, BoxLayout.));
+		setLayout(new BorderLayout());
+	    JPanel subPanel = new JPanel();
+
+	    //subPanel.add( new JButton( "1" ));
+		
+		//	add (save, BorderLayout.EAST);
 		ArrayList<JButton> buttons = new ArrayList<JButton>();
 		startGame = new JButton("Start");
 		host = new JButton("Host");
@@ -60,19 +69,49 @@ public class StartScreen extends JPanel
 		buttons.add(exit);
 		
 		for(JButton b: buttons){
-			b.setIcon(new ImageIcon("Logo.png"));
-			b.setFont(new Font("Britannic Bold", 0, 24));
-			b.setRolloverIcon(new ImageIcon("Logo2.png"));
-			add(b);
+			b.setIcon(new ImageIcon(new ImageIcon("golden.png").getImage().getScaledInstance(115, 100, Image.SCALE_DEFAULT)));
+			b.setFont(new Font("FUTURA BOLD", 0, 24));
+			b.setRolloverIcon(new ImageIcon(new ImageIcon("goldenH.png").getImage().getScaledInstance(115, 100, Image.SCALE_DEFAULT)));
+			subPanel.add(b);
 			b.addActionListener(new JButtonHandler());
-			b.setAlignmentX(Component.CENTER_ALIGNMENT);
-			b.setMinimumSize(new Dimension(500,500));
-			b.setMaximumSize(new Dimension(500,500));
-			b.setVerticalTextPosition(SwingConstants.BOTTOM);
+			b.setAlignmentX(Component.RIGHT_ALIGNMENT);
+			b.setMinimumSize(new Dimension(200,200));
+			b.setMaximumSize(new Dimension(400,300));
+			b.setVerticalTextPosition(SwingConstants.CENTER);
 		    b.setHorizontalTextPosition(SwingConstants.CENTER);
 		}
+
+		add(subPanel, BorderLayout.CENTER);
+		subPanel.setSize(new Dimension(250, 1000));
 		
-		//setIcon(newjavax.swing.ImageIcon(getClass().getResource ("white.png")));
+		JButton b = new JButton();
+		b.setIcon(new ImageIcon(new ImageIcon("whiteQueen.png").getImage().getScaledInstance(300, 600, Image.SCALE_DEFAULT)));
+		b.setFont(new Font("FUTURA BOLD", 0, 24));
+		b.setRolloverIcon(new ImageIcon(new ImageIcon("blackQueen.png").getImage().getScaledInstance(300, 600, Image.SCALE_DEFAULT)));
+		add(b, BorderLayout.EAST);
+		b.addActionListener(new JButtonHandler());
+		b.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		b.setMinimumSize(new Dimension(250,100));
+		b.setMaximumSize(new Dimension(200,800));
+		
+		b.setOpaque(false);
+		b.setContentAreaFilled(false);
+		b.setBorderPainted(false);
+		
+		JButton b1 = new JButton();
+		b1.setIcon(new ImageIcon(new ImageIcon("whiteKing.png").getImage().getScaledInstance(300, 600, Image.SCALE_DEFAULT)));
+		b1.setFont(new Font("FUTURA BOLD", 0, 24));
+		b1.setRolloverIcon(new ImageIcon(new ImageIcon("blackKing.png").getImage().getScaledInstance(300, 600, Image.SCALE_DEFAULT)));
+		add(b1, BorderLayout.WEST);
+		b1.addActionListener(new JButtonHandler());
+	//	b1.setAlignmentX(Component.LEFT_ALIGNMENT);
+		b1.setMinimumSize(new Dimension(100,100));
+		b1.setMaximumSize(new Dimension(400,800));
+		
+		b1.setOpaque(false);
+		b1.setContentAreaFilled(false);
+		b1.setBorderPainted(false);
+		
 		
 	//	CODE FOR TEXT UNDERNEATH ICON
 	 

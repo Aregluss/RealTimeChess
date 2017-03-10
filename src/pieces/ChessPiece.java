@@ -159,6 +159,7 @@ public class ChessPiece// extends JPanel
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
+			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
 			this.row = row;
 			this.column = column;
 			hasMoved = true;
@@ -250,26 +251,24 @@ public class ChessPiece// extends JPanel
 	 *  and movement */
 	//TODO yet to be fully implemented
 	public void highightLocation(){
-		getMoveLocations();
+		GameBoard.Board[row][column].setSquare(1);
 		for(Square movable: locations) {
-			GameBoard.Board[movable.getRow()][movable.getColumn()].setLight("Move");
-			if(movable.getCurrentPiece().getColor() != this.getColor() && movable.getCurrentPiece() != null) {
-				GameBoard.Board[movable.getRow()][movable.getColumn()].setLight("Attack");
-			}	
+			GameBoard.Board[movable.getRow()][movable.getColumn()].setSquare(0);
+			//if(movable.getCurrentPiece().getColor() != this.getColor() && movable.getCurrentPiece() != null) {
+			//	GameBoard.Board[movable.getRow()][movable.getColumn()].setSquare("Attack");
+			//}	
 		}
 	};
 	
-	//I have no clue
-	public Square sendAttackSpot(){
-		getMoveLocations();
-		Square kappa = new Square();
+	public void unhighlightLocation(int row, int column) {
+		GameBoard.Board[row][column].setSquare(129524512);
 		for(Square movable: locations) {
-			if(movable.getCurrentPiece().getColor() != this.getColor() && movable.getCurrentPiece() != null) {
-			}
-			return movable;
+			GameBoard.Board[movable.getRow()][movable.getColumn()].setSquare(51512511);
+			//if(movable.getCurrentPiece().getColor() != this.getColor() && movable.getCurrentPiece() != null) {
+			//	GameBoard.Board[movable.getRow()][movable.getColumn()].setSquare("Attack");
+			//}	
 		}
-		return kappa;
-		};
+	};
 	
 	/** @return the piece's associated color
 	 * */	
@@ -933,7 +932,6 @@ public class ChessPiece// extends JPanel
 				else {
 					if(piecesFound == 0) {
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
-							System.out.println(" hello!s "+GameBoard.Board[row][col].getCurrentPiece());
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
 							return;
 						}

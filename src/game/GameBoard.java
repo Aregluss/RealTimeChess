@@ -119,6 +119,11 @@ public class GameBoard implements Runnable
 							Board[i][j].getCurrentPiece().draw(g2);
 						}
 						
+						if(Board[i][j].getSquare() != null)
+						{
+							Board[i][j].draw(g2);
+						}
+						
 					}
 			}
 			

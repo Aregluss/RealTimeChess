@@ -66,12 +66,6 @@ public class Queen extends ChessPiece{
 	}
 
 	@Override
-	public Square sendAttackSpot() {
-		// TODO Auto-generated method stub
-		return super.sendAttackSpot();
-	}
-
-	@Override
 	public boolean getColor() {
 		// TODO Auto-generated method stub
 		return super.getColor();
