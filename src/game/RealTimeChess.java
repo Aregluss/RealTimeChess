@@ -25,10 +25,8 @@ public class RealTimeChess {
 		frame = new Window();
 		GraphicsBoard grBoard = new GraphicsBoard();
 		ChessGame = new GameBoard(1, grBoard);
-					
-		//Grid.initialize(map);
-		//game = new Game(map);
-		//HUD hud = new HUD();
+		
+		
 		
 		gamePanel.setLayout(new BorderLayout());
 		gamePanel.add(grBoard, BorderLayout.CENTER);
@@ -71,6 +69,7 @@ public class RealTimeChess {
 			new Thread(ChessGame).start();
 		}
 	}
+	
 	public static void doUITasks(){
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
