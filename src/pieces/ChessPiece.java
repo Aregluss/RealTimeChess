@@ -469,7 +469,7 @@ public class ChessPiece// extends JPanel
 	
 			for(Square movable :Ally.locations) {
 				if(movable.getColumn() == originalAttacker.column && (VertiCols.get(0)  <= movable.getColumn() || movable.getColumn() <= VertiCols.get(1) ) 
-						&& movable.getColumn() != this.row) {
+						&& movable.getRow() != this.row) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
 			}
