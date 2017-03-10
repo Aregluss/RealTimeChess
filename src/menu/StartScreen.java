@@ -66,9 +66,9 @@ public class StartScreen extends JPanel
 		buttons.add(exit);
 		
 		for(JButton b: buttons){
-			b.setIcon(new ImageIcon(new ImageIcon("golden.png").getImage().getScaledInstance(120, 100, Image.SCALE_DEFAULT)));
+			b.setIcon(new ImageIcon(new ImageIcon("golden.png").getImage().getScaledInstance(115, 100, Image.SCALE_DEFAULT)));
 			b.setFont(new Font("FUTURA BOLD", 0, 24));
-			b.setRolloverIcon(new ImageIcon(new ImageIcon("green.png").getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT)));
+			b.setRolloverIcon(new ImageIcon(new ImageIcon("goldenH.png").getImage().getScaledInstance(115, 100, Image.SCALE_DEFAULT)));
 			subPanel.add(b);
 			b.addActionListener(new JButtonHandler());
 			b.setAlignmentX(Component.RIGHT_ALIGNMENT);
