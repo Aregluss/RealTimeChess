@@ -19,6 +19,8 @@ import pieces.Square; //remove later
 import pieces.ChessPiece;
 import pieces.CoolDownAnimation;
 import game.TimerClock;
+import network.*;
+
 import javax.swing.Timer;
 
 public class GraphicsBoard extends JPanel implements MouseListener
@@ -33,7 +35,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	private Image background;
 	private int initalPress = 0;
 	private int row, col, row1, col1;
-	
+	public static int x1,y1,x2,y2;
+	public static int x3,y3,x4,y4;
+	public static boolean player = false;
+	public static boolean moved = false;
 	public GraphicsBoard()
 	{
 		
@@ -49,6 +54,20 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		addMouseListener(this);
 		repaint();
 		
+	}
+	
+	public boolean returnPlayer(){
+		return player;
+	}
+	public void setPlayer(boolean x){
+		player = x;
+	}
+
+	public static boolean isMoved(){
+		return moved;
+	}
+	public static void setMoved(boolean x){
+		moved = x;
 	}
 	/**Draws the chessboard backround
 	 * @param g, Graphics object for drawing
@@ -93,128 +112,141 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	 * Keep track of if its first click to select or second click to move
 	 */
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-		int x = e.getX();
-		int y = e.getY();
-		//int initalPress = 0;
 		
-		//double dx = x * (Map.REALWIDTH + 0.0) / map.getWidth();
-		//double dy = y * (Map.REALHEIGHT + 0.0) / map.getHeight();
-		
-		System.out.println("x & y = " +x +" & "+y);
-		if(x < WIDTH && y < HEIGHT)
-		{
-			int yx = y/(HEIGHT/8);
-			int xx = x/(WIDTH/8);
-			
-			if(e.getButton() == MouseEvent.BUTTON3)
-			{
-				System.out.println(row+" LEFT " +col);
-				initalPress = 0;
-				if(GameBoard.Board[row][col].getCurrentPiece() != null) {
-						GameBoard.Board[row][col].getCurrentPiece().unhighlightLocation(row, col);
-				}
-				if(GameBoard.Board[row1][col1].getCurrentPiece() != null) {
-					GameBoard.Board[row1][col1].getCurrentPiece().unhighlightLocation(row1, col1);
-			}
-			}
-			else if(e.getButton() == MouseEvent.BUTTON1)
-			{
+		mouseHelper(e,player);
+	}
+	
+	public void mouseHelper(MouseEvent e, boolean color){
+		// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				int x = e.getX();
+				int y = e.getY();
+				//int initalPress = 0;
 				
-				if(GameBoard.Board[yx][xx].getCurrentPiece() != null || initalPress == 1)
+				//double dx = x * (Map.REALWIDTH + 0.0) / map.getWidth();
+				//double dy = y * (Map.REALHEIGHT + 0.0) / map.getHeight();
+				
+				System.out.println("x & y = " +x +" & "+y);
+				if(x < WIDTH && y < HEIGHT)
 				{
-					System.out.print("inital press: ");
-					System.out.println(initalPress);
-					boolean offCoolDown = (initalPress == 0 && GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown);
-					System.out.print("OffCoolDown: ");
-					System.out.println(offCoolDown);
-					if (GameBoard.Board[yx][xx].getCurrentPiece() != null)
+					int yx = y/(HEIGHT/8);
+					int xx = x/(WIDTH/8);
+					if(initalPress ==0){
+						x1 = xx;
+						y1 = yx;
+					}
+					if(initalPress ==1){
+						x2 = xx;
+						y2 = yx;
+
+					}
+					if(e.getButton() == MouseEvent.BUTTON3)
 					{
-						GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown = (GameBoard.Board[yx][xx].getCurrentPiece().time_limit < GameBoard.Board[yx][xx].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[yx][xx].getCurrentPiece().time);
-						GameBoard.Board[yx][xx].getCurrentPiece();
-						offCoolDown = (initalPress == 0 && (GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown) || ChessPiece.A_Clock.get_isPaused());
-						if(GameBoard.Board[yx][xx].getCurrentPiece().hasMoved == false)
-						{
-							offCoolDown = (initalPress == 0);
-						}
+						System.out.println("LEFT");
+						initalPress = 0;
 					}
-					
-					if(initalPress == 0 && offCoolDown)
-					{	
-						row = yx;
-						col = xx;
-						initalPress++;
-						System.out.println("IM SELECTED " + GameBoard.Board[row][col].getCurrentPiece());
-						if(GameBoard.gameState == 2) {
-							//lol
-							GameBoard.Board[row][col].getCurrentPiece().highightLocation();
-							System.out.println("THIS IS CHECKED BOYS");
-							/*for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
-								System.out.println(movable);
-							}*/
-						}
-						else {
-							System.out.println("normality");
-							GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();
-							GameBoard.Board[row][col].getCurrentPiece().highightLocation();
-							/*for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
-								System.out.println(movable);
-							}*/
-						}
-					}
-					else
+					else if(e.getButton() == MouseEvent.BUTTON1)
 					{
 						
-						System.out.println("R&C:" +row +" " +col);
-						row1 = yx;
-						col1 = xx;
-						//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
-						//System.out.println(GameBoard.Board[row][col].getCurrentPiece().hasMoved);
-						if(row == row1 && col == col1)
+						if(GameBoard.Board[yx][xx].getCurrentPiece() != null || initalPress == 1)
 						{
-							initalPress = 0;
-							System.out.println("Moving me to same spot?");
-						}
-						else
-						{
-							boolean paused = ChessPiece.A_Clock.get_isPaused();
-							System.out.println(paused);
-							if(initalPress == 1 && (GameBoard.Board[row][col].getCurrentPiece().offCoolDown || !GameBoard.Board[row][col].getCurrentPiece().hasMoved || ChessPiece.A_Clock.get_isPaused()))
- 							{
- 								System.out.println("initalpress1");
- 								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
- 								
- 								//GameBoard.Board[row1][col1].getCurrentPiece().hasMoved = true;
- 								//GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout();
- 								//GameBoard.Board[row1][col1].getCurrentPiece().
- 								//Rectangle a = new Rectangle(col * 80, row * 80, (col+1) * 80, (row+1)*80);
-								//Rectangle b = new Rectangle(col1 * 80, row1 * 80, (col1+1) * 80, (row1+1)*80);
-								Graphics g = getGraphics();
-								if(GameBoard.Board[row1][col1].getCurrentPiece() != null && GameBoard.Board[row][col].getCurrentPiece() == null)
+							System.out.print("inital press: ");
+							System.out.println(initalPress);
+							boolean offCoolDown = (initalPress == 0 && GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown);
+							System.out.print("OffCoolDown: ");
+							System.out.println(offCoolDown);
+							if (GameBoard.Board[yx][xx].getCurrentPiece() != null)
+							{
+								GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown = (GameBoard.Board[yx][xx].getCurrentPiece().time_limit < GameBoard.Board[yx][xx].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[yx][xx].getCurrentPiece().time);
+								GameBoard.Board[yx][xx].getCurrentPiece();
+								offCoolDown = (initalPress == 0 && (GameBoard.Board[yx][xx].getCurrentPiece().offCoolDown) || ChessPiece.A_Clock.get_isPaused());
+								if(GameBoard.Board[yx][xx].getCurrentPiece().hasMoved == false)
 								{
-									new CoolDownAnimation(GameBoard.Board[row1][col1].getCurrentPiece()).executeTimeout(g);
+									offCoolDown = (initalPress == 0);
 								}
-								//executeTimeout(g, GameBoard.Board[row1][col1].getCurrentPiece(), row1, col1);
-								//GameBoard.Board[row1][col1].getCurrentPiece().CoolDownAnimation(g, row1, col1);
-								//repaint(a);
-								//repaint(b);
- 							}
- 								
- 							if( GameBoard.Board[row][col].getCurrentPiece() == null )
-  							{
-  								initalPress = 0;
- 								System.out.println("This is moved");
- 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time_limit < GameBoard.Board[row1][col1].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[row1][col1].getCurrentPiece().time)
- 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
- 								System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().offCoolDown);
-  							}
+							}
+							
+							if(initalPress == 0 && offCoolDown)
+							{	
+								row = yx;
+								col = xx;
+								if(GameBoard.Board[row][col].getCurrentPiece().color == color){
+								initalPress++;
+								System.out.println("IM SELECTED " + GameBoard.Board[row][col].getCurrentPiece());
+								if(GameBoard.gameState == 2) {
+									//lol
+									System.out.println("THIS IS CHECKED BOYS");
+									/*for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
+										System.out.println(movable);
+									}*/
+								}
+								else {
+									System.out.println("normality");
+									GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();							
+									/*for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
+										System.out.println(movable);
+									}*/
+								}
+								}
+								else{
+									System.out.println("Wrong color BOYYYYYYYYYYYYYY");
+								}
+							}
+							else
+							{
+								
+								System.out.println("R&C:" +row +" " +col);
+								row1 = yx;
+								col1 = xx;
+								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
+								//System.out.println(GameBoard.Board[row][col].getCurrentPiece().hasMoved);
+								if(row == row1 && col == col1)
+								{
+									initalPress = 0;
+									System.out.println("Moving me to same spot?");
+								}
+								else
+								{
+									boolean paused = ChessPiece.A_Clock.get_isPaused();
+									System.out.println(paused);
+									if(initalPress == 1 && (GameBoard.Board[row][col].getCurrentPiece().offCoolDown || !GameBoard.Board[row][col].getCurrentPiece().hasMoved || ChessPiece.A_Clock.get_isPaused()))
+		 							{
+		 								System.out.println("initalpress1");
+		 								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+		 								if(color==true)
+		 									Server.send();
+		 								if(color == false)
+		 									Client.send();
+		 								//GameBoard.Board[row1][col1].getCurrentPiece().hasMoved = true;
+		 								//GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout();
+		 								//GameBoard.Board[row1][col1].getCurrentPiece().
+		 								//Rectangle a = new Rectangle(col * 80, row * 80, (col+1) * 80, (row+1)*80);
+										//Rectangle b = new Rectangle(col1 * 80, row1 * 80, (col1+1) * 80, (row1+1)*80);
+										Graphics g = getGraphics();
+										if(GameBoard.Board[row1][col1].getCurrentPiece() != null && GameBoard.Board[row][col].getCurrentPiece() == null)
+										{
+											new CoolDownAnimation(GameBoard.Board[row1][col1].getCurrentPiece()).executeTimeout(g);
+										}
+										//executeTimeout(g, GameBoard.Board[row1][col1].getCurrentPiece(), row1, col1);
+										//GameBoard.Board[row1][col1].getCurrentPiece().CoolDownAnimation(g, row1, col1);
+										//repaint(a);
+										//repaint(b);
+		 							}
+		 								
+		 							if(GameBoard.Board[row][col].getCurrentPiece() == null)
+		  							{
+		  								initalPress = 0;
+		 								System.out.println("This is moved");
+		 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time_limit < GameBoard.Board[row1][col1].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[row1][col1].getCurrentPiece().time)
+		 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
+		 								System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().offCoolDown);
+		  							}
+								}
+							}
 						}
 					}
 				}
-			}
-		}
-		repaint();
+				repaint();
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {

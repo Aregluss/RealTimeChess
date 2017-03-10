@@ -15,6 +15,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -26,7 +27,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import game.GraphicsBoard;
 import game.RealTimeChess;
+import network.*;
 
 /**It's the screen that game opens with, it contains links to server ,client and playing the game. 
  * 
@@ -135,15 +138,31 @@ public class StartScreen extends JPanel
 			else if(host.getModel().isArmed()){
 				try {
 				//	SchoolServer ss = new SchoolServer();
+					System.out.println("hello. I AM IN HOST CLICKED.");
 					findIP();
 					JOptionPane.showMessageDialog(null, "Your IP is " +  myIP);
-					RealTimeChess.switchPanel("2");
+					Server newServer = new Server();
+					GraphicsBoard.player = true;
 				} catch (UnknownHostException e) {
 					JOptionPane.showMessageDialog(null, "Unable to find your IP");
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
+				
 			}
-			else if(join.getModel().isArmed())
+			else if(join.getModel().isArmed()){
+				try{
 				joinIP = JOptionPane.showInputDialog("Enter the IP You Wish to Connect To");
+				Client newClient = new Client(joinIP);
+				GraphicsBoard.player = false;
+				}
+				catch(IOException e){
+					e.printStackTrace();
+
+				}
+				
+				
+			}
 			else if(exit.getModel().isArmed())
 				System.exit(0);
 		}
