@@ -81,6 +81,7 @@ public class Server implements Runnable{
 		    	System.out.println("After sending output!!!!"); 
 	  }
 	  public void receive() throws IOException{
+
 			String temp_input;
 		 if((temp_input = input1.readLine()) != null){
 			//System.out.println("Client has received: " + temp_input);
@@ -98,14 +99,22 @@ public class Server implements Runnable{
 		 System.out.println("c");
 		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
 		 if(GameBoard.gameState == 2){
-			 GameBoard.Bk.getCurrentPiece().checkResolution();
-			 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+			 if(( (King)GameBoard.Bk.getCurrentPiece()).isChecked) {
+				 GameBoard.Bk.getCurrentPiece().checkResolution();
+				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+			 }
+			 if(( (King)GameBoard.Wk.getCurrentPiece()).isChecked) {
+				 GameBoard.Wk.getCurrentPiece().checkResolution();
+				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+			 }
 		 }
 		 else{
 		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
 		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 		 }
 		 GameBoard.graphBoard.repaint();
+		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
 		 temp_input = null;
 	}
-}
+
+	}
