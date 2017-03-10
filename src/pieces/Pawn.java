@@ -252,14 +252,6 @@ public class Pawn extends ChessPiece{
 		super.highightLocation();
 	}
 
-
-	@Override
-	public Square sendAttackSpot() {
-		// TODO Auto-generated method stub
-		return super.sendAttackSpot();
-	}
-
-
 	@Override
 	public boolean getColor() {
 		// TODO Auto-generated method stub

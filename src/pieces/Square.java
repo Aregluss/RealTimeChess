@@ -11,8 +11,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import game.GraphicsBoard;
 import pieces.ChessPiece;
 
 public class Square extends JPanel{// implements MouseListener{
@@ -22,6 +24,8 @@ public class Square extends JPanel{// implements MouseListener{
 	private String lightOn;
 	private boolean movable;
 	private Image light;
+	private int width = GraphicsBoard.WIDTH/8;
+	private int height = GraphicsBoard.HEIGHT/8;
 	
 	/**
 	 * Standard constructor for a square,
@@ -134,14 +138,37 @@ public class Square extends JPanel{// implements MouseListener{
 	}
 	
 	
-	public void setLight(String l)
-	{
-		lightOn = l;
+	public void setSquare(int lightStatus) {
+		if (lightStatus == 0) {
+			light = new ImageIcon("green.png").getImage();
+		}
+		
+		else if (lightStatus == 1) { 
+			light = new ImageIcon("golden.png").getImage();
+		} 
+		
+		else{
+			light = null;
+		}
+	}
+	
+	public Image getSquare() {
+		return light;
 	}
 	
 	public void setMovable(boolean m)
 	{
 		movable = m;
+	}
+	
+	/** draw method draws the image associated with the piece*/
+	public void draw(Graphics g)
+	{
+//		BufferedImage bi = new BufferedImage(400, 300, BufferedImage.TYPE_INT_ARGB);
+		
+		Graphics2D g2d = (Graphics2D)g;
+		
+		g2d.drawImage(light, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 	}
 
 	@Override
