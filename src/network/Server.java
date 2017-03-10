@@ -97,10 +97,15 @@ public class Server implements Runnable{
 		 }
 		 System.out.println("c");
 		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
+		 if(GameBoard.gameState == 2){
+			 GameBoard.Bk.getCurrentPiece().checkResolution();
+			 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+		 }
+		 else{
 		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
 		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+		 }
 		 GameBoard.graphBoard.repaint();
-		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
 		 temp_input = null;
 	}
 }

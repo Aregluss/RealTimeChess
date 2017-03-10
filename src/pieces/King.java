@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import game.*;
 public class King extends ChessPiece{
 	
-	boolean isChecked = false;
+	public boolean isChecked = false;
 	public String name = "King";
 	public ArrayList<ChessPiece> saviors = new ArrayList<ChessPiece>();
 	public ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
@@ -20,7 +20,6 @@ public class King extends ChessPiece{
 		isChecked = false;
 		canCastleKing = true;
 		canCastleQueen = true;
-		
 		if(color)
 			image = new ImageIcon("whiteKing.png").getImage();
 		else

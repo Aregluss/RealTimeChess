@@ -140,10 +140,12 @@ public class ChessPiece// extends JPanel
 					//update piece for player
 					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
 					GameBoard.Player2.pieces.remove(GameBoard.Board[row][column]);
+					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
 				}
 				else {
 					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
+					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
 				}
 			}
 			//for moving to an empty space
