@@ -99,11 +99,11 @@ public class Server implements Runnable{
 		 System.out.println("c");
 		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
 		 if(GameBoard.gameState == 2){
-			 if(( (King)GameBoard.Bk.getCurrentPiece()).isChecked) {
+			 if(( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked) {
 				 GameBoard.Bk.getCurrentPiece().checkResolution();
 				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 			 }
-			 if(( (King)GameBoard.Wk.getCurrentPiece()).isChecked) {
+			 if(( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked) {
 				 GameBoard.Wk.getCurrentPiece().checkResolution();
 				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 			 }
