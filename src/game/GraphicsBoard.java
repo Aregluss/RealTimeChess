@@ -34,6 +34,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	private int initalPress = 0;
 	private int row, col, row1, col1;
 	public static int x1,y1,x2,y2;
+	public static int x3,y3,x4,y4;
 	public static boolean player = false;
 	public static boolean moved = false;
 	public GraphicsBoard()
@@ -58,6 +59,13 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	}
 	public void setPlayer(boolean x){
 		player = x;
+	}
+	
+	public static boolean isMoved(){
+		return moved;
+	}
+	public static void setMoved(boolean x){
+		moved = x;
 	}
 	/**Draws the chessboard backround
 	 * @param g, Graphics object for drawing
@@ -233,7 +241,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						}
 					}
 				}
-				moved = true;
+				setMoved(true);
 				repaint();
 	}
 	@Override

@@ -21,8 +21,6 @@ public class Client implements Runnable{
 		socket = new Socket(IP,port);
 		System.out.println("Connected!");
 		RealTimeChess.switchPanel("2");
-
-
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -38,9 +36,9 @@ public class Client implements Runnable{
 				System.out.println("Client has received: " + temp_input);
 			 }
 			 System.out.println(" I am now " + temp_input);
-			 // parse temp_input into 4 different integers
-			 System.out.println("d");
-			 Thread.sleep(10000);
+			 
+			 //parse temp_input into 4 different integers
+			 Thread.sleep(1000);
 			}
 			// Implement mouse listener... client sends its mouseclicks to the server. probably store and send it in integers?
 			// server will handle movement.

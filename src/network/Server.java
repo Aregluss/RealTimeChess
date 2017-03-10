@@ -59,24 +59,12 @@ public class Server implements Runnable{
 	      //  RealTimeChess.switchPanel("2");
 	       // Thread.sleep(10000);
 	        System.out.println("a");
-	        System.out.println("Before writing objects");
 	        input1 = new BufferedReader(new InputStreamReader (p1.getInputStream()));
-	        output1 = new PrintWriter(p1.getOutputStream(), true);
-	        GraphicsBoard.x1 = 1;
-	        GraphicsBoard.y1 = 2;
-	        GraphicsBoard.x2 = 3;
-	        GraphicsBoard.y2 = 4;       
-	        sending = (Integer.toString(GraphicsBoard.x1) + " ");
-	        sending = sending.concat(Integer.toString(GraphicsBoard.y1) + " ");
-	        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + " ");
-	        sending = sending.concat(Integer.toString(GraphicsBoard.y2) + " ");
-	        output1.println(sending);
-	        System.out.println("After writing objects");
+	        output1 = new PrintWriter(p1.getOutputStream(), true);       
 //			String inputLine;
 //			while ((inputLine = reader.readLine()) != null ){
 //				System.out.println("Message: " + inputLine);
 //			}
-	        
 	      }
 	      catch(IOException ex){
 	    	  ex.printStackTrace();
@@ -85,21 +73,22 @@ public class Server implements Runnable{
 //	    	// TODO Auto-generated catch block
 //	    	  e.printStackTrace();
 //	    	 }
-//	    
 	    while(true)
-	    {
-
-	    	if(GraphicsBoard.moved == true){
-	    			// has to print out a string of the 4 coordinates.
-	    		//output1.println();
-	    		GraphicsBoard.moved = false;
-	    	}
-	    }
-	    	
+	    	sendStuff();
+//	     	
 	  }
 	  
 	  public void sendStuff(){
-		  
+		 // System.out.println("In send stuff: " +);
+		  if(GraphicsBoard.isMoved() == true){
+		    	sending = (Integer.toString(GraphicsBoard.x1) + " ");
+		        sending = sending.concat(Integer.toString(GraphicsBoard.y1) + " ");
+		        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + " ");
+		        sending = sending.concat(Integer.toString(GraphicsBoard.y2) + " ");
+		        output1.println(sending);
+	    		GraphicsBoard.setMoved(false);
+	    	}
+
 		 
 	  }
 }
