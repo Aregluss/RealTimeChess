@@ -62,7 +62,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	public void setPlayer(boolean x){
 		player = x;
 	}
-	
+
 	public static boolean isMoved(){
 		return moved;
 	}

@@ -20,7 +20,7 @@ public class GameBoard implements Runnable
 	public static Square[][] Board;
 	public static Player Player1;
 	public static Player Player2;
-	public GraphicsBoard graphBoard;
+	public static GraphicsBoard graphBoard;
 	public static Square Bk = new Square(0,4); // Holds information on black king, notably location
 	public static Square Wk = new Square(7,4); // Holds information on white king, notably location
 	public static int gameState = 0;
