@@ -468,7 +468,7 @@ public class ChessPiece// extends JPanel
 			Collections.sort(VertiCols);
 	
 			for(Square movable :Ally.locations) {
-				if(movable.getRow() == originalAttacker.row && (VertiCols.get(0)  <= movable.getColumn() || movable.getColumn() <= VertiCols.get(1) ) 
+				if(movable.getColumn() == originalAttacker.column && (VertiCols.get(0)  <= movable.getColumn() || movable.getColumn() <= VertiCols.get(1) ) 
 						&& movable.getColumn() != this.row) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
