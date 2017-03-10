@@ -464,11 +464,11 @@ public class ChessPiece// extends JPanel
 		//Vertical Attacking
 		if(originalAttacker.row != this.row && originalAttacker.column == this.column) {
 			ArrayList<Integer> VertiCols = new ArrayList<Integer>();
-			VertiCols.add(originalAttacker.column); VertiCols.add(this.column);
+			VertiCols.add(originalAttacker.row); VertiCols.add(this.row);
 			Collections.sort(VertiCols);
 	
 			for(Square movable :Ally.locations) {
-				if(movable.getColumn() == originalAttacker.column && (VertiCols.get(0)  <= movable.getColumn() || movable.getColumn() <= VertiCols.get(1) ) 
+				if(movable.getColumn() == originalAttacker.column && (VertiCols.get(0)  <= movable.getRow() || movable.getRow() <= VertiCols.get(1) ) 
 						&& movable.getRow() != this.row) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
