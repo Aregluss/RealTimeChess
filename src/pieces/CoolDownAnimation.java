@@ -144,11 +144,11 @@ public class CoolDownAnimation extends JPanel {
             //g2d.fillArc((int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), 90, (int) (360f * (1f - progress)));
             if((column + row)%2 == 0)
             {
-            	Color myColour = new Color(236,236,236, 255);
+            	Color myColour = new Color(247,246,228, 255);
             	g2d.setColor(myColour);
             }
             else{
-            	Color myColour = new Color(78,78,78, 255);
+            	Color myColour = new Color(36,14,1, 255);
             	g2d.setColor(myColour);
             }
             	g2d.fillRect(column * 100, row * 100, width, (int) (height * (1f - progress)));
