@@ -24,6 +24,7 @@ public class GameBoard implements Runnable
 	public static Square Bk = new Square(0,4); // Holds information on black king, notably location
 	public static Square Wk = new Square(7,4); // Holds information on white king, notably location
 	public static int gameState = 0;
+	public volatile boolean truth = true;
 	
 	/** Constructor which sets up pieces, board, graphicsBoard, and Players
 	 * 
@@ -104,7 +105,7 @@ public class GameBoard implements Runnable
 	 */
 	public void run() 
 	{
-		while(true)
+		while(truth)
 		{
 			Graphics g = graphBoard.getGraphics();
 			Graphics2D g2 = (Graphics2D) g;

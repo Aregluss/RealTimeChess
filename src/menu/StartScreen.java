@@ -106,7 +106,10 @@ public class StartScreen extends JPanel
 					GraphicsBoard.player = true;
 				} catch (UnknownHostException e) {
 					JOptionPane.showMessageDialog(null, "Unable to find your IP");
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
+				
 			}
 			else if(join.getModel().isArmed()){
 				try{

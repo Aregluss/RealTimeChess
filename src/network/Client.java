@@ -1,4 +1,7 @@
 package network;
+
+import java.awt.Graphics;
+import java.awt.event.InputEvent;
 import java.io.*;
 import java.util.*;
 import pieces.*;
@@ -15,35 +18,27 @@ public class Client implements Runnable{
 	public static boolean sent = false;
 	public PrintWriter output1;
 	public BufferedReader input1;
+	public volatile boolean truth = true;
+	String sending;
 	
 	public Client(String IPAddress) throws UnknownHostException, IOException{
 		IP = IPAddress;
 		socket = new Socket(IP,port);
 		System.out.println("Connected!");
+		output1 = new PrintWriter(socket.getOutputStream(), true);
+		input1 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		RealTimeChess.switchPanel("2");
 		Thread thread = new Thread(this);
 		thread.start();
 	}
 	public void run(){
-		int i =0;
 		try{
-			while(true){
-			 System.out.println("IN CLIENT. ABOUT TO MAKE REALTIMECHESS.");
-			output1 = new PrintWriter(socket.getOutputStream(), true);
-			input1 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			 String temp_input;
-			 if((temp_input = input1.readLine()) != null){
-				System.out.println("Client has received: " + temp_input);
-			 }
-			 System.out.println(" I am now " + temp_input);
-			 
-			 //parse temp_input into 4 different integers
-			 Thread.sleep(1000);
+			while(truth){
+				System.out.println("wasting");
+			 receive();
+		//	 send();
+			// Thread.sleep(1000);
 			}
-			// Implement mouse listener... client sends its mouseclicks to the server. probably store and send it in integers?
-			// server will handle movement.
-			
-			// Another method?? don't know... but client will have to pull object from the server after either every move, or every few seconds because of how the cooldown works.
 		}
 		catch(Exception e){
 			System.out.println("Client messed up");
@@ -51,5 +46,41 @@ public class Client implements Runnable{
 		}
 		System.out.println("client is done.");
 		}
+	public void send(){
+		 // System.out.println("In send stuff: " +);
+		  if(GraphicsBoard.isMoved() == true){
+			  	System.out.println("Before sending output!!!!!!");
+			  	sending = ("[" + Integer.toString(GraphicsBoard.y1) + ",");
+		        sending = sending.concat(Integer.toString(GraphicsBoard.x1) + ",");
+		        sending = sending.concat(Integer.toString(GraphicsBoard.y2) + ",");
+		        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + "]");
+		        output1.println(sending);
+		    	System.out.println("After sending output!!!!");
+	    		GraphicsBoard.setMoved(false);	 
+		  }
+	  }
+	public void receive() throws IOException{
+
+			String temp_input;
+		 if((temp_input = input1.readLine()) != null){
+			//System.out.println("Client has received: " + temp_input);
+		 }
+		 String[] items = temp_input.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
+		 int[] results = new int[items.length];
+		 System.out.println("b");
+		 for (int i = 0; i < items.length; i++) {
+		     try {
+		         results[i] = Integer.parseInt(items[i]);
+		     } catch (NumberFormatException nfe) {
+		         //NOTE: write something here if you need to recover from formatting errors
+		     };
+		 }
+		 System.out.println("c");
+		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
+		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
+		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
+		 temp_input = null;
+	}
 
 	}

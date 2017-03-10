@@ -211,7 +211,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		 							{
 		 								System.out.println("initalpress1");
 		 								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
-		 								
+		 								setMoved(true);
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().hasMoved = true;
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout();
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().
@@ -241,7 +241,6 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						}
 					}
 				}
-				setMoved(true);
 				repaint();
 	}
 	@Override
