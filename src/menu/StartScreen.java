@@ -111,12 +111,12 @@ public class StartScreen extends JPanel
 			else if(join.getModel().isArmed()){
 				try{
 				joinIP = JOptionPane.showInputDialog("Enter the IP You Wish to Connect To");
-				Client newClient = new Client();
+				Client newClient = new Client(joinIP);
 				GraphicsBoard.player = false;
-				RealTimeChess.switchPanel("2");
 				}
 				catch(IOException e){
 					e.printStackTrace();
+
 				}
 				
 				

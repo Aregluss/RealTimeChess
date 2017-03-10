@@ -9,21 +9,20 @@ import game.*;
 
 // Client has a mouse listener... needs to check if its movement is funciton by itself, client needs to know their color
 public class Client implements Runnable{
-	String IP;
-	Socket socket;
+	public String IP;
+	public Socket socket;
 	private static int port = 5555;
 	public static boolean sent = false;
-	public ObjectOutputStream output1;
-	public ObjectInputStream input1;
+	public PrintWriter output1;
+	public BufferedReader input1;
 	
-	public Client() throws UnknownHostException, IOException{
-		System.out.println("Enter IP Address: ");
-		Scanner input = new Scanner(System.in);
-		IP = input.next();
+	public Client(String IPAddress) throws UnknownHostException, IOException{
+		IP = IPAddress;
 		socket = new Socket(IP,port);
 		System.out.println("Connected!");
-		input1 = new ObjectInputStream(socket.getInputStream());
-		output1 = new ObjectOutputStream(socket.getOutputStream());
+		RealTimeChess.switchPanel("2");
+
+
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -32,13 +31,16 @@ public class Client implements Runnable{
 		try{
 			while(true){
 			 System.out.println("IN CLIENT. ABOUT TO MAKE REALTIMECHESS.");
-			 System.out.println("b");
-			 GameBoard.Board = (Square[][])input1.readObject();
-			 System.out.println(GameBoard.Board[4][4].getCurrentPiece());
-			 System.out.println("c");
-			 
+			output1 = new PrintWriter(socket.getOutputStream(), true);
+			input1 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			 String temp_input;
+			 if((temp_input = input1.readLine()) != null){
+				System.out.println("Client has received: " + temp_input);
+			 }
+			 System.out.println(" I am now " + temp_input);
+			 // parse temp_input into 4 different integers
 			 System.out.println("d");
-			
+			 Thread.sleep(10000);
 			}
 			// Implement mouse listener... client sends its mouseclicks to the server. probably store and send it in integers?
 			// server will handle movement.

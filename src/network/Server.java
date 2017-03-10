@@ -20,9 +20,10 @@ public class Server implements Runnable{
 	private boolean isRunning = false;
 	private static GameBoard ChessGame;
 	public static boolean sent = false;
-	public ObjectOutputStream output1;
-	public ObjectInputStream input1;
+	public PrintWriter output1;
+	public BufferedReader input1;
 	int i =0;
+	String sending;
 	public Server()
 	  {
 	    if (!isRunning)
@@ -55,16 +56,22 @@ public class Server implements Runnable{
 	    try
 	      {
 	        Socket p1 = ss.accept();
-	        Thread.sleep(10000);
+	      //  RealTimeChess.switchPanel("2");
+	       // Thread.sleep(10000);
 	        System.out.println("a");
-	        RealTimeChess.switchPanel("2");
 	        System.out.println("Before writing objects");
-	      //input1 = new ObjectInputStream(p1.getInputStream());
-	        output1 = new ObjectOutputStream(p1.getOutputStream());
+	        input1 = new BufferedReader(new InputStreamReader (p1.getInputStream()));
+	        output1 = new PrintWriter(p1.getOutputStream(), true);
+	        GraphicsBoard.x1 = 1;
+	        GraphicsBoard.y1 = 2;
+	        GraphicsBoard.x2 = 3;
+	        GraphicsBoard.y2 = 4;       
+	        sending = (Integer.toString(GraphicsBoard.x1) + " ");
+	        sending = sending.concat(Integer.toString(GraphicsBoard.y1) + " ");
+	        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + " ");
+	        sending = sending.concat(Integer.toString(GraphicsBoard.y2) + " ");
+	        output1.println(sending);
 	        System.out.println("After writing objects");
-	        // output2.writeObject(GameBoard.Board);
-	        // gets input from clients... four integers??? 
-	       // BufferedReader reader = new BufferedReader(new InputStreamReader (p2.getInputStream()));
 //			String inputLine;
 //			while ((inputLine = reader.readLine()) != null ){
 //				System.out.println("Message: " + inputLine);
@@ -74,26 +81,24 @@ public class Server implements Runnable{
 	      catch(IOException ex){
 	    	  ex.printStackTrace();
 	      }
-	      catch (InterruptedException e) {
-	    	// TODO Auto-generated catch block
-	    	  e.printStackTrace();
-	    	 }
-	    
+//	      catch (InterruptedException e) {
+//	    	// TODO Auto-generated catch block
+//	    	  e.printStackTrace();
+//	    	 }
+//	    
 	    while(true)
 	    {
-	    	try {
-	    		if(GraphicsBoard.moved == true){
-				output1.writeObject(GameBoard.Board);
-				GraphicsBoard.moved = false;
-	    		}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+
+	    	if(GraphicsBoard.moved == true){
+	    			// has to print out a string of the 4 coordinates.
+	    		//output1.println();
+	    		GraphicsBoard.moved = false;
+	    	}
 	    }
+	    	
 	  }
 	  
-	  public void sendBoard(){
+	  public void sendStuff(){
 		  
 		 
 	  }
