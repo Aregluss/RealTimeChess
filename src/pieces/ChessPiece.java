@@ -251,7 +251,6 @@ public class ChessPiece// extends JPanel
 	
 	/** visual representation of where a piece can move, differentiates attacking
 	 *  and movement */
-	//TODO yet to be fully implemented
 	public void highightLocation(){
 		GameBoard.Board[row][column].setSquare(1);
 		for(Square movable: locations) {
@@ -352,6 +351,7 @@ public class ChessPiece// extends JPanel
 	 */
 	public void checkResolution() {
 		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
+		System.out.println(originalAttackers.size() + " ");
 		ChessPiece attacker = originalAttackers.get(0);
 		//reset getMovelocations for both players
 		
