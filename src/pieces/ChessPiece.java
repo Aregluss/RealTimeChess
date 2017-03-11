@@ -255,7 +255,6 @@ public class ChessPiece// extends JPanel
 	
 	/** visual representation of where a piece can move, differentiates attacking
 	 *  and movement */
-	//TODO yet to be fully implemented
 	public void highightLocation(){
 		GameBoard.Board[row][column].setSquare(1);
 		for(Square movable: locations) {
@@ -356,6 +355,7 @@ public class ChessPiece// extends JPanel
 	 */
 	public void checkResolution() {
 		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
+		System.out.println(originalAttackers.size() + " ");
 		ChessPiece attacker = originalAttackers.get(0);
 		//reset getMovelocations for both players
 
@@ -475,17 +475,19 @@ public class ChessPiece// extends JPanel
 			ArrayList<Integer> VertiCols = new ArrayList<Integer>();
 			VertiCols.add(originalAttacker.row); VertiCols.add(this.row);
 			Collections.sort(VertiCols);
-	
+
+			 
 			for(Square movable :Ally.locations) {
 				if(movable.getColumn() == originalAttacker.column && (VertiCols.get(0)  <= movable.getRow() && movable.getRow() <= VertiCols.get(1) ) 
-						&& movable.getRow() != this.row) {
+					&& movable.getRow() != this.row) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
 			}
-			
+      
 			if(modifiedLocations.size() != 0) {
 				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
 			}
+      
 			Ally.locations.clear();
 			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
 			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations = modifiedLocations;

@@ -100,10 +100,12 @@ public class Server implements Runnable{
 		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
 		 if(GameBoard.gameState == 2){
 			 if( ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked) {
+				 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn());
 				 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
 				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 			 }
 			 if(( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked) {
+				 ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn());
 				 ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
 				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 			 }
