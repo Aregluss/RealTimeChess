@@ -387,8 +387,6 @@ public class ChessPiece// extends JPanel
 			if(this.getColor()) {
 				for( Square piece : GameBoard.Player1.pieces) {
 					if(!(piece.getCurrentPiece() instanceof King)){
-						GameBoard.Board[piece.getCurrentPiece().row][piece.getCurrentPiece().column].getCurrentPiece().
-						unhighlightLocation(piece.getCurrentPiece().row, piece.getCurrentPiece().column);
 						piece.getCurrentPiece().getMoveLocations();
 						this.checkResolutionAlliedPieces(attacker, piece.getCurrentPiece());
 					}
@@ -397,8 +395,6 @@ public class ChessPiece// extends JPanel
 			else {
 				for( Square piece :GameBoard.Player2.pieces) {
 					if(!(piece.getCurrentPiece() instanceof King)){
-						GameBoard.Board[piece.getCurrentPiece().row][piece.getCurrentPiece().column].getCurrentPiece().
-						unhighlightLocation(piece.getCurrentPiece().row, piece.getCurrentPiece().column);
 						piece.getCurrentPiece().getMoveLocations();
 						this.checkResolutionAlliedPieces(attacker, piece.getCurrentPiece());
 					}
