@@ -594,6 +594,12 @@ public class ChessPiece// extends JPanel
 	 * @param color, true for white king, false for black king
 	 */
 	public void checkKing(boolean color) {
+		for( Square piece :GameBoard.Player2.pieces) {		
+			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
+		}
+		for( Square piece :GameBoard.Player1.pieces) {		
+			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
+		}
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = true;
