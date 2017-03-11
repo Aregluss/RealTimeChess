@@ -442,17 +442,12 @@ public class ChessPiece// extends JPanel
 		
 		//Horizontal Attacking
 		if(originalAttacker.row == this.row && originalAttacker.column != this.column) {
-			int colSmall, colBig; 
-			if(originalAttacker.column < this.column) {
-				colSmall = originalAttacker.column;
-				colBig = this.column - 1;
-			}
-			else {
-				colSmall = this.column + 1;
-				colBig = originalAttacker.column;
-			}
+			ArrayList<Integer> HoriCols = new ArrayList<Integer>();
+			HoriCols.add(originalAttacker.column); HoriCols.add(this.column);
+			Collections.sort(HoriCols);
 			for(Square movable :Ally.locations) {
-				if(movable.getRow() == originalAttacker.row && (movable.getColumn() >= colBig  || movable.getColumn() <= colSmall ) ) {
+				if(movable.getRow() == originalAttacker.row && (HoriCols.get(0)  <= movable.getColumn() && movable.getColumn() <= HoriCols.get(1) ) 
+						&& movable.getColumn() != this.column) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
 			}
@@ -467,21 +462,17 @@ public class ChessPiece// extends JPanel
 		
 		//Vertical Attacking
 		if(originalAttacker.row != this.row && originalAttacker.column == this.column) {
-			int rowSmall, rowBig; 
-			if(originalAttacker.row < this.row) {
-				rowSmall = originalAttacker.row;
-				rowBig = this.row - 1;
-			}
-			else {
-				rowSmall = this.row + 1;
-				rowBig = originalAttacker.row;
-			}
-	
-			for(Square movable :Ally.locations) {			
-				if(movable.getColumn() == originalAttacker.column && (movable.getRow() >= rowBig  || movable.getRow() <= rowSmall ) ) {
-					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));			
+			ArrayList<Integer> VertiCols = new ArrayList<Integer>();
+			VertiCols.add(originalAttacker.row); VertiCols.add(this.row);
+			Collections.sort(VertiCols);
+			 
+			for(Square movable :Ally.locations) {
+				if(movable.getColumn() == originalAttacker.column && (VertiCols.get(0)  <= movable.getRow() && movable.getRow() <= VertiCols.get(1) ) 
+					&& movable.getRow() != this.row) {
+					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
 			}
+			   
 			if(modifiedLocations.size() != 0) {
 				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
 			}
