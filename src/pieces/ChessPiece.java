@@ -111,6 +111,10 @@ public class ChessPiece// extends JPanel
 	public void move(int row, int column){
 		boolean canMove = false;
 	
+		if(GameBoard.gameState == 0) {
+			getMoveLocations();
+		}
+		
 		//Search the locations array (created by GetMoveLocations), if a valid move set canMove to true
 		for(Square movable: locations)	{
 			if((row == movable.getRow()) && (column == movable.getColumn()))	{
