@@ -184,7 +184,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 								GameBoard.setlastSelected(row,col,GameBoard.Board[row][col].getCurrentPiece());
 								if(GameBoard.gameState == 2) {
 									//lol
-									GameBoard.Board[row][col].getCurrentPiece().highightLocation();
+									GameBoard.Board[row][col].getCurrentPiece().highlightLocation();
 									System.out.println("THIS IS CHECKED BOYS");
 									/*for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
 										System.out.println(movable);
@@ -193,7 +193,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 								else {
 									System.out.println("normality");
 									GameBoard.Board[row][col].getCurrentPiece().getMoveLocations();			
-									GameBoard.Board[row][col].getCurrentPiece().highightLocation();
+									GameBoard.Board[row][col].getCurrentPiece().highlightLocation();
 									/*for(Square movable : GameBoard.Board[row][col].getCurrentPiece().locations){
 										System.out.println(movable);
 									}*/

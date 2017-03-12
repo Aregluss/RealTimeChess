@@ -263,8 +263,8 @@ public class King extends ChessPiece{
 	}
 	
 	@Override
-	public void highightLocation() {
-		super.highightLocation();
+	public void highlightLocation() {
+		super.highlightLocation();
 	}
 	
 	@Override

@@ -114,7 +114,14 @@ public class ChessPiece// extends JPanel
 		boolean canMove = false;
 	
 		if(GameBoard.gameState == 0) {
-			getMoveLocations();
+			if(GameBoard.getlastSelected() != null) {
+				unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+				getMoveLocations();
+				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+			}
+			else {
+				getMoveLocations();
+			}
 		}
 		
 		//Search the locations array (created by GetMoveLocations), if a valid move set canMove to true
@@ -259,7 +266,7 @@ public class ChessPiece// extends JPanel
 	
 	/** visual representation of where a piece can move, differentiates attacking
 	 *  and movement */
-	public void highightLocation(){
+	public void highlightLocation(){
 		GameBoard.Board[row][column].setSquare(1);
 		for(Square movable: locations) {
 			GameBoard.Board[movable.getRow()][movable.getColumn()].setSquare(0);
@@ -410,8 +417,8 @@ public class ChessPiece// extends JPanel
 		if(this.checkmate(1)) {
 			//Games over
 			System.out.println("GAME IS OVER");
-			JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
-			System.exit(0);
+			//JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+			//System.exit(0);
 		}
 	}
 	

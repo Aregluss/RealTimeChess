@@ -140,9 +140,9 @@ public class Knight extends ChessPiece{
 
 	}
 	@Override
-	public void highightLocation() {
+	public void highlightLocation() {
 		// TODO Auto-generated method stub
-		super.highightLocation();
+		super.highlightLocation();
 	}
 
 	@Override
