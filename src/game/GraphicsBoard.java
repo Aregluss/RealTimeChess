@@ -250,6 +250,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		  							{
 		  								initalPress = 0;
 		 								System.out.println("This is moved");
+		 								GameBoard.Board[row1][col1].getCurrentPiece().unhighlightLocation(row, col);
 		 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time_limit < GameBoard.Board[row1][col1].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[row1][col1].getCurrentPiece().time)
 		 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
 		 								System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().offCoolDown);

@@ -167,14 +167,12 @@ public class ChessPiece// extends JPanel
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
-			System.out.println("calling a buddy");
-			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
-			/*if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
 				System.out.println(GameBoard.getlastSelected());
 				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
 				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
 				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
-			}*/
+			}
 			//Just added
 			GameBoard.clearlastSelected();
 			this.row = row;
