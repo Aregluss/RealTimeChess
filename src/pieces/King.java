@@ -279,25 +279,33 @@ public class King extends ChessPiece{
 
 		// calls check to test if its checked
 		if(this.getColor() == true) {
-			if(GameBoard.Board[7][0].getCurrentPiece().getClass() == test.getClass()) {
-				//System.out.println("ISACA" + GameBoard.Board[7][0].getCurrentPiece().getClass() + " "+ test.getClass());
-				if(GameBoard.Board[7][0].getCurrentPiece().gethasMoved() == true)
-					canCastleQueen = false;
+			if(GameBoard.Board[7][0].getCurrentPiece() != null) {
+				if(GameBoard.Board[7][0].getCurrentPiece().getClass() == test.getClass()) {
+					//System.out.println("ISACA" + GameBoard.Board[7][0].getCurrentPiece().getClass() + " "+ test.getClass());
+					if(GameBoard.Board[7][0].getCurrentPiece().gethasMoved() == true)
+						canCastleQueen = false;
+				}
 			}
-			if(GameBoard.Board[7][7].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[7][7].getCurrentPiece().gethasMoved() == true)
-					canCastleKing = false;
+			if(GameBoard.Board[7][7].getCurrentPiece() != null) {
+				if(GameBoard.Board[7][7].getCurrentPiece().getClass() == test.getClass()) {
+					if(GameBoard.Board[7][7].getCurrentPiece().gethasMoved() == true)
+						canCastleKing = false;
+				}
 			}
 		}
 		
 		if(this.getColor() == false) {
-			if(GameBoard.Board[0][0].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[0][0].getCurrentPiece().gethasMoved() == true)
-					canCastleQueen = false;
+			if(GameBoard.Board[0][0].getCurrentPiece() != null) {
+				if(GameBoard.Board[0][0].getCurrentPiece().getClass() == test.getClass()) {
+					if(GameBoard.Board[0][0].getCurrentPiece().gethasMoved() == true)
+						canCastleQueen = false;
+				}
 			}
-			if(GameBoard.Board[0][7].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[0][7].getCurrentPiece().gethasMoved() == true)
-					canCastleKing = false;
+			if(GameBoard.Board[0][7].getCurrentPiece() != null) {
+				if(GameBoard.Board[0][7].getCurrentPiece().getClass() == test.getClass()) {
+					if(GameBoard.Board[0][7].getCurrentPiece().gethasMoved() == true)
+						canCastleKing = false;
+				}
 			}
 		}
 	}
