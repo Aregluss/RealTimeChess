@@ -277,7 +277,6 @@ public class ChessPiece// extends JPanel
 	};
 	
 	public void unhighlightLocation(int row, int column) {
-		System.out.println("say what called me "+ this);
 		GameBoard.Board[row][column].setSquare(129524512);
 		for(Square movable: locations) {
 			GameBoard.Board[movable.getRow()][movable.getColumn()].setSquare(51512511);
@@ -513,8 +512,8 @@ public class ChessPiece// extends JPanel
 				if( ((movable.getRow() - this.row) - (movable.getColumn() - this.column) == 0) 
 						&& movable.getRow() != this.row 
 						&& movable.getColumn() != this.column
-						&& (movable.getRow() >= rows.get(0) || movable.getRow() <= rows.get(1)) 
-						&& (movable.getColumn() >= cols.get(0) || movable.getColumn() <= cols.get(1))) {
+						&& (movable.getRow() >= rows.get(0) && movable.getRow() <= rows.get(1)) 
+						&& (movable.getColumn() >= cols.get(0) && movable.getColumn() <= cols.get(1))) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
 			}
@@ -538,8 +537,8 @@ public class ChessPiece// extends JPanel
 				if( ((movable.getRow() - this.row) + (movable.getColumn() - this.column) == 0) 
 						&& movable.getRow() != this.row 
 						&& movable.getColumn() != this.column
-						&& (movable.getRow() >= rows.get(0) || movable.getRow() <= rows.get(1)) 
-						&& (movable.getColumn() >= cols.get(0) || movable.getColumn() <= cols.get(1))) {
+						&& (movable.getRow() >= rows.get(0) && movable.getRow() <= rows.get(1)) 
+						&& (movable.getColumn() >= cols.get(0) && movable.getColumn() <= cols.get(1))) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
 			}
