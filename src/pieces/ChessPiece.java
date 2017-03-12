@@ -1,6 +1,8 @@
 package pieces;
 
 import game.*;
+import network.Client;
+import network.Server;
 import pieces.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -380,6 +382,10 @@ public class ChessPiece// extends JPanel
 			this.getMoveLocations();
 			if(this.checkmate(0)) {
 				//Games over
+				if(color==true)
+					Server.send();
+				if(color == false)
+					Client.send();
 				System.out.println("GAME IS OVER");
 			}
 			return;
@@ -415,6 +421,10 @@ public class ChessPiece// extends JPanel
 		if(this.checkmate(1)) {
 			//Games over
 			System.out.println("GAME IS OVER");
+			if(color==true)
+				Server.send();
+			if(color == false)
+				Client.send();
 			//JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
 			//System.exit(0);
 		}
