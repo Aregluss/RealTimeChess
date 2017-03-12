@@ -114,15 +114,7 @@ public class ChessPiece// extends JPanel
 		boolean canMove = false;
 	
 		if(GameBoard.gameState == 0) {
-			if(GameBoard.getlastSelected() != null) {
-				System.out.println(GameBoard.getlastSelected());
-				unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
-				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
-				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
-			}
-			else {
-				getMoveLocations();
-			}
+			getMoveLocations();
 		}
 		
 		//Search the locations array (created by GetMoveLocations), if a valid move set canMove to true
@@ -177,6 +169,12 @@ public class ChessPiece// extends JPanel
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			System.out.println("calling a buddy");
 			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
+			/*if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+				System.out.println(GameBoard.getlastSelected());
+				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+			}*/
 			//Just added
 			GameBoard.clearlastSelected();
 			this.row = row;
@@ -611,13 +609,13 @@ public class ChessPiece// extends JPanel
 		//new addition
 		GameBoard.graphBoard.resetMousePressed();
 		
-		/*for( Square piece :GameBoard.Player2.pieces) {		
+		for( Square piece :GameBoard.Player2.pieces) {		
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
 		}
 		for( Square piece :GameBoard.Player1.pieces) {		
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
 		}
-		*/
+		
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = true;
