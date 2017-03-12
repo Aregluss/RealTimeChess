@@ -316,18 +316,6 @@ public class King extends ChessPiece{
 	}
 	
 	@Override
-	public void setVisibility(boolean lol) {
-		System.out.println("im doing it!!!!! " + lol);
-		isVisible = lol;
-	}
-	
-	@Override
-	public boolean getVisibility() {
-		System.out.println("im doing it!!");
-		return isVisible;
-	}
-	
-	@Override
 	public String toString() {
 		return color + " " + name + " row: " + row + " col: " +column + " ";
 	}

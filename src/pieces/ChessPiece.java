@@ -627,13 +627,14 @@ public class ChessPiece// extends JPanel
 				return true;
 			}	
 			else {
-				GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(false);
+				GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(true);
 				return false;
 			}
 		}
 		
 		else {
 			GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setVisibility(false);
+			
 			if(checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
 				GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setVisibility(true);
 				return true;
