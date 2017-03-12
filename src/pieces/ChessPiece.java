@@ -661,7 +661,6 @@ public class ChessPiece// extends JPanel
 	 */
 	public void pinnedPieceMovementHelper() {
 		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
-
 		if(color == true ) {
 			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking) {
 				attack.getMoveLocations();
@@ -670,7 +669,7 @@ public class ChessPiece// extends JPanel
 					//Checks the direction the rook is attacking from, Horizontally
 					if(attack.row == this.row && attack.column != this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(locations.get(i).getRow() == attack.row && attack.column != locations.get(i).getColumn()) {
+							if(locations.get(i).getRow() == attack.row) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
@@ -678,7 +677,7 @@ public class ChessPiece// extends JPanel
 					//Vertically
 					if(attack.row != this.row && attack.column == this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(locations.get(i).getRow() != attack.row && attack.column == locations.get(i).getColumn()) {
+							if(attack.column == locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
@@ -725,14 +724,14 @@ public class ChessPiece// extends JPanel
 						}
 						
 						
-						if(attack.row == this.row && attack.column != this.column) {
+						if(attack.row == this.row) {
 							for(int i = 0; i < locations.size() ; i++) {
 								if(locations.get(i).getRow() == attack.row && locations.get(i).getColumn() != attack.column) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
 						}
-						if(attack.row != this.row && attack.column == this.column) {
+						if(attack.column == this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
 								if(locations.get(i).getRow() != attack.row && locations.get(i).getColumn() == attack.column) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
@@ -747,14 +746,14 @@ public class ChessPiece// extends JPanel
 			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking) {
 				attack.getMoveLocations();
 				if(attack instanceof Rook) {
-					if(attack.row == this.row && attack.column != this.column) {
+					if(attack.row == this.row ) {
 						for(int i = 0; i < locations.size() ; i++) {
 							if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
 					}
-					if(attack.row != this.row && attack.column == this.column) {
+					if(attack.column == this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
 							if(attack.row == locations.get(i).getRow() && attack.column == locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
@@ -802,14 +801,14 @@ public class ChessPiece// extends JPanel
 						}
 						
 						
-						if(attack.row == this.row && attack.column != this.column) {
+						if(attack.row == this.row ) {
 							for(int i = 0; i < locations.size() ; i++) {
 								if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
 						}
-						if(attack.row != this.row && attack.column == this.column) {
+						if( attack.column == this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
 								if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
