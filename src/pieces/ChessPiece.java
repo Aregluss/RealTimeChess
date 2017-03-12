@@ -387,6 +387,8 @@ public class ChessPiece// extends JPanel
 				if(color == false)
 					Client.send();
 				System.out.println("GAME IS OVER");
+				JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+				System.exit(0);
 			}
 			return;
 		}
@@ -425,8 +427,8 @@ public class ChessPiece// extends JPanel
 				Server.send();
 			if(color == false)
 				Client.send();
-			//JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
-			//System.exit(0);
+			JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
 		}
 	}
 	
