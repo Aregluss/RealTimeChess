@@ -168,7 +168,7 @@ public class ChessPiece// extends JPanel
 			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
 			this.row = row;
 			this.column = column;
-			//hasMoved = true;
+			hasMoved = true;
 			
 			if(color){
 				//add piece for player
@@ -919,12 +919,11 @@ public class ChessPiece// extends JPanel
 					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {
 				if( Math.floor(Math.hypot((this.row-row), (this.column-col))) <= 1.0 && piecesFound < 1 && spacesMoved != 1 && oriRow == row) {
 					piecesFound++;
-					
 					if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 						//King is in check
 					}
 				}
-				
+
 				else if( Math.abs((oriRow-row)) == 1.0 && piecesFound < 1 ) {
 					piecesFound++;
 					if( GameBoard.Board[row][col].getCurrentPiece() instanceof King || GameBoard.Board[row][col].getCurrentPiece() instanceof Queen 
@@ -955,6 +954,10 @@ public class ChessPiece// extends JPanel
 
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
+							return;
+						}
+						else {
+							return;
 						}
 					}
 				}
@@ -1041,7 +1044,10 @@ public class ChessPiece// extends JPanel
 					if(piecesFound == 1) {
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Rook)) {
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
-
+							return;
+						}
+						else {
+							return;
 						}
 					}
 				}
@@ -1163,9 +1169,9 @@ public class ChessPiece// extends JPanel
 					if(piecesFound == 1) {
 						if( (GameBoard.Board[row][col].getCurrentPiece() instanceof Queen || GameBoard.Board[row][col].getCurrentPiece() instanceof Bishop)) {
 							otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
-							
+							return;
 						}
-						if(GameBoard.Board[row][col].getCurrentPiece() instanceof Pawn) {
+						else if(GameBoard.Board[row][col].getCurrentPiece() instanceof Pawn) {
 							if(color){
 								//row ++
 								if( (found.row == row + 1 && found.column == col -1) || (found.row == row + 1 && found.column == col + 1)) {
@@ -1178,6 +1184,10 @@ public class ChessPiece// extends JPanel
 									otherPieces.add(GameBoard.Board[row][col].getCurrentPiece());
 								}
 							}
+							return;
+						}
+						else {
+							return;
 						}
 					}
 				}
