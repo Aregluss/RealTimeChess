@@ -115,6 +115,7 @@ public class ChessPiece// extends JPanel
 	
 		if(GameBoard.gameState == 0) {
 			if(GameBoard.getlastSelected() != null) {
+				System.out.println(GameBoard.getlastSelected());
 				unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
 				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
 				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
@@ -174,6 +175,7 @@ public class ChessPiece// extends JPanel
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
+			System.out.println("calling a buddy");
 			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
 			//Just added
 			GameBoard.clearlastSelected();
@@ -277,6 +279,7 @@ public class ChessPiece// extends JPanel
 	};
 	
 	public void unhighlightLocation(int row, int column) {
+		System.out.println("say what called me "+ this);
 		GameBoard.Board[row][column].setSquare(129524512);
 		for(Square movable: locations) {
 			GameBoard.Board[movable.getRow()][movable.getColumn()].setSquare(51512511);
@@ -608,12 +611,13 @@ public class ChessPiece// extends JPanel
 		//new addition
 		GameBoard.graphBoard.resetMousePressed();
 		
-		for( Square piece :GameBoard.Player2.pieces) {		
+		/*for( Square piece :GameBoard.Player2.pieces) {		
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
 		}
 		for( Square piece :GameBoard.Player1.pieces) {		
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
 		}
+		*/
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = true;
