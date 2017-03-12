@@ -53,7 +53,6 @@ public class Queen extends ChessPiece{
 		recursion(row, column, -1,-1);
 		
 		if (checkpinnedPiece()) {
-			System.out.println("im pinned!");
 			pinnedPieceMovementHelper();
 		}
 		setVisibility(true);

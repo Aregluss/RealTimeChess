@@ -209,9 +209,6 @@ public class ChessPiece// extends JPanel
 				}
 			}
 			
-			
-			
-			
 			if(GameBoard.gameState == 1) {
 				//CHECK RESOLVED
 				//Reset the arraylist containing pieces that can save the king
@@ -358,7 +355,6 @@ public class ChessPiece// extends JPanel
 	 */
 	public void checkResolution() {
 		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
-		System.out.println(originalAttackers.size() + " ");
 		ChessPiece attacker = originalAttackers.get(0);
 		//reset getMovelocations for both players
 
@@ -390,7 +386,6 @@ public class ChessPiece// extends JPanel
 			if(this.getColor()) {
 				for( Square piece : GameBoard.Player1.pieces) {
 					if(!(piece.getCurrentPiece() instanceof King)){
-						piece.getCurrentPiece().getMoveLocations();
 						this.checkResolutionAlliedPieces(attacker, piece.getCurrentPiece());
 					}
 				}
@@ -398,7 +393,6 @@ public class ChessPiece// extends JPanel
 			else {
 				for( Square piece :GameBoard.Player2.pieces) {
 					if(!(piece.getCurrentPiece() instanceof King)){
-						piece.getCurrentPiece().getMoveLocations();
 						this.checkResolutionAlliedPieces(attacker, piece.getCurrentPiece());
 					}
 				}
@@ -430,6 +424,7 @@ public class ChessPiece// extends JPanel
 	 * 
 	 */
 	public void checkResolutionAlliedPieces(ChessPiece originalAttacker,ChessPiece Ally) {
+		Ally.getMoveLocations();
 		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
 		if(Ally instanceof King) {
 			return;
@@ -664,6 +659,15 @@ public class ChessPiece// extends JPanel
 		if(color == true ) {
 			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking) {
 				attack.getMoveLocations();
+				
+				if(attack instanceof Knight) {
+					for(int i = 0; i < locations.size() ; i++) {
+						if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
+							modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+						}
+					}
+				}
+				
 				//Checks if the attacker is a rook
 				if(attack instanceof Rook) {
 					//Checks the direction the rook is attacking from, Horizontally
@@ -724,16 +728,16 @@ public class ChessPiece// extends JPanel
 						}
 						
 						
-						if(attack.row == this.row) {
+						if(attack.row == this.row && attack.column != this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() == attack.row && locations.get(i).getColumn() != attack.column) {
+								if(locations.get(i).getRow() == attack.row ) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
 						}
-						if(attack.column == this.column) {
+						if(attack.row != this.row && attack.column == this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() != attack.row && locations.get(i).getColumn() == attack.column) {
+								if(locations.get(i).getColumn() == attack.column) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
@@ -745,17 +749,26 @@ public class ChessPiece// extends JPanel
 		if(color == false ) {
 			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking) {
 				attack.getMoveLocations();
+				
+				if(attack instanceof Knight) {
+					for(int i = 0; i < locations.size() ; i++) {
+						if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
+							modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
+						}
+					}
+				}
+				
 				if(attack instanceof Rook) {
-					if(attack.row == this.row ) {
+					if(attack.row == this.row && attack.column != this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
+							if(locations.get(i).getRow() == attack.row ) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
 					}
-					if(attack.column == this.column) {
+					if(attack.row != this.row && attack.column == this.column) {
 						for(int i = 0; i < locations.size() ; i++) {
-							if(attack.row == locations.get(i).getRow() && attack.column == locations.get(i).getColumn()) {
+							if( attack.column == locations.get(i).getColumn()) {
 								modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 							}
 						}
@@ -801,16 +814,16 @@ public class ChessPiece// extends JPanel
 						}
 						
 						
-						if(attack.row == this.row ) {
+						if(attack.row == this.row && attack.column != this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
+								if(locations.get(i).getRow() == attack.row) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
 						}
-						if( attack.column == this.column) {
+						if( attack.row != this.row && attack.column == this.column) {
 							for(int i = 0; i < locations.size() ; i++) {
-								if(locations.get(i).getRow() == attack.row && attack.column == locations.get(i).getColumn()) {
+								if(attack.column == locations.get(i).getColumn()) {
 									modifiedLocations.add(new Square(locations.get(i).getRow(),locations.get(i).getColumn()));														
 								}
 							}
@@ -912,7 +925,6 @@ public class ChessPiece// extends JPanel
 				spacesMoved++;
 			}
 		}
-				
 		if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 			if(GameBoard.Board[row][col].getCurrentPiece().getColor() != color 
 					&& GameBoard.Board[row][col].getCurrentPiece().getVisibility() == true) {
