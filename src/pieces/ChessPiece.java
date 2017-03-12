@@ -168,7 +168,7 @@ public class ChessPiece// extends JPanel
 			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
 			this.row = row;
 			this.column = column;
-			hasMoved = true;
+			//hasMoved = true;
 			
 			if(color){
 				//add piece for player
@@ -223,8 +223,11 @@ public class ChessPiece// extends JPanel
 				A_Clock.continueTime();
 			}
 			
+			sethasMoved(true);
+			
 		}
 		else{
+			return;
 			//invalid movable location... throw an error? idk
 		}
 	};

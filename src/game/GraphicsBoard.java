@@ -212,6 +212,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 								{
 									initalPress = 0;
 									System.out.println("Moving me to same spot?");
+									GameBoard.Board[row][col].getCurrentPiece().unhighlightLocation(row,col);
 								}
 								else
 								{
