@@ -116,7 +116,7 @@ public class ChessPiece// extends JPanel
 		if(GameBoard.gameState == 0) {
 			if(GameBoard.getlastSelected() != null) {
 				unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
-				getMoveLocations();
+				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
 				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
 			}
 			else {
