@@ -5,6 +5,7 @@ import game.Player;
 import pieces.Pawn;
 import pieces.Rook;
 import pieces.Bishop;
+import pieces.ChessPiece;
 import pieces.King;
 import pieces.Knight;
 import pieces.Queen;
@@ -24,6 +25,7 @@ public class GameBoard implements Runnable
 	public static Square Bk = new Square(0,4); // Holds information on black king, notably location
 	public static Square Wk = new Square(7,4); // Holds information on white king, notably location
 	public static int gameState = 0;
+	private static Square lastSelected;
 	public volatile boolean truth = true;
 	
 	/** Constructor which sets up pieces, board, graphicsBoard, and Players
@@ -98,9 +100,21 @@ public class GameBoard implements Runnable
 						Board[6][j].setCurrentPiece(new Pawn(6, j, true));
 					}
 		}
+	
+	public static void setlastSelected(int row, int col, ChessPiece chessPiece) {
+		lastSelected = new Square(row,col,chessPiece);
+	}
+	
+	public static void clearlastSelected(){
+		lastSelected = null;
+	}
+	
+	public static Square getlastSelected() {
+		return lastSelected;
+	}
 
 	@Override
-	/**Tread which handles drawing pieces in right places
+	/**Thread which handles drawing pieces in right places
 	 * 
 	 */
 	public void run() 

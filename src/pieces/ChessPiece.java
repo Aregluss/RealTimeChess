@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.util.*;
 import java.math.*;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /** This is the class that every piece inherits from
@@ -166,6 +168,8 @@ public class ChessPiece// extends JPanel
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
+			//Just added
+			GameBoard.clearlastSelected();
 			this.row = row;
 			this.column = column;
 			hasMoved = true;
@@ -406,6 +410,8 @@ public class ChessPiece// extends JPanel
 		if(this.checkmate(1)) {
 			//Games over
 			System.out.println("GAME IS OVER");
+			JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
 		}
 	}
 	
@@ -592,6 +598,9 @@ public class ChessPiece// extends JPanel
 	 * @param color, true for white king, false for black king
 	 */
 	public void checkKing(boolean color) {
+		//new addition
+		GameBoard.graphBoard.resetMousePressed();
+		
 		for( Square piece :GameBoard.Player2.pieces) {		
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
 		}

@@ -144,6 +144,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 					{
 						System.out.println("LEFT");
 						initalPress = 0;
+						GameBoard.clearlastSelected();
 						if(GameBoard.Board[row][col].getCurrentPiece() != null) {
 							GameBoard.Board[row][col].getCurrentPiece().unhighlightLocation(row, col);
 						}
@@ -179,6 +180,8 @@ public class GraphicsBoard extends JPanel implements MouseListener
 								if(GameBoard.Board[row][col].getCurrentPiece().color == color){
 								initalPress++;
 								System.out.println("IM SELECTED " + GameBoard.Board[row][col].getCurrentPiece());
+								//new addition
+								GameBoard.setlastSelected(row,col,GameBoard.Board[row][col].getCurrentPiece());
 								if(GameBoard.gameState == 2) {
 									//lol
 									GameBoard.Board[row][col].getCurrentPiece().highightLocation();
@@ -213,6 +216,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 									initalPress = 0;
 									System.out.println("Moving me to same spot?");
 									GameBoard.Board[row][col].getCurrentPiece().unhighlightLocation(row,col);
+									GameBoard.clearlastSelected();
 								}
 								else
 								{
@@ -274,6 +278,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void resetMousePressed() {
+		initalPress = 0;
 	}
 
 
