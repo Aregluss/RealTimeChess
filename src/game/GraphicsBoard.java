@@ -215,6 +215,15 @@ public class GraphicsBoard extends JPanel implements MouseListener
 									System.out.println("Moving me to same spot?");
 									GameBoard.Board[row][col].getCurrentPiece().unhighlightLocation(row,col);
 									GameBoard.clearlastSelected();
+					
+									if(GameBoard.gameState == 2) {
+										if(GameBoard.getChecked() == 0) {
+											GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkhighlightLocation();
+										}
+										if(GameBoard.getChecked() == 1) {
+											GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkhighlightLocation();
+										}
+									}
 								}
 								else
 								{
@@ -252,6 +261,15 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time_limit < GameBoard.Board[row1][col1].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[row1][col1].getCurrentPiece().time)
 		 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
 		 								System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().offCoolDown);
+		 								
+		 								if(GameBoard.gameState == 2) {
+											if(GameBoard.getChecked() == 0) {
+												GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkhighlightLocation();
+											}
+											if(GameBoard.getChecked() == 1) {
+												GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkhighlightLocation();
+											}
+										}
 		 								
 		  							}
 								}

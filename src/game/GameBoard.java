@@ -27,6 +27,7 @@ public class GameBoard implements Runnable
 	public static int gameState = 0;
 	private static Square lastSelected;
 	private static boolean winner; // true if white wins, false if black wins
+	private static int checked; //1 if white is checked, 0 if black is checked, 2 if none are checked
 	public volatile boolean truth = true;
 	
 	/** Constructor which sets up pieces, board, graphicsBoard, and Players
@@ -120,6 +121,14 @@ public class GameBoard implements Runnable
 	
 	public static boolean getWinner() {
 		return winner;
+	}
+	
+	public static void setChecked(int check) {
+		checked = check;
+	}
+	
+	public static int getChecked() {
+		return checked;
 	}
 
 	@Override

@@ -13,6 +13,7 @@ public class King extends ChessPiece{
 	public String name = "King";
 	public ArrayList<ChessPiece> saviors = new ArrayList<ChessPiece>();
 	public ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
+	public ArrayList<ChessPiece> checkAttack = new ArrayList<ChessPiece>();
 
 	
 	public King(int row, int column, boolean color){
@@ -312,6 +313,22 @@ public class King extends ChessPiece{
 						canCastleKing = false;
 				}
 			}
+		}
+	}
+	
+	@Override
+	public void checkhighlightLocation() {
+		GameBoard.Board[this.row][this.column].setSquare(2);
+		for(ChessPiece attacker :checkAttack){
+			GameBoard.Board[attacker.row][attacker.column].setSquare(2);
+		}
+	}
+	
+	@Override
+	public void clearcheckhighlightLocation() {
+		GameBoard.Board[this.row][this.column].setSquare(412);
+		for(ChessPiece attacker :checkAttack){
+			GameBoard.Board[attacker.row][attacker.column].setSquare(124);
 		}
 	}
 	

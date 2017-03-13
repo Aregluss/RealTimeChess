@@ -46,12 +46,8 @@ public class ChessPiece// extends JPanel
 	public int width, height;
 	public String name;
 	
+	//Credits to https://www.freesound.org/people/Kastenfrosch/sounds/162465/
     SoundEffect checkSound = new SoundEffect("162465__kastenfrosch__lostitem.wav");
-    
-    protected void checkSound() {
-    		checkSound.playClip();   	            
-    }
-
 	
 	/**
 	 * Generic constructor to initialize piece on top on the Graphics and GameBoard 
@@ -231,10 +227,22 @@ public class ChessPiece// extends JPanel
 				//CHECK RESOLVED
 				//Reset the arraylist containing pieces that can save the king
 				GameBoard.gameState = 0;
+				
+				if(GameBoard.getChecked() == 0) {
+					GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().clearcheckhighlightLocation();
+				}
+				if(GameBoard.getChecked() == 1) {
+					GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().clearcheckhighlightLocation();
+				}
+				
 				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).saviors.clear();
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).saviors.clear();
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkAttack.clear();
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkAttack.clear();
+				GameBoard.setChecked(2);
 				//unfreeze the game + enable enemy pieces 
 				System.out.println("CHECK RESOLVED!!");
+				
 				A_Clock.continueTime();
 			}
 			
@@ -273,8 +281,10 @@ public class ChessPiece// extends JPanel
 	
 	
 	public void checkhighlightLocation() {
-		GameBoard.Board[row][column].setSquare(2);
-		((King)GameBoard.Board[row][column].getCurrentPiece()).attacking.get(0);
+	}
+	
+	public void clearcheckhighlightLocation() {
+		
 	}
 	
 	
@@ -379,8 +389,8 @@ public class ChessPiece// extends JPanel
 	 * 		->Iterate through all the allies and check whether or not they can move to save the king (calls a helper function to do so) 
 	 */
 	public void checkResolution() {
-		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
-		ChessPiece attacker = originalAttackers.get(0);
+		((King)this).checkAttack = ((King)this).attacking;
+		ChessPiece attacker = ((King)this).checkAttack.get(0);
 		//reset getMovelocations for both players
 
 		for( Square piece : GameBoard.Player1.pieces) {
@@ -635,11 +645,13 @@ public class ChessPiece// extends JPanel
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = true;
+			GameBoard.setChecked(1);
 		}
 		
 		else{
 			System.out.println("YO THE BLACK KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = true;
+			GameBoard.setChecked(0);
 		}
 		return;
 	}
@@ -1327,6 +1339,11 @@ public class ChessPiece// extends JPanel
 		
 		return EnemyPieces;
 	}
+	
+	protected void checkSound() {
+		checkSound.playClip();   	            
+	}
+
 	/**
 	 * sets a pieces visibility relative to other pieces
 	 * 
