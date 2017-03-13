@@ -382,6 +382,7 @@ public class ChessPiece// extends JPanel
 			this.getMoveLocations();
 			if(this.checkmate(0)) {
 				//Games over
+				GameBoard.gameState = 3;
 			}
 			return;
 		}
@@ -416,8 +417,7 @@ public class ChessPiece// extends JPanel
 		if(this.checkmate(1)) {
 			//Games over
 			System.out.println("GAME IS OVER");
-			JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
-			System.exit(0);
+			GameBoard.gameState = 3;
 		}
 	}
 	

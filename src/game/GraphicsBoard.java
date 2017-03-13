@@ -21,8 +21,6 @@ import pieces.CoolDownAnimation;
 import game.TimerClock;
 import network.*;
 
-import javax.swing.Timer;
-
 public class GraphicsBoard extends JPanel implements MouseListener
 {
 
@@ -254,6 +252,11 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time_limit < GameBoard.Board[row1][col1].getCurrentPiece().A_Clock.return_milli_time()-GameBoard.Board[row1][col1].getCurrentPiece().time)
 		 								//System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().time);
 		 								System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().offCoolDown);
+		 								
+		 								if(GameBoard.gameState == 3) {
+		 									JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+		 									System.exit(0);
+		 								}
 		  							}
 								}
 							}
