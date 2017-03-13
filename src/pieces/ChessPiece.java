@@ -46,7 +46,7 @@ public class ChessPiece// extends JPanel
 	public int width, height;
 	public String name;
 	
-    SoundEffect checkSound = new SoundEffect("162465__kastenfrosch__lostitem.mp3");
+    SoundEffect checkSound = new SoundEffect("162465__kastenfrosch__lostitem.wav");
     
     protected void checkSound() {
     		checkSound.playClip();   	            
