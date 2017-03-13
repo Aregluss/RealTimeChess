@@ -71,6 +71,8 @@ public class King extends ChessPiece{
 					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
 					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
 				}
+				GameBoard.graphBoard.resetMousePressed();
+
 			}
 			//for moving to an empty space
 			else {
