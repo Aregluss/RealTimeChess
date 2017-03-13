@@ -242,10 +242,18 @@ public class Pawn extends ChessPiece{
 			//update piece for player
 			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
 			GameBoard.Player1.pieces.add(new Square(row,column,this));
+			if(GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(),GameBoard.Bk.getColumn())) {
+				checkKing(false);
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
+			}
 		}
 		else {
 			GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 			GameBoard.Player2.pieces.add(new Square(row,column,this));
+			if(GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(),GameBoard.Wk.getColumn())) {
+				checkKing(true);
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
+			}
 		}
 	}
 	
