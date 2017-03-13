@@ -150,6 +150,7 @@ public class StartScreen extends JPanel
 					
 					Server newServer = new Server();
 					GraphicsBoard.player = true;
+					UIManager.put("OptionPane.okButtonText", "Ok");
 				} catch (UnknownHostException e) {
 					JOptionPane.showMessageDialog(null, "Unable to find your IP");
 				} catch (IOException e) {

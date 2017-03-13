@@ -217,7 +217,7 @@ public class Pawn extends ChessPiece{
 	}
 			
 	/**
-	 * Precondition called when the pawn hits the end of the board
+	 * Precondition called when the pawn hits the end of the boar
 	 * Postcondition promotes the pawn to the selected promotion
 	 * 
 	 * @param promotionPiece, which piece the pawn wants to promote to
@@ -264,7 +264,7 @@ public class Pawn extends ChessPiece{
 	 */
 	
 	public String choosePromotion() {
-		String[] options = new String[] {"queen", "rook", "bishop", "knight"};
+		String[] options = new String[] {"Queen", "Rook", "Bishop", "Knight"};
 		int response = JOptionPane.showOptionDialog(null, "Message", "Title",
 		JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 		    // Where response == 0 for Yes, 1 for No, 2 for Maybe and -1 or 3 for Escape/Cancel.

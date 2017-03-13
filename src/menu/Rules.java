@@ -58,7 +58,7 @@ public class Rules extends JPanel
 		    		+ "Here are a basic set of rules to get you started.<br>"
 		    		+ "----------------------------------------------------------<br>"
 		    		+ "Pieces move just like they do in regular chess.<br>"
-		    		+ "Unlike chess, there are no turns, so don't wait.<br>"
+		    		+ "Unlike chess, there are no turns, so don't have to wait.<br>"
 		    		+ "After moving each piece it cant be moved for 3 seconds.<br>"  
 		    		+ "When in check, all piece timers will be paused.<br>"
 		    		+ "When checked, it must be resolved in next move<br>"
