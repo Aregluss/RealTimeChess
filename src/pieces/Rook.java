@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import game.GameBoard;
 
@@ -17,21 +18,9 @@ public class Rook extends ChessPiece {
 		// TODO Auto-generated constructor stub
 		
 		if(color)
-			try {
-				image = ImageIO.read(new File("whiteRook.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = new ImageIcon("whiteRook.png").getImage();
 		else
-		{
-			try {
-				image = ImageIO.read(new File("blackRook.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			image = new ImageIcon("blackRook.png").getImage();
 	}
 
 
@@ -71,12 +60,6 @@ public class Rook extends ChessPiece {
 	public void highightLocation() {
 		// TODO Auto-generated method stub
 		super.highightLocation();
-	}
-
-	@Override
-	public Square sendAttackSpot() {
-		// TODO Auto-generated method stub
-		return super.sendAttackSpot();
 	}
 
 	@Override

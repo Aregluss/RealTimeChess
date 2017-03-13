@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import game.*;
 public class King extends ChessPiece{
 	
-	boolean isChecked = false;
+	public boolean isChecked = false;
 	public String name = "King";
 	public ArrayList<ChessPiece> saviors = new ArrayList<ChessPiece>();
 	public ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
@@ -19,55 +20,164 @@ public class King extends ChessPiece{
 		isChecked = false;
 		canCastleKing = true;
 		canCastleQueen = true;
-		
 		if(color)
-			try {
-				image = ImageIO.read(new File("whiteKing.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = new ImageIcon("whiteKing.png").getImage();
 		else
-		{
-			try {
-				image = ImageIO.read(new File("blackKing.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			image = new ImageIcon("blackKing.png").getImage();
+		
 		
 	}
+	
 	@Override
 	public void move(int row, int column) {
 		
-		super.move(row, column);
-
-		if(column == 6 && canCastleKing == true)	{
-
-			if(this.getColor() == true)	{
-				GameBoard.Board[7][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
-				GameBoard.Board[7][7].setCurrentPiece(null);
-			}
-			if(this.getColor() == false){
-				GameBoard.Board[0][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
-				GameBoard.Board[0][7].setCurrentPiece(null);
-			}
+		boolean canMove = false;
+		
+		if(GameBoard.gameState == 0) {
+			getMoveLocations();
 		}
 		
-		if(column == 2 && canCastleQueen == true)	{
-			if(this.getColor() == true)	{
-				GameBoard.Board[7][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
-				GameBoard.Board[7][0].setCurrentPiece(null);
-			}
-			if(this.getColor() == false){
-				GameBoard.Board[0][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
-				GameBoard.Board[0][0].setCurrentPiece(null);
-			}
+		//Search the locations array (created by GetMoveLocations), if a valid move set canMove to true
+		for(Square movable: locations)	{
+			if((row == movable.getRow()) && (column == movable.getColumn()))	{
+				canMove = true;
+			}			
 		}
-		// Modify BK and WK static pieces.
-		canCastleKing = false;
-		canCastleQueen = false;
+    
+		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
+		if(canMove)	{
+			offCoolDown = false;
+			time = A_Clock.return_milli_time();
+			if(GameBoard.Board[this.row][this.column].getCurrentPiece() instanceof King) {
+				if(this.color == true) {
+					GameBoard.Wk.setRow(row);
+					GameBoard.Wk.setColumn(column);
+				}
+	
+				if (color == false) {
+					GameBoard.Bk.setRow(row);
+					GameBoard.Bk.setColumn(column);
+				}
+			}
+			
+			//checks if moving will kill an enemy piece, if so update the player arraylists accordingly
+			if(GameBoard.Board[row][column].getCurrentPiece() != null) {
+				if(color){
+					//update piece for player
+					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
+					GameBoard.Player2.pieces.remove(GameBoard.Board[row][column]);
+					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
+				}
+				else {
+					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
+					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
+					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
+				}
+			}
+			//for moving to an empty space
+			else {
+				if(color){
+					//update piece for player
+					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
+				}
+				else {
+					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
+				}
+			}
+			//Moves the piece then deletes itself from its old position
+			GameBoard.Board[row][column].setCurrentPiece(this);
+			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
+			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
+			this.row = row;
+			this.column = column;
+			//hasMoved = true;
+			
+			if(color){
+				//add piece for player
+				GameBoard.Player1.pieces.add(new Square(row,column,this));
+			}
+			else {
+				GameBoard.Player2.pieces.add(new Square(row,column,this));
+			}
+			
+			//Indicates that the game is in checkresolution once a piece moves, sets the state to normal
+			//with no bugs, a piece can ONLY move if it resolves the check
+			if(GameBoard.gameState == 2) {
+				GameBoard.gameState = 1;
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = false;
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = false;
+			}
+			
+			//Checks if the piece moving caused a check on the enemy king, if this is true then check resolution occurs
+			//FREEZE GAME, disable enemy, Check resolution
+			if(color==true) {
+				if ( GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
+					checkKing(false);
+					if( ( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked == true) {
+						A_Clock.pause();
+						//GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setoffCoolDown(true);
+						( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
+					}
+				}
+			}
+			else {
+				if ( GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
+					checkKing(true);
+					if( ( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked == true) {
+						A_Clock.pause();
+						//GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setoffCoolDown(true);
+						( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
+					}
+				}
+			}
+			
+			
+			
+			
+			if(GameBoard.gameState == 1) {
+				//CHECK RESOLVED
+				//Reset the arraylist containing pieces that can save the king
+				GameBoard.gameState = 0;
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).saviors.clear();
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).saviors.clear();
+				//unfreeze the game + enable enemy pieces 
+				System.out.println("CHECK RESOLVED!!");
+				A_Clock.continueTime();
+			}
+			
+			if(column == 6 && canCastleKing == true)	{
+
+				if(this.getColor() == true)	{
+					GameBoard.Board[7][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
+					GameBoard.Board[7][7].setCurrentPiece(null);
+				}
+				if(this.getColor() == false){
+					GameBoard.Board[0][7].getCurrentPiece().CastleMove(this.row, this.column-1); // moving rook
+					GameBoard.Board[0][7].setCurrentPiece(null);
+				}
+			}
+			
+			if(column == 2 && canCastleQueen == true)	{
+				if(this.getColor() == true)	{
+					GameBoard.Board[7][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
+					GameBoard.Board[7][0].setCurrentPiece(null);
+				}
+				if(this.getColor() == false){
+					GameBoard.Board[0][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
+					GameBoard.Board[0][0].setCurrentPiece(null);
+				}
+			}
+			
+			sethasMoved(true);
+			// Modify BK and WK static pieces.
+			canCastleKing = false;
+			canCastleQueen = false;
+			
+		}
+		else{
+			return;
+			//invalid movable location... throw an error? idk
+		}
 	}
 	
 	@Override
@@ -96,17 +206,22 @@ public class King extends ChessPiece{
 		getmovelocationHelper(-1,-1);
 		
 		
- 		if(	(canCastleKing == true) )	{
- 			if(	(GameBoard.Board[row][column+1].getCurrentPiece() == null) && (GameBoard.Board[row][column+2].getCurrentPiece() == null))
- 				locations.add(new Square(row,column+2));
- 			
+ 		if(	(canCastleKing == true && isChecked == false && !checkSquare(row,column+2) ) )	{
+ 			if(GameBoard.Board[row][column+3].getCurrentPiece() != null && GameBoard.Board[row][column+3].getCurrentPiece() instanceof Rook
+ 					&& GameBoard.Board[row][column+3].getCurrentPiece().gethasMoved() == false) {
+	 			if(	(GameBoard.Board[row][column+1].getCurrentPiece() == null) && (GameBoard.Board[row][column+2].getCurrentPiece() == null))
+	 				locations.add(new Square(row,column+2));
+ 			}
  		}
  		
  		
- 		if( (canCastleQueen == true))	{
- 			if(	(GameBoard.Board[row][column-1].getCurrentPiece() == null) && (GameBoard.Board[row][column-2].getCurrentPiece() == null) 
- 					&& (GameBoard.Board[row][column-3].getCurrentPiece() == null))
- 				locations.add(new Square(row,column-2));
+ 		if( (canCastleQueen == true && isChecked == false && !checkSquare(row,column-2)))	{
+ 			if(GameBoard.Board[row][column-4].getCurrentPiece() != null && GameBoard.Board[row][column-4].getCurrentPiece() instanceof Rook
+ 					&& GameBoard.Board[row][column-4].getCurrentPiece().gethasMoved() == false) {
+	 			if(	(GameBoard.Board[row][column-1].getCurrentPiece() == null) && (GameBoard.Board[row][column-2].getCurrentPiece() == null) 
+	 					&& (GameBoard.Board[row][column-3].getCurrentPiece() == null))
+	 				locations.add(new Square(row,column-2));
+ 			}
  		}
  		
  		setVisibility(true);
@@ -153,12 +268,6 @@ public class King extends ChessPiece{
 	}
 	
 	@Override
-	public Square sendAttackSpot() {
-		// TODO Auto-generated method stub
-		return super.sendAttackSpot();
-	}
-	
-	@Override
 	public boolean getColor() {
 		// TODO Auto-generated method stub
 		return super.getColor();
@@ -175,28 +284,37 @@ public class King extends ChessPiece{
 
 		// calls check to test if its checked
 		if(this.getColor() == true) {
-			if(GameBoard.Board[7][0].getCurrentPiece().getClass() == test.getClass()) {
-				//System.out.println("ISACA" + GameBoard.Board[7][0].getCurrentPiece().getClass() + " "+ test.getClass());
-				if(GameBoard.Board[7][0].getCurrentPiece().gethasMoved() == true)
-					canCastleQueen = false;
+			if(GameBoard.Board[7][0].getCurrentPiece() != null) {
+				if(GameBoard.Board[7][0].getCurrentPiece().getClass() == test.getClass()) {
+					//System.out.println("ISACA" + GameBoard.Board[7][0].getCurrentPiece().getClass() + " "+ test.getClass());
+					if(GameBoard.Board[7][0].getCurrentPiece().gethasMoved() == true)
+						canCastleQueen = false;
+				}
 			}
-			if(GameBoard.Board[7][7].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[7][7].getCurrentPiece().gethasMoved() == true)
-					canCastleKing = false;
+			if(GameBoard.Board[7][7].getCurrentPiece() != null) {
+				if(GameBoard.Board[7][7].getCurrentPiece().getClass() == test.getClass()) {
+					if(GameBoard.Board[7][7].getCurrentPiece().gethasMoved() == true)
+						canCastleKing = false;
+				}
 			}
 		}
 		
 		if(this.getColor() == false) {
-			if(GameBoard.Board[0][0].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[0][0].getCurrentPiece().gethasMoved() == true)
-					canCastleQueen = false;
+			if(GameBoard.Board[0][0].getCurrentPiece() != null) {
+				if(GameBoard.Board[0][0].getCurrentPiece().getClass() == test.getClass()) {
+					if(GameBoard.Board[0][0].getCurrentPiece().gethasMoved() == true)
+						canCastleQueen = false;
+				}
 			}
-			if(GameBoard.Board[0][7].getCurrentPiece().getClass() == test.getClass()) {
-				if(GameBoard.Board[0][7].getCurrentPiece().gethasMoved() == true)
-					canCastleKing = false;
+			if(GameBoard.Board[0][7].getCurrentPiece() != null) {
+				if(GameBoard.Board[0][7].getCurrentPiece().getClass() == test.getClass()) {
+					if(GameBoard.Board[0][7].getCurrentPiece().gethasMoved() == true)
+						canCastleKing = false;
+				}
 			}
 		}
 	}
+	
 	@Override
 	public String toString() {
 		return color + " " + name + " row: " + row + " col: " +column + " ";

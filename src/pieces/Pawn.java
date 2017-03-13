@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import game.GameBoard;
 import pieces.Square;
@@ -18,23 +19,13 @@ public class Pawn extends ChessPiece{
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
+	
 		
 		if(color)
-			try {
-				image = ImageIO.read(new File("whitePawn.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = new ImageIcon("whitePawn.png").getImage();
 		else
-		{
-			try {
-				image = ImageIO.read(new File("blackPawn.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			image = new ImageIcon("blackPawn.png").getImage();
+
 	}
 
 
@@ -42,16 +33,16 @@ public class Pawn extends ChessPiece{
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub
 		super.move(row, column);
-		sethasMoved(true);
 		
 		if(color == true) {
-			if(row == 0) {
+			if(row == 0 && this.row == 0) {
 				promote(choosePromotion());
+				
 			}
 		}
 		
 		if(color == false) {
-			if(row == 7) {
+			if(row == 7 && this.row == 7) {
 				promote(choosePromotion());
 			}
 		}
@@ -232,6 +223,15 @@ public class Pawn extends ChessPiece{
 		if(promotionPiece.equals("rook")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
+		if(color){
+			//update piece for player
+			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
+			GameBoard.Player1.pieces.add(new Square(row,column,this));
+		}
+		else {
+			GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
+			GameBoard.Player2.pieces.add(new Square(row,column,this));
+		}
 	}
 	
 	/**
@@ -250,14 +250,6 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		super.highightLocation();
 	}
-
-
-	@Override
-	public Square sendAttackSpot() {
-		// TODO Auto-generated method stub
-		return super.sendAttackSpot();
-	}
-
 
 	@Override
 	public boolean getColor() {

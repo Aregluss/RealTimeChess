@@ -2,6 +2,7 @@ package game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,11 +20,10 @@ public class Window extends JFrame{
 	{	
 		super("RTC");
 		//should make game resizable
-		setBounds(100, 100, 800, 700);
+		setBounds(200, 200, 800, 800);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		setVisible(true);
+		setMinimumSize(new Dimension(800, 800));
 	    //make window go transparent when mouse leaves will look cool
 	    
 	   

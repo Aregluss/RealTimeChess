@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Queen extends ChessPiece{
 	public String name = "Queen";
@@ -13,21 +14,10 @@ public class Queen extends ChessPiece{
 		super(row, column, color);
 		
 		if(color)
-			try {
-				image = ImageIO.read(new File("whiteQueen.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = new ImageIcon("whiteQueen.png").getImage();
 		else
-		{
-			try {
-				image = ImageIO.read(new File("blackQueen.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			image = new ImageIcon("blackQueen.png").getImage();
+
 		
 	}
 	
@@ -63,7 +53,6 @@ public class Queen extends ChessPiece{
 		recursion(row, column, -1,-1);
 		
 		if (checkpinnedPiece()) {
-			System.out.println("im pinned!");
 			pinnedPieceMovementHelper();
 		}
 		setVisibility(true);
@@ -73,12 +62,6 @@ public class Queen extends ChessPiece{
 	public void highightLocation() {
 		// TODO Auto-generated method stub
 		super.highightLocation();
-	}
-
-	@Override
-	public Square sendAttackSpot() {
-		// TODO Auto-generated method stub
-		return super.sendAttackSpot();
 	}
 
 	@Override

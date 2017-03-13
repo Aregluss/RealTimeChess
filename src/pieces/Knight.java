@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import game.GameBoard;
 
@@ -17,21 +18,10 @@ public class Knight extends ChessPiece{
 		super(row, column, color);
 		
 		if(color)
-			try {
-				image = ImageIO.read(new File("whiteKnight.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = new ImageIcon("whiteKnight.png").getImage();
 		else
-		{
-			try {
-				image = ImageIO.read(new File("blackKnight.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			image = new ImageIcon("blackKnight.png").getImage();
+		
 
 	}
 	@Override
@@ -153,12 +143,6 @@ public class Knight extends ChessPiece{
 	public void highightLocation() {
 		// TODO Auto-generated method stub
 		super.highightLocation();
-	}
-
-	@Override
-	public Square sendAttackSpot() {
-		// TODO Auto-generated method stub
-		return super.sendAttackSpot();
 	}
 
 	@Override
