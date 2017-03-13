@@ -316,9 +316,7 @@ public class King extends ChessPiece{
 	@Override
 	public void checkhighlightLocation() {
 		GameBoard.Board[this.row][this.column].setSquare(2);
-		System.out.println("im here! "+ checkAttack.size());
 		for(ChessPiece attacker :checkAttack){
-			System.out.println(attacker + " goon me");
 			GameBoard.Board[attacker.row][attacker.column].setSquare(2);
 		}
 	}
