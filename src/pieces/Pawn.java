@@ -219,14 +219,24 @@ public class Pawn extends ChessPiece{
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
 		if(color){
-			//update piece for player
+			//update piece for player & check for king becoming checked
 			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
 			GameBoard.Player1.pieces.add(new Square(row,column,this));
+			if(!GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(),GameBoard.Bk.getColumn())) {
+				checkKing(GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().getColor());
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
+			}
 		}
 		else {
 			GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 			GameBoard.Player2.pieces.add(new Square(row,column,this));
+			if(!GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(),GameBoard.Wk.getColumn())) {
+				checkKing(GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().getColor());
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
+			}		
 		}
+		
+		
 	}
 	
 	/**
