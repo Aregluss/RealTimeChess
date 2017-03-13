@@ -175,7 +175,10 @@ public class ChessPiece// extends JPanel
 				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
 			}
 			//Just added
-			GameBoard.clearlastSelected();
+			if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece() ) {
+				GameBoard.clearlastSelected();
+			}
+			
 			this.row = row;
 			this.column = column;
 			hasMoved = true;
