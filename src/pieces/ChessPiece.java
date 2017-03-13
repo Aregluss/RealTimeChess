@@ -112,8 +112,7 @@ public class ChessPiece// extends JPanel
 	
 	public void move(int row, int column){
 		boolean canMove = false;
-		boolean highlight = false;
-
+	
 		if(GameBoard.gameState == 0) {
 			getMoveLocations();
 		}
@@ -154,8 +153,6 @@ public class ChessPiece// extends JPanel
 					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
 					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
 				}
-				GameBoard.graphBoard.resetMousePressed();
-
 			}
 			//for moving to an empty space
 			else {
@@ -167,25 +164,16 @@ public class ChessPiece// extends JPanel
 					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 				}
 			}
-			
-			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0 
-					&& GameBoard.Board[row][column].getCurrentPiece() != GameBoard.getlastSelected().getCurrentPiece()) {
-				highlight = true;
-			}
-			
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
-			
-			if(highlight == true) {
-				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, 
-						GameBoard.getlastSelected().getCurrentPiece().column);
+			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
 				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
 				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
 			}
-			if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[this.row][this.column].getCurrentPiece() ) {
-				GameBoard.clearlastSelected();
-			}
+			//Just added
+			GameBoard.clearlastSelected();
 			this.row = row;
 			this.column = column;
 			hasMoved = true;
