@@ -234,11 +234,12 @@ public class GraphicsBoard extends JPanel implements MouseListener
 									if(initalPress == 1 && (GameBoard.Board[row][col].getCurrentPiece().offCoolDown || !GameBoard.Board[row][col].getCurrentPiece().hasMoved || ChessPiece.A_Clock.get_isPaused()))
 		 							{
 		 								System.out.println("initalpress1");
-		 								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
 		 								if(color==true)
 		 									Server.send();
 		 								if(color == false)
 		 									Client.send();
+		 								GameBoard.Board[row][col].getCurrentPiece().move(row1, col1);
+
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().hasMoved = true;
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().executeTimeout();
 		 								//GameBoard.Board[row1][col1].getCurrentPiece().
