@@ -35,17 +35,19 @@ public class Server implements Runnable{
 	      runServer();
 	      if(connected){
 	    	  System.out.println("GOT THROUGH CONNECTED");
-	       input1 = new BufferedReader(new InputStreamReader (p1.getInputStream()));
-	       output1 = new PrintWriter(p1.getOutputStream(), true);  
-	      Thread thread = new Thread(this);
-	      thread.start();
+	    	  input1 = new BufferedReader(new InputStreamReader (p1.getInputStream()));
+	    	  output1 = new PrintWriter(p1.getOutputStream(), true);  
+	    	  Thread thread = new Thread(this);
+	    	  thread.start();
 	      }
 	    }
 	 
-	private static void runServer(){
+	private static void runServer() throws IOException{
 	    try
 	    {
+	    	System.out.println("FIRST LINE");
 	      ss = new ServerSocket(port);
+	      System.out.println("SECOND LINE");
 	      ss.setSoTimeout(5000);
 	      System.out.println("listening port: " + port);
 	      p1 = ss.accept();
@@ -56,6 +58,7 @@ public class Server implements Runnable{
 	    catch (IOException ex)
 	    {
 	    	System.out.println("RUN SERVER FAILED");
+	    	ss.close();
 	      //ex.printStackTrace();
 	    }
 	 }	
