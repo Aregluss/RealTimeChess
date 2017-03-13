@@ -13,7 +13,6 @@ import pieces.Square;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import game.GraphicsBoard;
 
 public class GameBoard implements Runnable

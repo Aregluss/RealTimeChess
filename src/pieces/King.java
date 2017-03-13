@@ -1,9 +1,6 @@
 package pieces;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import game.*;
@@ -11,9 +8,9 @@ public class King extends ChessPiece{
 	
 	public boolean isChecked = false;
 	public String name = "King";
-	public ArrayList<ChessPiece> saviors = new ArrayList<ChessPiece>();
-	public ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
-	public ArrayList<ChessPiece> checkAttack = new ArrayList<ChessPiece>();
+	private ArrayList<ChessPiece> saviors = new ArrayList<ChessPiece>();
+	private ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
+	private ArrayList<ChessPiece> checkAttack = new ArrayList<ChessPiece>();
 
 	
 	public King(int row, int column, boolean color){
@@ -139,8 +136,8 @@ public class King extends ChessPiece{
 				//CHECK RESOLVED
 				//Reset the arraylist containing pieces that can save the king
 				GameBoard.gameState = 0;
-				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).saviors.clear();
-				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).saviors.clear();
+				clearcheckhighlightLocation();
+				saviors.clear();
 				//unfreeze the game + enable enemy pieces 
 				System.out.println("CHECK RESOLVED!!");
 				A_Clock.continueTime();
@@ -319,9 +316,9 @@ public class King extends ChessPiece{
 	@Override
 	public void checkhighlightLocation() {
 		GameBoard.Board[this.row][this.column].setSquare(2);
-		System.out.println("Hey im in here " + checkAttack.size());
+		System.out.println("im here! "+ checkAttack.size());
 		for(ChessPiece attacker :checkAttack){
-			System.out.println("Hey im in here!!! " + attacker);
+			System.out.println(attacker + " goon me");
 			GameBoard.Board[attacker.row][attacker.column].setSquare(2);
 		}
 	}
@@ -332,6 +329,30 @@ public class King extends ChessPiece{
 		for(ChessPiece attacker :checkAttack){
 			GameBoard.Board[attacker.row][attacker.column].setSquare(124);
 		}
+	}
+	
+	public void setSaviors(ArrayList<ChessPiece> help) {
+		saviors = help;
+	}
+	
+	public void setAttacking(ArrayList<ChessPiece> help) {
+		attacking = help;
+	}
+	
+	public void setcheckAttack(ArrayList<ChessPiece> help) {
+		checkAttack = help;
+	}
+	
+	public ArrayList<ChessPiece> getSaviors() {
+		return saviors;
+	}
+	
+	public ArrayList<ChessPiece> getAttacking() {
+		return attacking;
+	}
+	
+	public ArrayList<ChessPiece> getcheckAttack() {
+		return checkAttack;
 	}
 	
 	@Override

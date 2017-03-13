@@ -1,14 +1,9 @@
 package network;
 
-import java.awt.Graphics;
-import java.awt.event.InputEvent;
 import java.io.*;
-import java.util.*;
-
 import javax.swing.JOptionPane;
 
 import pieces.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import game.*;

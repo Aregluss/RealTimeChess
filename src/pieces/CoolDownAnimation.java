@@ -6,38 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.util.*; //new timer?
-
-//import javax.swing.Timer;
-//import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.*;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import game.TimerClock;
 import pieces.ChessPiece;

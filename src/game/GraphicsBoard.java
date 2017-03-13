@@ -1,25 +1,18 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import pieces.Square; //remove later
 import pieces.ChessPiece;
 import pieces.CoolDownAnimation;
-import game.TimerClock;
 import network.*;
+import pieces.King;
 
 public class GraphicsBoard extends JPanel implements MouseListener
 {
@@ -123,7 +116,6 @@ public class GraphicsBoard extends JPanel implements MouseListener
 				
 				//double dx = x * (Map.REALWIDTH + 0.0) / map.getWidth();
 				//double dy = y * (Map.REALHEIGHT + 0.0) / map.getHeight();
-				
 				System.out.println("x & y = " +x +" & "+y);
 				if(x < WIDTH && y < HEIGHT)
 				{
@@ -148,6 +140,16 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						}
 						if(GameBoard.Board[row1][col1].getCurrentPiece() != null) {
 							GameBoard.Board[row1][col1].getCurrentPiece().unhighlightLocation(row1, col1);
+						}
+												
+						if(GameBoard.gameState == 2) {
+							if(GameBoard.getChecked() == 0) {
+								
+								((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkhighlightLocation();
+							}
+							if(GameBoard.getChecked() == 1) {
+								((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkhighlightLocation();
+							}
 						}
 					}
 					else if(e.getButton() == MouseEvent.BUTTON1)
@@ -218,10 +220,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
 					
 									if(GameBoard.gameState == 2) {
 										if(GameBoard.getChecked() == 0) {
-											GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkhighlightLocation();
+											((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkhighlightLocation();
 										}
 										if(GameBoard.getChecked() == 1) {
-											GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkhighlightLocation();
+											((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkhighlightLocation();
 										}
 									}
 								}
@@ -263,13 +265,13 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		 								System.out.println(GameBoard.Board[row1][col1].getCurrentPiece().offCoolDown);
 		 								
 		 								if(GameBoard.gameState == 2) {
-											if(GameBoard.getChecked() == 0) {
-												GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkhighlightLocation();
-											}
-											if(GameBoard.getChecked() == 1) {
-												GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkhighlightLocation();
-											}
-										}
+		 									if(GameBoard.getChecked() == 0) {
+		 										((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkhighlightLocation();
+		 									}
+		 									if(GameBoard.getChecked() == 1) {
+		 										((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkhighlightLocation();
+		 									}
+		 								}
 		 								
 		  							}
 								}

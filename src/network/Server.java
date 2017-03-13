@@ -1,15 +1,9 @@
 package network;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.awt.CardLayout;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.*;
-import java.util.HashMap;
-
 import javax.swing.JOptionPane;
 
 import game.*;

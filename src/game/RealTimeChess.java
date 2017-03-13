@@ -3,13 +3,11 @@ package game;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import menu.StartScreen;
-import pieces.Square;
 import game.GameBoard;
 
 public class RealTimeChess {

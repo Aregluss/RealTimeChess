@@ -1,9 +1,5 @@
 package tests.Queen;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
-
-import pieces.*;
 import game.*;
 
 public class QueenTest {
