@@ -62,10 +62,6 @@ public class Client implements Runnable{
 		        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + "]");
 		        output1.println(sending);
 		    	System.out.println("After sending output!!!!");	 
-		    	if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
-					JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
-					RealTimeChess.switchPanel("1");
-				}
 	  }
 	public static void sendPromotion(String promotion){
 		  sending = promotion;
@@ -133,9 +129,14 @@ public class Client implements Runnable{
 			 }
 			 GameBoard.graphBoard.repaint();
 			 
-			 if((GameBoard.gameState == 3 && GameBoard.getWinner() == false )|| temp_input == "end") {
+			 if(GameBoard.gameState == 3|| temp_input == "end") {
 				 	sendgameState("end");
-					JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+				 	if (GameBoard.getWinner() == false ) {
+						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
+				 	}
+				 	else {
+				 		JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+				 	}
 					RealTimeChess.switchPanel("1");
 			 }
 			 
