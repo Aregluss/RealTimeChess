@@ -167,9 +167,11 @@ public class Server implements Runnable{
 				    sendgameState("end");
 				    if (GameBoard.getWinner() == true ) {
 						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
+						 GameBoard.clearHighlights();
 				 	}
 				 	else {
 				 		JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+				 		 GameBoard.clearHighlights();
 				 	}
 					RealTimeChess.switchPanel("1");
 			 }
