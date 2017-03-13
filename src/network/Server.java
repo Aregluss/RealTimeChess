@@ -129,7 +129,7 @@ public class Server implements Runnable{
 		 GameBoard.graphBoard.repaint();
 		 
 		 if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
-				JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You GOT FUCKED BITCH", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
 				System.exit(0);
 		 }
 		 
