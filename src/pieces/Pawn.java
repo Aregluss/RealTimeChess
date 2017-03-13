@@ -5,13 +5,14 @@ import javax.swing.JOptionPane;
 
 import game.GameBoard;
 import pieces.Square;
+import network.*;
 
 
 public class Pawn extends ChessPiece{
 
 	public boolean hasMoved = false;
 	public String name = "Pawn";
-	
+	public static String promotioner;
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
@@ -33,16 +34,34 @@ public class Pawn extends ChessPiece{
 		if(color == true) {
 			if(row == 0 && this.row == 0) {
 				promote(choosePromotion());
-				
+				Server.sendPromotion(promotioner);
 			}
 		}
 		
 		if(color == false) {
 			if(row == 7 && this.row == 7) {
 				promote(choosePromotion());
+				Client.sendPromotion(promotioner);
 			}
 		}
 
+	}
+	
+	public void move(int row, int column, String promotion){
+		super.move(row, column);
+		
+		if(color == true) {
+			if(row == 0 && this.row == 0) {
+				promote(promotion);
+				
+			}
+		}
+		
+		if(color == false) {
+			if(row == 7 && this.row == 7) {
+				promote(promotion);
+			}
+		}
 	}
 
 
@@ -205,6 +224,7 @@ public class Pawn extends ChessPiece{
 	 */
 	//TODO let the player choose + update player arrays accordingly
 	public void promote(String promotionPiece) {
+		promotioner = promotionPiece;
 		// light pops, ui to ask player what they want the pawn to be promoted to
 		if(promotionPiece.equals("queen")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Queen(row,column,color));
@@ -219,24 +239,14 @@ public class Pawn extends ChessPiece{
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
 		if(color){
-			//update piece for player & check for king becoming checked
+			//update piece for player
 			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
 			GameBoard.Player1.pieces.add(new Square(row,column,this));
-			if(!GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(),GameBoard.Bk.getColumn())) {
-				checkKing(GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().getColor());
-				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
-			}
 		}
 		else {
 			GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 			GameBoard.Player2.pieces.add(new Square(row,column,this));
-			if(!GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(),GameBoard.Wk.getColumn())) {
-				checkKing(GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().getColor());
-				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
-			}		
 		}
-		
-		
 	}
 	
 	/**

@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import game.*;
 import pieces.*;
 
+
 //server needs to host a gameboard, retreive information from clients and modify gameboard
 public class Server implements Runnable{
 	public static int port = 5555;
@@ -99,53 +100,75 @@ public class Server implements Runnable{
 				}
 	  }
 	  
+	  public static void sendPromotion(String promotion){
+		  sending = promotion;
+		  output1.println(sending);
+	  }
+	  
 	  public void receive() throws IOException{
 
-			String temp_input;
-		 if((temp_input = input1.readLine()) != null){
-			//System.out.println("Client has received: " + temp_input);
-		 }
-		 String[] items = temp_input.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
-		 int[] results = new int[items.length];
-		 System.out.println("b");
-		 for (int i = 0; i < items.length; i++) {
-		     try {
-		         results[i] = Integer.parseInt(items[i]);
-		     } catch (NumberFormatException nfe) {
-		         //NOTE: write something here if you need to recover from formatting errors
-		     };
-		 }
-		 System.out.println("c");
-		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
-		 		 
-		 if(GameBoard.gameState == 2){
-			 if( ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked) {
-				 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn());
-				 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
-				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+			 String temp_input;
+				temp_input = input1.readLine();
+				System.out.println(temp_input);
+			 if((temp_input.equals("queen")) ||(temp_input.equals("rook"))  || (temp_input.equals("knight"))  || (temp_input.equals("bishop")) ){
+				 System.out.println("Inside the pawn function of network promotion");
+				 System.out.println(GraphicsBoard.y3 + " " + GraphicsBoard.x3 + " " + GraphicsBoard.y4 + " " + GraphicsBoard.x4);
+				 GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece().getMoveLocations();
+				 ((Pawn)GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece()).move(GraphicsBoard.y4, GraphicsBoard.x4,temp_input);
 			 }
-			 if(( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked) {
-				 ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn());
-				 ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
-				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+			 else{
+				 System.out.println("Inside the normal move function");
+			 String[] items = temp_input.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
+			 int[] results = new int[7];
+			 System.out.println("b");
+			 for (int i = 0; i < items.length; i++) {
+			     try {
+			         results[i] = Integer.parseInt(items[i]);
+			     } catch (NumberFormatException nfe) {
+			         //NOTE: write something here if you need to recover from formatting errors
+			     };
 			 }
-		 }
-		 else{
-		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
-		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
-		 }
-		 
-		
-		 
-		 GameBoard.graphBoard.repaint();
-		 
-		 if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
-				JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
-				RealTimeChess.switchPanel("1");
-		 }
-		 
-		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
-		 temp_input = null;
-	}
+			 Pawn test = new Pawn(0,0,true);
+			 System.out.println("c");
+			 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
+			 if(GameBoard.gameState == 2){
+				 if( ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked) {
+					 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn());
+					 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
+					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+				 }
+				 if(( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked) {
+					 ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn());
+					 ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
+					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+				 }
+			 }
+			 else{
+				 if(GameBoard.Board[results[0]][results[1]].getCurrentPiece().getClass() == test.getClass() && results[2] == 7){
+					 GraphicsBoard.y3 = results[0];
+					 GraphicsBoard.x3 = results[1];
+					 GraphicsBoard.y4 = results[2];
+					 GraphicsBoard.x4 = results[3];
+				 }
+				 else{
+					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
+					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+				 } 
+			 }
+			 if((results[2] == GraphicsBoard.y1) && (results[3] == GraphicsBoard.x1)){
+				 GameBoard.clearHighlights();
+			 }
+			 }
+			 GameBoard.graphBoard.repaint();
+			 
+			 
+			 if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
+					JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+					RealTimeChess.switchPanel("1");
+			 }
+			 
+			 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
+			 temp_input = null;
+		}
 
-	}
+		}
