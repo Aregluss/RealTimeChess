@@ -23,7 +23,9 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
@@ -41,7 +43,7 @@ public class StartScreen extends JPanel
 	private JButton startGame;
 	private JButton host;
 	private JButton join;
-	private JButton option;
+	private JButton rules;
 	private JButton exit;
 	
 	private String joinIP;
@@ -57,15 +59,15 @@ public class StartScreen extends JPanel
 		
 		//	add (save, BorderLayout.EAST);
 		ArrayList<JButton> buttons = new ArrayList<JButton>();
-		startGame = new JButton("Start");
+		//startGame = new JButton("Start");
 		host = new JButton("Host");
 		join = new JButton("Join");
-		option = new JButton("Options");
+		rules = new JButton("Rules");
 		exit = new JButton("Exit");
-		buttons.add(startGame);
+	//	buttons.add(startGame);
 		buttons.add(host);
 		buttons.add(join);
-		buttons.add(option);
+		buttons.add(rules);
 		buttons.add(exit);
 		
 		for(JButton b: buttons){
@@ -132,15 +134,22 @@ public class StartScreen extends JPanel
 
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if(startGame.getModel().isArmed()) ///networking and hero selection have to work
+			if(rules.getModel().isArmed()) ///networking and hero selection have to work
 				
-				RealTimeChess.switchPanel("2");
+				RealTimeChess.switchPanel("3");
 			else if(host.getModel().isArmed()){
 				try {
 				//	SchoolServer ss = new SchoolServer();
 					System.out.println("hello. I AM IN HOST CLICKED.");
 					findIP();
-					JOptionPane.showMessageDialog(null, "Your IP is " +  myIP);
+					JTextArea textarea= new JTextArea(myIP);
+					textarea.setEditable(false);
+					textarea.selectAll();
+					UIManager.put("OptionPane.okButtonText", "Copy & Start");
+					JOptionPane.showMessageDialog(null, textarea, "Your IP", JOptionPane.INFORMATION_MESSAGE);
+					
+					textarea.copy();
+					
 					Server newServer = new Server();
 					GraphicsBoard.player = true;
 				} catch (UnknownHostException e) {
