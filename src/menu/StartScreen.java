@@ -157,7 +157,7 @@ public class StartScreen extends JPanel
 				GraphicsBoard.player = false;
 				}
 				catch(IOException e){
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Unable to find your opponent");
 
 				}
 				

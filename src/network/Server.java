@@ -19,6 +19,7 @@ import pieces.*;
 public class Server implements Runnable{
 	public static int port = 5555;
 	private static ServerSocket ss;
+	static final int SO_TIMEOUT = 5000;
 	private static Socket p1,p2;
 	private boolean isRunning = false;
 	private static GameBoard ChessGame;
@@ -28,31 +29,34 @@ public class Server implements Runnable{
 	public BufferedReader input1;
 	int i =0;
 	public static String sending;
+	public static boolean connected = false;;
 	public Server() throws IOException
 	  {
-	    if (!isRunning)
-	    {
 	      runServer();
+	      if(connected){
+	    	  System.out.println("GOT THROUGH CONNECTED");
 	       input1 = new BufferedReader(new InputStreamReader (p1.getInputStream()));
 	       output1 = new PrintWriter(p1.getOutputStream(), true);  
 	      Thread thread = new Thread(this);
 	      thread.start();
-	      
-	      isRunning = true;
+	      }
 	    }
-	  }
+	 
 	private static void runServer(){
 	    try
 	    {
 	      ss = new ServerSocket(port);
+	      ss.setSoTimeout(5000);
 	      System.out.println("listening port: " + port);
 	      p1 = ss.accept();
 	       RealTimeChess.switchPanel("2");
 	      System.out.println("running");
+	      connected = true;
 	    }
 	    catch (IOException ex)
 	    {
-	      ex.printStackTrace();
+	    	System.out.println("RUN SERVER FAILED");
+	      //ex.printStackTrace();
 	    }
 	 }	
 	
