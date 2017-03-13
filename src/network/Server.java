@@ -84,7 +84,7 @@ public class Server implements Runnable{
 		    	System.out.println("After sending output!!!!"); 
 		    	if(GameBoard.gameState == 3 && GameBoard.getWinner() == true) {
 					JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
-					System.exit(0);
+					RealTimeChess.switchPanel("1");
 				}
 	  }
 	  
@@ -130,7 +130,7 @@ public class Server implements Runnable{
 		 
 		 if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
 				JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
-				System.exit(0);
+				RealTimeChess.switchPanel("1");
 		 }
 		 
 		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something

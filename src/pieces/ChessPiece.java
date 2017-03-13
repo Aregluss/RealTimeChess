@@ -390,6 +390,8 @@ public class ChessPiece// extends JPanel
 	 */
 	public void checkResolution() {
 		((King)this).checkAttack = ((King)this).attacking;
+		System.out.println(((King)this).checkAttack.size());
+		System.out.println(((King)this).checkAttack.get(0) + " l0l0l0l");
 		ChessPiece attacker = ((King)this).checkAttack.get(0);
 		//reset getMovelocations for both players
 
@@ -646,12 +648,14 @@ public class ChessPiece// extends JPanel
 			System.out.println("YO THE WHITE KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = true;
 			GameBoard.setChecked(1);
+			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkhighlightLocation();
 		}
 		
 		else{
 			System.out.println("YO THE BLACK KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = true;
 			GameBoard.setChecked(0);
+			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkhighlightLocation();
 		}
 		return;
 	}
