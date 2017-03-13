@@ -78,11 +78,6 @@ public class Client implements Runnable{
 		 System.out.println("c");
 		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
 		 
-		 if(GameBoard.gameState == 3) {
-				JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
-				System.exit(0);
-			}
-		 
 		 if(GameBoard.gameState == 2){
 			 if( ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked) {
 				 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn());
@@ -98,8 +93,14 @@ public class Client implements Runnable{
 		 else{
 		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
 		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
-		 }
+		 }		 
 		 GameBoard.graphBoard.repaint();
+		 
+		 if(GameBoard.gameState == 3) {
+			JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
+		 }
+		 
 		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
 		 temp_input = null;
 	}

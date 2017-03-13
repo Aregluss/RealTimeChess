@@ -170,7 +170,6 @@ public class ChessPiece// extends JPanel
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
-				System.out.println(GameBoard.getlastSelected());
 				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
 				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
 				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
