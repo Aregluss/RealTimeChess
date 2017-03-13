@@ -44,8 +44,8 @@ public class Client implements Runnable{
 			}
 		}
 		catch(Exception e){
-			System.out.println("Client messed up");
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "Other player has disconnected");
+	    	 RealTimeChess.switchPanel("1");
 		}
 		System.out.println("client is done.");
 		}

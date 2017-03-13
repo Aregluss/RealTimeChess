@@ -68,7 +68,8 @@ public class Server implements Runnable{
 
 	       }
 	      catch(Exception ex){
-	    	  ex.printStackTrace();
+	    	 JOptionPane.showMessageDialog(null, "Other player has disconnected");
+	    	 RealTimeChess.switchPanel("1");
 	      }
 	   
 	  }
