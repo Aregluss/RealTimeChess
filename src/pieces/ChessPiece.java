@@ -4,6 +4,8 @@ import game.*;
 import network.Client;
 import network.Server;
 import pieces.*;
+import sound.SoundEffect;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -44,6 +46,12 @@ public class ChessPiece// extends JPanel
 	public int width, height;
 	public String name;
 	
+    SoundEffect checkSound = new SoundEffect("162465__kastenfrosch__lostitem.mp3");
+    
+    protected void checkSound() {
+    		checkSound.playClip();   	            
+    }
+
 	
 	/**
 	 * Generic constructor to initialize piece on top on the Graphics and GameBoard 
@@ -262,6 +270,13 @@ public class ChessPiece// extends JPanel
 			return;
 		}
 	}; 
+	
+	
+	public void checkhighlightLocation() {
+		GameBoard.Board[row][column].setSquare(2);
+		((King)GameBoard.Board[row][column].getCurrentPiece()).attacking.get(0);
+	}
+	
 	
 	/** visual representation of where a piece can move, differentiates attacking
 	 *  and movement */
@@ -614,6 +629,8 @@ public class ChessPiece// extends JPanel
 		for( Square piece :GameBoard.Player1.pieces) {		
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
 		}
+		
+		checkSound();
 		
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");

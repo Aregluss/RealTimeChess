@@ -101,7 +101,7 @@ public class Client implements Runnable{
 		 GameBoard.graphBoard.repaint();
 		 
 		 if(GameBoard.gameState == 3 && GameBoard.getWinner() == true) {
-				JOptionPane.showMessageDialog(null, "You GOT FUCKED BITCH", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
 				System.exit(0);
 		 }
 		
