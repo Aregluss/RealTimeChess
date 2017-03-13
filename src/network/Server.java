@@ -105,6 +105,11 @@ public class Server implements Runnable{
 		  output1.println(sending);
 	  }
 	  
+	  public static void sendgameState(String gamestate) {
+		  sending = gamestate;
+		  output1.println(sending);
+	  }
+	  
 	  public void receive() throws IOException{
 
 			 String temp_input;
@@ -162,7 +167,8 @@ public class Server implements Runnable{
 			 GameBoard.graphBoard.repaint();
 			 
 			 
-			 if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
+			 if(GameBoard.gameState == 3 && GameBoard.getWinner() == false || temp_input == "end") {
+				    sendgameState("end");
 					JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
 					RealTimeChess.switchPanel("1");
 			 }
