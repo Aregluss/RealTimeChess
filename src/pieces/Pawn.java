@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import game.GameBoard;
 import pieces.Square;
@@ -240,8 +241,11 @@ public class Pawn extends ChessPiece{
 	 */
 	
 	public String choosePromotion() {
-		//UI STUFF HERE
-		return "queen";
+		String[] options = new String[] {"queen", "rook", "bishop", "knight"};
+		int response = JOptionPane.showOptionDialog(null, "Message", "Title",
+		JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		    // Where response == 0 for Yes, 1 for No, 2 for Maybe and -1 or 3 for Escape/Cancel.
+		return options[response];
 	}
 
 	@Override
