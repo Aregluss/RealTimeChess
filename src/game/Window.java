@@ -17,7 +17,6 @@ public class Window extends JFrame{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setMinimumSize(new Dimension(800, 800));
-		setVisible(true);
 	    //make window go transparent when mouse leaves will look cool
 	    
 	   
