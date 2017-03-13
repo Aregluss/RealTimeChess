@@ -26,6 +26,7 @@ public class GameBoard implements Runnable
 	public static Square Wk = new Square(7,4); // Holds information on white king, notably location
 	public static int gameState = 0;
 	private static Square lastSelected;
+	private static boolean winner; // true if white wins, false if black wins
 	public volatile boolean truth = true;
 	
 	/** Constructor which sets up pieces, board, graphicsBoard, and Players
@@ -111,6 +112,14 @@ public class GameBoard implements Runnable
 	
 	public static Square getlastSelected() {
 		return lastSelected;
+	}
+	
+	public static void setWinner(boolean win) {
+		winner = win;
+	}
+	
+	public static boolean getWinner() {
+		return winner;
 	}
 
 	@Override

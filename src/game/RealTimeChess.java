@@ -3,6 +3,7 @@ package game;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -67,6 +68,10 @@ public class RealTimeChess {
 		if(s.equals("2"))
 		{
 			new Thread(ChessGame).start();
+			if(GameBoard.gameState == 3 ) {
+				JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+				System.exit(0);
+			 }
 		}
 	}
 	
