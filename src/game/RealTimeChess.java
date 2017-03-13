@@ -68,10 +68,6 @@ public class RealTimeChess {
 		if(s.equals("2"))
 		{
 			new Thread(ChessGame).start();
-			if(GameBoard.gameState == 3 ) {
-				JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
-				System.exit(0);
-			 }
 		}
 	}
 	

@@ -82,6 +82,10 @@ public class Server implements Runnable{
 		        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + "]");
 		        output1.println(sending);
 		    	System.out.println("After sending output!!!!"); 
+		    	if(GameBoard.gameState == 3 && GameBoard.getWinner() == true) {
+					JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+					System.exit(0);
+				}
 	  }
 	  
 	  public void receive() throws IOException{
@@ -123,6 +127,11 @@ public class Server implements Runnable{
 		
 		 
 		 GameBoard.graphBoard.repaint();
+		 
+		 if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
+				JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+				System.exit(0);
+		 }
 		 
 		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
 		 temp_input = null;
