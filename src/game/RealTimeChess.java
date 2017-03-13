@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import menu.Rules;
 import menu.StartScreen;
 import game.GameBoard;
 
@@ -38,15 +39,13 @@ public class RealTimeChess {
 		menuContainer.setLayout(cl);
 		
 		StartScreen start = new StartScreen();
-		//ServerScreen server = new ServerScreen();
-		//ClientScreen client = new ClientScreen();
-		//HeroSelection selection = new HeroSelection();
-		
+		Rules rules = new Rules();
+
 		
 		
 		menuContainer.add(start,"1");
-	//	menuContainer.add(selection,"2");
 		menuContainer.add(gamePanel,"2");
+		menuContainer.add(rules,"3");
 		
 		frame.add(menuContainer);
 
