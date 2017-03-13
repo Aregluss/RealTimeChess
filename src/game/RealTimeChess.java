@@ -9,7 +9,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import menu.Rules;
 import menu.StartScreen;
-import pieces.Square;
 import game.GameBoard;
 
 public class RealTimeChess {
@@ -62,10 +61,17 @@ public class RealTimeChess {
 	{
 		((CardLayout)menuContainer.getLayout()).show(menuContainer, s);
 		frame.requestFocus();
-		
+		if(s.equals("1")){
+			for(int i=0; i <8; i++){
+				for(int j=0; j<8; j++){
+					GameBoard.Board[i][j].setCurrentPiece(null);
+				}
+			}
+		}
 		if(s.equals("2"))
 		{
 			new Thread(ChessGame).start();
+			ChessGame.standardSetup();
 		}
 	}
 	

@@ -1,9 +1,6 @@
 package pieces;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import game.*;
@@ -11,8 +8,9 @@ public class King extends ChessPiece{
 	
 	public boolean isChecked = false;
 	public String name = "King";
-	public ArrayList<ChessPiece> saviors = new ArrayList<ChessPiece>();
-	public ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
+	private ArrayList<ChessPiece> saviors = new ArrayList<ChessPiece>();
+	private ArrayList<ChessPiece> attacking = new ArrayList<ChessPiece>();
+	private ArrayList<ChessPiece> checkAttack = new ArrayList<ChessPiece>();
 
 	
 	public King(int row, int column, boolean color){
@@ -114,7 +112,6 @@ public class King extends ChessPiece{
 				if ( GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
 					checkKing(false);
 					if( ( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked == true) {
-						A_Clock.pause();
 						//GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setoffCoolDown(true);
 						( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
 					}
@@ -124,7 +121,6 @@ public class King extends ChessPiece{
 				if ( GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
 					checkKing(true);
 					if( ( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked == true) {
-						A_Clock.pause();
 						//GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setoffCoolDown(true);
 						( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
 					}
@@ -138,8 +134,8 @@ public class King extends ChessPiece{
 				//CHECK RESOLVED
 				//Reset the arraylist containing pieces that can save the king
 				GameBoard.gameState = 0;
-				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).saviors.clear();
-				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).saviors.clear();
+				clearcheckhighlightLocation();
+				saviors.clear();
 				//unfreeze the game + enable enemy pieces 
 				System.out.println("CHECK RESOLVED!!");
 				A_Clock.continueTime();
@@ -205,7 +201,6 @@ public class King extends ChessPiece{
 		getmovelocationHelper(-1, 1);
 		getmovelocationHelper(-1,-1);
 		
-		
  		if(	(canCastleKing == true && isChecked == false && !checkSquare(row,column+2) ) )	{
  			if(GameBoard.Board[row][column+3].getCurrentPiece() != null && GameBoard.Board[row][column+3].getCurrentPiece() instanceof Rook
  					&& GameBoard.Board[row][column+3].getCurrentPiece().gethasMoved() == false) {
@@ -263,8 +258,8 @@ public class King extends ChessPiece{
 	}
 	
 	@Override
-	public void highightLocation() {
-		super.highightLocation();
+	public void highlightLocation() {
+		super.highlightLocation();
 	}
 	
 	@Override
@@ -275,6 +270,7 @@ public class King extends ChessPiece{
 	
 	// use the check function, however we do it, to check the locations where it has to move through to see if they are checked
 	public void canCastle() { 
+		System.out.println("KING CAN CASTLE? " + canCastleKing);
 		Rook test = new Rook(0,0,true);
 		if(hasMoved == true)	{
 			canCastleQueen = false;
@@ -286,7 +282,6 @@ public class King extends ChessPiece{
 		if(this.getColor() == true) {
 			if(GameBoard.Board[7][0].getCurrentPiece() != null) {
 				if(GameBoard.Board[7][0].getCurrentPiece().getClass() == test.getClass()) {
-					//System.out.println("ISACA" + GameBoard.Board[7][0].getCurrentPiece().getClass() + " "+ test.getClass());
 					if(GameBoard.Board[7][0].getCurrentPiece().gethasMoved() == true)
 						canCastleQueen = false;
 				}
@@ -313,6 +308,46 @@ public class King extends ChessPiece{
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void checkhighlightLocation() {
+		GameBoard.Board[this.row][this.column].setSquare(2);
+		for(ChessPiece attacker :checkAttack){
+			GameBoard.Board[attacker.row][attacker.column].setSquare(2);
+		}
+	}
+	
+	@Override
+	public void clearcheckhighlightLocation() {
+		GameBoard.Board[this.row][this.column].setSquare(412);
+		for(ChessPiece attacker :checkAttack){
+			GameBoard.Board[attacker.row][attacker.column].setSquare(124);
+		}
+	}
+	
+	public void setSaviors(ArrayList<ChessPiece> help) {
+		saviors = help;
+	}
+	
+	public void setAttacking(ArrayList<ChessPiece> help) {
+		attacking = help;
+	}
+	
+	public void setcheckAttack(ArrayList<ChessPiece> help) {
+		checkAttack = help;
+	}
+	
+	public ArrayList<ChessPiece> getSaviors() {
+		return saviors;
+	}
+	
+	public ArrayList<ChessPiece> getAttacking() {
+		return attacking;
+	}
+	
+	public ArrayList<ChessPiece> getcheckAttack() {
+		return checkAttack;
 	}
 	
 	@Override

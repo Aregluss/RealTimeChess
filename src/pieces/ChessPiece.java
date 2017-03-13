@@ -1,14 +1,12 @@
 package pieces;
 
 import game.*;
-import pieces.*;
+import sound.SoundEffect;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.*;
-import java.math.*;
-import java.awt.image.BufferedImage;
-import javax.swing.Timer;
 
 /** This is the class that every piece inherits from
  * @author Alexander Ngo 60%, -Isaac Fu- 34.5%, Areg Nersisyan 5%, David Sun 0.5%
@@ -40,6 +38,8 @@ public class ChessPiece// extends JPanel
 	public int width, height;
 	public String name;
 	
+	//Credits to https://www.freesound.org/people/Kastenfrosch/sounds/162465/
+    SoundEffect checkSound = new SoundEffect("162465__kastenfrosch__lostitem.wav");
 	
 	/**
 	 * Generic constructor to initialize piece on top on the Graphics and GameBoard 
@@ -67,6 +67,8 @@ public class ChessPiece// extends JPanel
 	 * @param setter, set to true when a piece moves for the first time
 	 * */
 	public void sethasMoved(boolean setter) {
+		if(this instanceof Rook || this instanceof King) {
+		}
 		hasMoved = setter;
 	}
 	
@@ -165,7 +167,13 @@ public class ChessPiece// extends JPanel
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
-			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
+			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+			}
+			//Just added
+			GameBoard.clearlastSelected();
 			this.row = row;
 			this.column = column;
 			hasMoved = true;
@@ -192,7 +200,6 @@ public class ChessPiece// extends JPanel
 				if ( GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn())) {
 					checkKing(false);
 					if( ( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked == true) {
-						A_Clock.pause();
 						//GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().setoffCoolDown(true);
 						( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
 					}
@@ -202,7 +209,6 @@ public class ChessPiece// extends JPanel
 				if ( GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
 					checkKing(true);
 					if( ( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked == true) {
-						A_Clock.pause();
 						//GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setoffCoolDown(true);
 						( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
 					}
@@ -213,10 +219,21 @@ public class ChessPiece// extends JPanel
 				//CHECK RESOLVED
 				//Reset the arraylist containing pieces that can save the king
 				GameBoard.gameState = 0;
-				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).saviors.clear();
-				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).saviors.clear();
+				
+				if(GameBoard.getChecked() == 0) {
+					GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().clearcheckhighlightLocation();
+				}
+				if(GameBoard.getChecked() == 1) {
+					GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().clearcheckhighlightLocation();
+				}
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).getSaviors().clear();
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).getSaviors().clear();
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).getcheckAttack().clear();
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).getcheckAttack().clear();
+				GameBoard.setChecked(2);
 				//unfreeze the game + enable enemy pieces 
 				System.out.println("CHECK RESOLVED!!");
+				
 				A_Clock.continueTime();
 			}
 			
@@ -246,6 +263,7 @@ public class ChessPiece// extends JPanel
 	 * 3) if the gamestate is in checkresolution, a new locations arraylist will NOT be created
 	 * this effectively prevents enemy pieces + allied pieces that cannot resolve the check from moving*/
 	public void getMoveLocations(){
+
 		locations.clear();
 		this.setVisibility(false);
 		if(GameBoard.gameState == 2) {
@@ -253,9 +271,18 @@ public class ChessPiece// extends JPanel
 		}
 	}; 
 	
+	
+	public void checkhighlightLocation() {
+	}
+	
+	public void clearcheckhighlightLocation() {
+		
+	}
+	
+	
 	/** visual representation of where a piece can move, differentiates attacking
 	 *  and movement */
-	public void highightLocation(){
+	public void highlightLocation(){
 		GameBoard.Board[row][column].setSquare(1);
 		for(Square movable: locations) {
 			GameBoard.Board[movable.getRow()][movable.getColumn()].setSquare(0);
@@ -354,8 +381,15 @@ public class ChessPiece// extends JPanel
 	 * 		->Iterate through all the allies and check whether or not they can move to save the king (calls a helper function to do so) 
 	 */
 	public void checkResolution() {
-		ArrayList<ChessPiece> originalAttackers = ((King)this).attacking;
-		ChessPiece attacker = originalAttackers.get(0);
+		((King)this).setcheckAttack(((King)this).getAttacking());	
+
+		if(this.getColor()){ 
+			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkhighlightLocation();
+		}
+		else {
+			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkhighlightLocation();
+		}
+		ChessPiece attacker = ((King)this).getcheckAttack().get(0);
 		//reset getMovelocations for both players
 
 		for( Square piece : GameBoard.Player1.pieces) {
@@ -366,18 +400,19 @@ public class ChessPiece// extends JPanel
 		}
 		
 
-		if( ((King)this).attacking.size() > 1 ) {
+		if( ((King)this).getAttacking().size() > 1 ) {
 			GameBoard.gameState = 2;
 			this.getMoveLocations();
 			if(this.checkmate(0)) {
 				//Games over
-				System.out.println("GAME IS OVER");
+				GameBoard.gameState = 3;
+				GameBoard.setWinner(!this.getColor());
 			}
 			return;
 		}
 		
 		
-		if( ((King)this).attacking.size() == 1 ) {			
+		if( ((King)this).getAttacking().size() == 1 ) {			
 			//Save king.attacking, run attacking pieces getMoveLocations
 			// Compare w/ allied pieces
 			//OR King can move
@@ -399,13 +434,15 @@ public class ChessPiece// extends JPanel
 			}
 			
 		}
-					
+
 		GameBoard.gameState = 2;
 		GameBoard.Board[attacker.row][attacker.column].getCurrentPiece().setVisibility(true);
 		this.getMoveLocations();
 		if(this.checkmate(1)) {
 			//Games over
 			System.out.println("GAME IS OVER");
+			GameBoard.gameState = 3;
+			GameBoard.setWinner(!this.getColor());
 		}
 	}
 	
@@ -425,10 +462,12 @@ public class ChessPiece// extends JPanel
 	 */
 	public void checkResolutionAlliedPieces(ChessPiece originalAttacker,ChessPiece Ally) {
 		Ally.getMoveLocations();
+
 		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
 		if(Ally instanceof King) {
 			return;
 		}
+
 		if(originalAttacker instanceof Pawn) {
 			for(Square movable :Ally.locations) {
 				if(movable.getRow() == originalAttacker.row && movable.getColumn() == originalAttacker.column) {
@@ -436,7 +475,7 @@ public class ChessPiece// extends JPanel
 				}
 			}
 			if(modifiedLocations.size() != 0) {
-				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+				((King)this).getSaviors().add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
 			}
 			Ally.locations.clear();
 			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
@@ -456,7 +495,7 @@ public class ChessPiece// extends JPanel
 				}
 			}
 			if(modifiedLocations.size() != 0) {
-				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+				((King)this).getSaviors().add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
 			}
 			Ally.locations.clear();
 			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
@@ -479,7 +518,7 @@ public class ChessPiece// extends JPanel
 			}
       
 			if(modifiedLocations.size() != 0) {
-				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+				((King)this).getSaviors().add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
 			}
       
 			Ally.locations.clear();
@@ -488,6 +527,7 @@ public class ChessPiece// extends JPanel
 			return;
 		}
 		//Diagonal Attacking (\\\\\\)
+
 		if((originalAttacker.row - this.row) - (originalAttacker.column - this.column) == 0) {
 			ArrayList<Integer> rows = new ArrayList<Integer>();
 			ArrayList<Integer> cols = new ArrayList<Integer>();
@@ -495,23 +535,25 @@ public class ChessPiece// extends JPanel
 			cols.add(originalAttacker.column); cols.add(this.column);
 			Collections.sort(rows);
 			Collections.sort(cols);
+
 			for(Square movable :Ally.locations) {
 				if( ((movable.getRow() - this.row) - (movable.getColumn() - this.column) == 0) 
 						&& movable.getRow() != this.row 
 						&& movable.getColumn() != this.column
-						&& (movable.getRow() >= rows.get(0) || movable.getRow() <= rows.get(1)) 
-						&& (movable.getColumn() >= cols.get(0) || movable.getColumn() <= cols.get(1))) {
+						&& (movable.getRow() >= rows.get(0) && movable.getRow() <= rows.get(1)) 
+						&& (movable.getColumn() >= cols.get(0) && movable.getColumn() <= cols.get(1))) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
 			}
 			if(modifiedLocations.size() != 0) {
-				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+				((King)this).getSaviors().add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
 			}
 			Ally.locations.clear();
 			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
 			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations = modifiedLocations;
 			return;
 		}
+		
 		//Diagonal Attacking (///////)
 		if((originalAttacker.row - this.row) + (originalAttacker.column - this.column) == 0) {
 			ArrayList<Integer> rows = new ArrayList<Integer>();
@@ -524,13 +566,13 @@ public class ChessPiece// extends JPanel
 				if( ((movable.getRow() - this.row) + (movable.getColumn() - this.column) == 0) 
 						&& movable.getRow() != this.row 
 						&& movable.getColumn() != this.column
-						&& (movable.getRow() >= rows.get(0) || movable.getRow() <= rows.get(1)) 
-						&& (movable.getColumn() >= cols.get(0) || movable.getColumn() <= cols.get(1))) {
+						&& (movable.getRow() >= rows.get(0) && movable.getRow() <= rows.get(1)) 
+						&& (movable.getColumn() >= cols.get(0) && movable.getColumn() <= cols.get(1))) {
 					modifiedLocations.add(new Square(movable.getRow(),movable.getColumn(),GameBoard.Board[movable.getRow()][movable.getColumn()].getCurrentPiece()));
 				}
 			}
 			if(modifiedLocations.size() != 0) {
-				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+				((King)this).getSaviors().add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
 			}
 			Ally.locations.clear();
 			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
@@ -546,7 +588,7 @@ public class ChessPiece// extends JPanel
 				}
 			}
 			if(modifiedLocations.size() != 0) {
-				((King)this).saviors.add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
+				((King)this).getSaviors().add(GameBoard.Board[Ally.row][Ally.column].getCurrentPiece());
 			}
 			Ally.locations.clear();
 			GameBoard.Board[Ally.row][Ally.column].getCurrentPiece().locations.clear();
@@ -578,7 +620,7 @@ public class ChessPiece// extends JPanel
 		
 		else {
 			//AND no pieces can save the king then gg
-			if(locations.size() == 0 && ((King)this).saviors.size() == 0) {
+			if(locations.size() == 0 && ((King)this).getSaviors().size() == 0) {
 				return true;
 			}
 			else {
@@ -592,21 +634,32 @@ public class ChessPiece// extends JPanel
 	 * @param color, true for white king, false for black king
 	 */
 	public void checkKing(boolean color) {
+		//new addition
+		GameBoard.graphBoard.resetMousePressed();
+		
 		for( Square piece :GameBoard.Player2.pieces) {		
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
 		}
 		for( Square piece :GameBoard.Player1.pieces) {		
 			GameBoard.Board[piece.getRow()][piece.getColumn()].getCurrentPiece().unhighlightLocation(piece.getRow(), piece.getColumn());
 		}
+		
+		checkSound();
+		
 		if(color == true) {
 			System.out.println("YO THE WHITE KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = true;
+			GameBoard.setChecked(1);
 		}
 		
 		else{
 			System.out.println("YO THE BLACK KING IS IN CHECK");
 			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = true;
+			GameBoard.setChecked(0);
 		}
+		
+		A_Clock.pause();
+
 		return;
 	}
 	
@@ -620,6 +673,7 @@ public class ChessPiece// extends JPanel
 	 */
 	public boolean checkpinnedPiece() {
 		if(color == true) {
+
 			GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().setVisibility(false);
 
 			if(checkSquare(GameBoard.Wk.getRow(), GameBoard.Wk.getColumn())) {
@@ -657,8 +711,10 @@ public class ChessPiece// extends JPanel
 	 */
 	public void pinnedPieceMovementHelper() {
 		ArrayList<Square> modifiedLocations = new ArrayList<Square>();
+
 		if(color == true ) {
-			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking) {
+
+			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).getAttacking()) {
 				attack.getMoveLocations();
 				
 				if(attack instanceof Knight) {
@@ -748,7 +804,7 @@ public class ChessPiece// extends JPanel
 		}
 		//Same thing but for black
 		if(color == false ) {
-			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking) {
+			for( ChessPiece attack : ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).getAttacking()) {
 				attack.getMoveLocations();
 				
 				if(attack instanceof Knight) {
@@ -850,16 +906,6 @@ public class ChessPiece// extends JPanel
 	public boolean checkSquare(int row, int column) {
 		ArrayList<ChessPiece> otherPieces = new ArrayList<ChessPiece>();
 		
-		if(color == true) {
-			otherPieces = ((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking;
-			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking.clear();
-		}
-		
-		else {
-			otherPieces = ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking;	
-			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking.clear();
-		}
-		
 		otherPieces.clear();
 		otherPieces = checkHorseHelper(row, column);
 		
@@ -876,12 +922,12 @@ public class ChessPiece// extends JPanel
 		checkPieceDiagonals(row, column, -1,  -1,  row,  column, 0, 0 , otherPieces,null);
 		
 		if(color == true) {
-			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).attacking = otherPieces;
+			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).setAttacking(otherPieces);
 
 		}
 		
 		else {
-			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).attacking = otherPieces;
+			((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).setAttacking(otherPieces);
 		}	
 	
 		if(otherPieces.size() == 0) {
@@ -1293,6 +1339,11 @@ public class ChessPiece// extends JPanel
 		
 		return EnemyPieces;
 	}
+	
+	protected void checkSound() {
+		checkSound.playClip();   	            
+	}
+
 	/**
 	 * sets a pieces visibility relative to other pieces
 	 * 

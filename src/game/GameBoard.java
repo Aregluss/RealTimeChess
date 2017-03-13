@@ -5,6 +5,7 @@ import game.Player;
 import pieces.Pawn;
 import pieces.Rook;
 import pieces.Bishop;
+import pieces.ChessPiece;
 import pieces.King;
 import pieces.Knight;
 import pieces.Queen;
@@ -12,7 +13,6 @@ import pieces.Square;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import game.GraphicsBoard;
 
 public class GameBoard implements Runnable
@@ -24,6 +24,9 @@ public class GameBoard implements Runnable
 	public static Square Bk = new Square(0,4); // Holds information on black king, notably location
 	public static Square Wk = new Square(7,4); // Holds information on white king, notably location
 	public static int gameState = 0;
+	private static Square lastSelected;
+	private static boolean winner; // true if white wins, false if black wins
+	private static int checked; //1 if white is checked, 0 if black is checked, 2 if none are checked
 	public volatile boolean truth = true;
 	
 	/** Constructor which sets up pieces, board, graphicsBoard, and Players
@@ -98,9 +101,37 @@ public class GameBoard implements Runnable
 						Board[6][j].setCurrentPiece(new Pawn(6, j, true));
 					}
 		}
+	
+	public static void setlastSelected(int row, int col, ChessPiece chessPiece) {
+		lastSelected = new Square(row,col,chessPiece);
+	}
+	
+	public static void clearlastSelected(){
+		lastSelected = null;
+	}
+	
+	public static Square getlastSelected() {
+		return lastSelected;
+	}
+	
+	public static void setWinner(boolean win) {
+		winner = win;
+	}
+	
+	public static boolean getWinner() {
+		return winner;
+	}
+	
+	public static void setChecked(int check) {
+		checked = check;
+	}
+	
+	public static int getChecked() {
+		return checked;
+	}
 
 	@Override
-	/**Tread which handles drawing pieces in right places
+	/**Thread which handles drawing pieces in right places
 	 * 
 	 */
 	public void run() 

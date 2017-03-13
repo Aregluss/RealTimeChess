@@ -1,33 +1,31 @@
 package menu;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import java.io.IOException;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import javax.swing.SwingConstants;
+
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+
 
 import game.GraphicsBoard;
 import game.RealTimeChess;
@@ -166,7 +164,7 @@ public class StartScreen extends JPanel
 				GraphicsBoard.player = false;
 				}
 				catch(IOException e){
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Unable to find your opponent");
 
 				}
 				

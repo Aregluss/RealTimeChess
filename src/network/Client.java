@@ -1,11 +1,9 @@
 package network;
 
-import java.awt.Graphics;
-import java.awt.event.InputEvent;
 import java.io.*;
-import java.util.*;
+import javax.swing.JOptionPane;
+
 import pieces.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import game.*;
@@ -41,8 +39,17 @@ public class Client implements Runnable{
 			}
 		}
 		catch(Exception e){
-			System.out.println("Client messed up");
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "Other player has disconnected");
+			RealTimeChess.switchPanel("1");
+			try{
+			socket.close();
+			input1.close();
+			output1.close();
+			}
+			catch(IOException kappa){
+				System.out.println("SHOULD NOT GET HERE EVER....");
+			}
+	    	 
 		}
 		System.out.println("client is done.");
 		}
@@ -55,6 +62,10 @@ public class Client implements Runnable{
 		        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + "]");
 		        output1.println(sending);
 		    	System.out.println("After sending output!!!!");	 
+		    	if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
+					JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+					RealTimeChess.switchPanel("1");
+				}
 	  }
 	 public void receive() throws IOException{
 
@@ -74,6 +85,7 @@ public class Client implements Runnable{
 		 }
 		 System.out.println("c");
 		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
+		 
 		 if(GameBoard.gameState == 2){
 			 if( ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked) {
 				 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn());
@@ -86,11 +98,19 @@ public class Client implements Runnable{
 				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 			 }
 		 }
+		 
 		 else{
-		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
-		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
-		 }
+			 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
+			 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+		 }	
+		 
 		 GameBoard.graphBoard.repaint();
+		 
+		 if(GameBoard.gameState == 3 && GameBoard.getWinner() == true) {
+				JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+				RealTimeChess.switchPanel("1");
+		 }
+		
 		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
 		 temp_input = null;
 	}

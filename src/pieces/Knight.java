@@ -1,10 +1,5 @@
 package pieces;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import game.GameBoard;
@@ -140,9 +135,9 @@ public class Knight extends ChessPiece{
 
 	}
 	@Override
-	public void highightLocation() {
+	public void highlightLocation() {
 		// TODO Auto-generated method stub
-		super.highightLocation();
+		super.highlightLocation();
 	}
 
 	@Override

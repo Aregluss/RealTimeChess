@@ -1,14 +1,11 @@
 package network;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.awt.CardLayout;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.*;
-import java.util.HashMap;
+import javax.swing.JOptionPane;
+
 import game.*;
 import pieces.*;
 
@@ -16,6 +13,7 @@ import pieces.*;
 public class Server implements Runnable{
 	public static int port = 5555;
 	private static ServerSocket ss;
+	static final int SO_TIMEOUT = 5000;
 	private static Socket p1,p2;
 	private boolean isRunning = false;
 	private static GameBoard ChessGame;
@@ -25,31 +23,37 @@ public class Server implements Runnable{
 	public BufferedReader input1;
 	int i =0;
 	public static String sending;
+	public static boolean connected = false;;
 	public Server() throws IOException
 	  {
-	    if (!isRunning)
-	    {
 	      runServer();
-	       input1 = new BufferedReader(new InputStreamReader (p1.getInputStream()));
-	       output1 = new PrintWriter(p1.getOutputStream(), true);  
-	      Thread thread = new Thread(this);
-	      thread.start();
-	      
-	      isRunning = true;
+	      if(connected){
+	    	  System.out.println("GOT THROUGH CONNECTED");
+	    	  input1 = new BufferedReader(new InputStreamReader (p1.getInputStream()));
+	    	  output1 = new PrintWriter(p1.getOutputStream(), true);  
+	    	  Thread thread = new Thread(this);
+	    	  thread.start();
+	      }
 	    }
-	  }
-	private static void runServer(){
+	 
+	private static void runServer() throws IOException{
 	    try
 	    {
+	    	System.out.println("FIRST LINE");
 	      ss = new ServerSocket(port);
+	      System.out.println("SECOND LINE");
+	      ss.setSoTimeout(5000);
 	      System.out.println("listening port: " + port);
 	      p1 = ss.accept();
 	       RealTimeChess.switchPanel("2");
 	      System.out.println("running");
+	      connected = true;
 	    }
 	    catch (IOException ex)
 	    {
-	      ex.printStackTrace();
+	    	System.out.println("RUN SERVER FAILED");
+	    	ss.close();
+	      //ex.printStackTrace();
 	    }
 	 }	
 	
@@ -65,7 +69,17 @@ public class Server implements Runnable{
 
 	       }
 	      catch(Exception ex){
-	    	  ex.printStackTrace();
+	    	 JOptionPane.showMessageDialog(null, "Other player has disconnected");
+	    	 RealTimeChess.switchPanel("1");
+	    	 try{
+	    	 ss.close();
+	    	 input1.close();
+	    	 output1.close();
+	    	 }
+	    	 catch( IOException e){
+	    		 System.out.println("IF THIS HAPPENED... I HAVE NO IDEA...");
+	    	 }
+	    	 
 	      }
 	   
 	  }
@@ -79,7 +93,12 @@ public class Server implements Runnable{
 		        sending = sending.concat(Integer.toString(GraphicsBoard.x2) + "]");
 		        output1.println(sending);
 		    	System.out.println("After sending output!!!!"); 
+		    	if(GameBoard.gameState == 3 && GameBoard.getWinner() == true) {
+					JOptionPane.showMessageDialog(null, "You've Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+					RealTimeChess.switchPanel("1");
+				}
 	  }
+	  
 	  public void receive() throws IOException{
 
 			String temp_input;
@@ -98,6 +117,7 @@ public class Server implements Runnable{
 		 }
 		 System.out.println("c");
 		 System.out.println(results[0] + ", " + results[1] + ", " + results[2] + ", " + results[3] + ".");
+		 		 
 		 if(GameBoard.gameState == 2){
 			 if( ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked) {
 				 ((King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkSquare(GameBoard.Bk.getRow(), GameBoard.Bk.getColumn());
@@ -114,7 +134,16 @@ public class Server implements Runnable{
 		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
 		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 		 }
+		 
+		
+		 
 		 GameBoard.graphBoard.repaint();
+		 
+		 if(GameBoard.gameState == 3 && GameBoard.getWinner() == false) {
+				JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+				RealTimeChess.switchPanel("1");
+		 }
+		 
 		 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
 		 temp_input = null;
 	}
