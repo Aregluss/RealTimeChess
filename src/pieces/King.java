@@ -203,7 +203,6 @@ public class King extends ChessPiece{
 		getmovelocationHelper(-1, 1);
 		getmovelocationHelper(-1,-1);
 		
-		
  		if(	(canCastleKing == true && isChecked == false && !checkSquare(row,column+2) ) )	{
  			if(GameBoard.Board[row][column+3].getCurrentPiece() != null && GameBoard.Board[row][column+3].getCurrentPiece() instanceof Rook
  					&& GameBoard.Board[row][column+3].getCurrentPiece().gethasMoved() == false) {
@@ -273,6 +272,7 @@ public class King extends ChessPiece{
 	
 	// use the check function, however we do it, to check the locations where it has to move through to see if they are checked
 	public void canCastle() { 
+		System.out.println("KING CAN CASTLE? " + canCastleKing);
 		Rook test = new Rook(0,0,true);
 		if(hasMoved == true)	{
 			canCastleQueen = false;
@@ -284,7 +284,6 @@ public class King extends ChessPiece{
 		if(this.getColor() == true) {
 			if(GameBoard.Board[7][0].getCurrentPiece() != null) {
 				if(GameBoard.Board[7][0].getCurrentPiece().getClass() == test.getClass()) {
-					//System.out.println("ISACA" + GameBoard.Board[7][0].getCurrentPiece().getClass() + " "+ test.getClass());
 					if(GameBoard.Board[7][0].getCurrentPiece().gethasMoved() == true)
 						canCastleQueen = false;
 				}

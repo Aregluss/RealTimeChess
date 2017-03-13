@@ -98,10 +98,12 @@ public class Client implements Runnable{
 				 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 			 }
 		 }
+		 
 		 else{
-		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
-		 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
-		 }		 
+			 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
+			 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
+		 }	
+		 
 		 GameBoard.graphBoard.repaint();
 		 
 		 if(GameBoard.gameState == 3 && GameBoard.getWinner() == true) {

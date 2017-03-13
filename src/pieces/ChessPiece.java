@@ -67,6 +67,8 @@ public class ChessPiece// extends JPanel
 	 * @param setter, set to true when a piece moves for the first time
 	 * */
 	public void sethasMoved(boolean setter) {
+		if(this instanceof Rook || this instanceof King) {
+		}
 		hasMoved = setter;
 	}
 	
@@ -226,10 +228,10 @@ public class ChessPiece// extends JPanel
 				if(GameBoard.getChecked() == 1) {
 					GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().clearcheckhighlightLocation();
 				}
-				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).setSaviors(null);
-				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).setSaviors(null);
-				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).setcheckAttack(null);
-				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).setcheckAttack(null);
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).getSaviors().clear();
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).getSaviors().clear();
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).getcheckAttack().clear();
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).getcheckAttack().clear();
 				GameBoard.setChecked(2);
 				//unfreeze the game + enable enemy pieces 
 				System.out.println("CHECK RESOLVED!!");
@@ -381,7 +383,8 @@ public class ChessPiece// extends JPanel
 	 * 		->Iterate through all the allies and check whether or not they can move to save the king (calls a helper function to do so) 
 	 */
 	public void checkResolution() {
-		((King)this).setcheckAttack(((King)this).getAttacking());		
+		((King)this).setcheckAttack(((King)this).getAttacking());	
+
 		if(this.getColor()){ 
 			((King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkhighlightLocation();
 		}
@@ -433,7 +436,7 @@ public class ChessPiece// extends JPanel
 			}
 			
 		}
-		
+
 		GameBoard.gameState = 2;
 		GameBoard.Board[attacker.row][attacker.column].getCurrentPiece().setVisibility(true);
 		this.getMoveLocations();
