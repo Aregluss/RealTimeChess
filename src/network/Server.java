@@ -70,6 +70,15 @@ public class Server implements Runnable{
 	      catch(Exception ex){
 	    	 JOptionPane.showMessageDialog(null, "Other player has disconnected");
 	    	 RealTimeChess.switchPanel("1");
+	    	 try{
+	    	 ss.close();
+	    	 input1.close();
+	    	 output1.close();
+	    	 }
+	    	 catch( IOException e){
+	    		 System.out.println("IF THIS HAPPENED... I HAVE NO IDEA...");
+	    	 }
+	    	 
 	      }
 	   
 	  }

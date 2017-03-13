@@ -45,7 +45,16 @@ public class Client implements Runnable{
 		}
 		catch(Exception e){
 			JOptionPane.showMessageDialog(null, "Other player has disconnected");
-	    	 RealTimeChess.switchPanel("1");
+			RealTimeChess.switchPanel("1");
+			try{
+			socket.close();
+			input1.close();
+			output1.close();
+			}
+			catch(IOException kappa){
+				System.out.println("SHOULD NOT GET HERE EVER....");
+			}
+	    	 
 		}
 		System.out.println("client is done.");
 		}

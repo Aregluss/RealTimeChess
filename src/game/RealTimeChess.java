@@ -74,6 +74,7 @@ public class RealTimeChess {
 		if(s.equals("2"))
 		{
 			new Thread(ChessGame).start();
+			ChessGame.standardSetup();
 		}
 	}
 	
