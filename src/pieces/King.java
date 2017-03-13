@@ -272,7 +272,6 @@ public class King extends ChessPiece{
 	
 	// use the check function, however we do it, to check the locations where it has to move through to see if they are checked
 	public void canCastle() { 
-		System.out.println("KING CAN CASTLE? " + canCastleKing);
 		Rook test = new Rook(0,0,true);
 		if(hasMoved == true)	{
 			canCastleQueen = false;
