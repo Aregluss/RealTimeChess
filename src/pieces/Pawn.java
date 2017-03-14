@@ -226,13 +226,13 @@ public class Pawn extends ChessPiece{
 	public void promote(String promotionPiece) {
 		promotioner = promotionPiece;
 		// light pops, ui to ask player what they want the pawn to be promoted to
-		if(promotionPiece.equals("queen")) {
+		if(promotionPiece.equals("Queen")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Queen(row,column,color));
 		}
-		if(promotionPiece.equals("bishop")) {
+		if(promotionPiece.equals("Bishop")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Bishop(row,column,color));
 		}
-		if(promotionPiece.equals("knight")) {
+		if(promotionPiece.equals("Knight")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Knight(row,column,color));
 		}
 		if(promotionPiece.equals("rook")) {
@@ -264,7 +264,7 @@ public class Pawn extends ChessPiece{
 	 */
 	
 	public String choosePromotion() {
-		String[] options = new String[] {"queen", "rook", "bishop", "knight"};
+		String[] options = new String[] {"Queen", "Rook", "Bishop", "Knight"};
 		int response = JOptionPane.showOptionDialog(null, "Message", "Title",
 		JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 		    // Where response == 0 for Yes, 1 for No, 2 for Maybe and -1 or 3 for Escape/Cancel.

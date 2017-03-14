@@ -111,7 +111,7 @@ public class Server implements Runnable{
 			 String temp_input;
 				temp_input = input1.readLine();
 				System.out.println(temp_input);
-			 if((temp_input.equals("queen")) ||(temp_input.equals("rook"))  || (temp_input.equals("knight"))  || (temp_input.equals("bishop")) ){
+			 if((temp_input.equals("Queen")) ||(temp_input.equals("Rook"))  || (temp_input.equals("Knight"))  || (temp_input.equals("Bishop")) ){
 				 System.out.println("Inside the pawn function of network promotion");
 				 System.out.println(GraphicsBoard.y3 + " " + GraphicsBoard.x3 + " " + GraphicsBoard.y4 + " " + GraphicsBoard.x4);
 				 GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece().getMoveLocations();
@@ -173,7 +173,7 @@ public class Server implements Runnable{
 				 		JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
 				 		 GameBoard.clearHighlights();
 				 	}
-					RealTimeChess.switchPanel("1");
+				    System.exit(0);
 			 }
 			 
 			 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
