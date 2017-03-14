@@ -2,6 +2,7 @@ package network;
 
 import java.io.*;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import pieces.*;
 import java.net.Socket;
@@ -131,14 +132,15 @@ public class Client implements Runnable{
 			 
 			 if(GameBoard.gameState == 3|| temp_input == "end") {
 				 	sendgameState("end");
+				 	UIManager.put("OptionPane.okButtonText", "Exit");
 				 	if (GameBoard.getWinner() == false ) {
 						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
-						 GameBoard.clearHighlights();
+						GameBoard.clearHighlights();
 						 
 				 	}
 				 	else {
 				 		JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
-				 		 GameBoard.clearHighlights();
+				 		GameBoard.clearHighlights();
 				 	}
 				 	System.exit(0);
 			 }

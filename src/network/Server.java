@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import game.*;
 import pieces.*;
@@ -165,6 +166,7 @@ public class Server implements Runnable{
 			 
 			 if(GameBoard.gameState == 3 || temp_input == "end") {
 				    sendgameState("end");
+				 	UIManager.put("OptionPane.okButtonText", "Exit");
 				    if (GameBoard.getWinner() == true ) {
 						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
 						 GameBoard.clearHighlights();
