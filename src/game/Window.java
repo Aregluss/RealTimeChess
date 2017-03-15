@@ -13,10 +13,10 @@ public class Window extends JFrame{
 	{	
 		super("RTC");
 		//should make game resizable
-		setBounds(200, 200, 800, 800);
+		setBounds(200, 200, 825, 850);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(800, 800));
+		setMinimumSize(new Dimension(825, 850));
 	    //make window go transparent when mouse leaves will look cool
 	    setVisible(true);
 	   

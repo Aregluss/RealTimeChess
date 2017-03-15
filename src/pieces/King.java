@@ -203,7 +203,7 @@ public class King extends ChessPiece{
 		getmovelocationHelper(-1, 1);
 		getmovelocationHelper(-1,-1);
 		
- 		if(	(canCastleKing == true && isChecked == false && !checkSquare(row,column+2) ) )	{
+ 		if(	(canCastleKing == true && isChecked == false && !checkSquare(row,column+2)  && !checkSquare(row,column+1)) )	{
  			if(GameBoard.Board[row][column+3].getCurrentPiece() != null && GameBoard.Board[row][column+3].getCurrentPiece() instanceof Rook
  					&& GameBoard.Board[row][column+3].getCurrentPiece().gethasMoved() == false) {
 	 			if(	(GameBoard.Board[row][column+1].getCurrentPiece() == null) && (GameBoard.Board[row][column+2].getCurrentPiece() == null))
@@ -212,7 +212,7 @@ public class King extends ChessPiece{
  		}
  		
  		
- 		if( (canCastleQueen == true && isChecked == false && !checkSquare(row,column-2)))	{
+ 		if( (canCastleQueen == true && isChecked == false && !checkSquare(row,column-2)) && !checkSquare(row,column-1))	{
  			if(GameBoard.Board[row][column-4].getCurrentPiece() != null && GameBoard.Board[row][column-4].getCurrentPiece() instanceof Rook
  					&& GameBoard.Board[row][column-4].getCurrentPiece().gethasMoved() == false) {
 	 			if(	(GameBoard.Board[row][column-1].getCurrentPiece() == null) && (GameBoard.Board[row][column-2].getCurrentPiece() == null) 
