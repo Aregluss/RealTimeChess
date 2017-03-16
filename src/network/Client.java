@@ -163,6 +163,7 @@ public class Client implements Runnable{
 				 GameBoard.clearHighlights();
 			 }
 			 }
+			 System.out.println("end receive");
 			 GameBoard.graphBoard.repaint();
 			 
 			 

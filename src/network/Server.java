@@ -197,6 +197,7 @@ public class Server implements Runnable{
 				 GameBoard.clearHighlights();
 			 }
 			 }
+			 System.out.println("end receive");
 			 GameBoard.graphBoard.repaint();
 			 
 			 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
