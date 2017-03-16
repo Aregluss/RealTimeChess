@@ -133,6 +133,7 @@ public class Client implements Runnable{
 			 
 			 if(GameBoard.gameState == 3|| temp_input == "end") {
 				 	sendgameState("end");
+				 	UIManager.put("OptionPane.okButtonText", "Exit");
 				 	if (GameBoard.getWinner() == false ) {
 						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
 						GameBoard.clearHighlights();
