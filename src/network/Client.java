@@ -146,6 +146,14 @@ public class Client implements Runnable{
 				 	System.exit(0);
 			 }
 			 
+			 if(GameBoard.gameState == 4 || temp_input == "draw") {
+				 sendgameState("draw");
+				 UIManager.put("OptionPane.okButtonText", "Exit");
+				 JOptionPane.showMessageDialog(null, "IT's a DRAW", "REKT", JOptionPane.INFORMATION_MESSAGE);
+				 GameBoard.clearHighlights();	 	
+				 System.exit(0);
+			 }
+			 
 			 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
 			 temp_input = null;
 		}

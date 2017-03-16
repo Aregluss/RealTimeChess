@@ -15,7 +15,7 @@ import pieces.*;
 public class Server implements Runnable{
 	public static int port = 5555;
 	private static ServerSocket ss;
-	static final int SO_TIMEOUT = 5000;
+	static final int SO_TIMEOUT = 10000;
 	private static Socket p1,p2;
 	private boolean isRunning = false;
 	private static GameBoard ChessGame;
@@ -177,6 +177,14 @@ public class Server implements Runnable{
 				 		 GameBoard.clearHighlights();
 				 	}
 				    System.exit(0);
+			 }
+			 
+			 if(GameBoard.gameState == 4 || temp_input == "draw") {
+				 sendgameState("draw");
+				 UIManager.put("OptionPane.okButtonText", "Exit");
+				 JOptionPane.showMessageDialog(null, "IT's a DRAW", "REKT", JOptionPane.INFORMATION_MESSAGE);
+				 GameBoard.clearHighlights();	 	
+				 System.exit(0);
 			 }
 			 
 			 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
