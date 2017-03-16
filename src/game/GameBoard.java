@@ -133,7 +133,7 @@ public class GameBoard implements Runnable
 	public static void clearHighlights(){
 		for(int i =0; i<8; i++){
 			for(int j=0; j<8; j++){
-				Board[i][j].setSquare(3);
+				Board[i][j].setSquare(7);
 			}
 		}
 	}

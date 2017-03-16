@@ -44,6 +44,7 @@ public class Pawn extends ChessPiece{
 				promotionhighlightLocation();
 				promote(choosePromotion());
 				Server.sendPromotion(promotioner);
+				GameBoard.Board[this.row][this.column].setSquare(124124);
 			}
 		}
 		
@@ -52,8 +53,11 @@ public class Pawn extends ChessPiece{
 				promotionhighlightLocation();
 				promote(choosePromotion());
 				Client.sendPromotion(promotioner);
+				GameBoard.Board[this.row][this.column].setSquare(1241324);
 			}
 		}
+		
+		
 
 	}
 	
