@@ -260,7 +260,7 @@ public class Pawn extends ChessPiece{
 		if(promotionPiece.equals("Knight")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Knight(row,column,color));
 		}
-		if(promotionPiece.equals("rook")) {
+		if(promotionPiece.equals("Rook")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
 		if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
