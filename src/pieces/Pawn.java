@@ -71,6 +71,7 @@ public class Pawn extends ChessPiece{
 	public void move(int row, int column, boolean readyforPromotion) {
 		super.move(row, column);
 		promotionhighlightLocation();
+		System.out.println("I was called");
 	}
 	
 	
@@ -307,6 +308,7 @@ public class Pawn extends ChessPiece{
 	 * highlights the pawn blue to indicate a player is selecting its promotion and to reflect that it is invincible
 	 */
 	public void promotionhighlightLocation(){
+		System.out.println("I was called!!!");
 		GameBoard.Board[row][column].setSquare(3);
 	};
 
