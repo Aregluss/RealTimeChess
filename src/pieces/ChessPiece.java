@@ -285,22 +285,25 @@ public class ChessPiece// extends JPanel
 			}
 		}
 		
+		System.out.println(GameBoard.Player1.pieces.size() + " 2 " +GameBoard.Player2.pieces.size());
+		System.out.println(tertwhitePiece + " tert " + tertblackPiece);
+		
 		if(tertwhitePiece == null && tertblackPiece == null) {
 			return true; 
 		}
 		
-		if( ( tertwhitePiece instanceof Knight && GameBoard.Player2.pieces.size() == 1)
-				|| ( tertblackPiece instanceof Knight && GameBoard.Player1.pieces.size() == 1 ) ) {
+		if( ( tertwhitePiece instanceof Knight && GameBoard.Player1.pieces.size() == 2)
+				|| ( tertblackPiece instanceof Knight && GameBoard.Player2.pieces.size() == 2 ) ) {
 			return true;
 		}
 		
-		if( ( tertwhitePiece instanceof Bishop && GameBoard.Player2.pieces.size() == 1)
-				|| ( tertblackPiece instanceof Bishop && GameBoard.Player1.pieces.size() == 1 ) ) {
+		if( ( tertwhitePiece instanceof Bishop && GameBoard.Player1.pieces.size() == 2)
+				|| ( tertblackPiece instanceof Bishop && GameBoard.Player2.pieces.size() == 2 ) ) {
 			return true;
 		}
 		
-		if( ((tertwhitePiece instanceof Bishop && GameBoard.Player2.pieces.size() == 1)
-				|| ( tertblackPiece instanceof Bishop && GameBoard.Player1.pieces.size() == 1 )) 
+		if( ((tertwhitePiece instanceof Bishop && GameBoard.Player2.pieces.size() == 2)
+				|| ( tertblackPiece instanceof Bishop && GameBoard.Player1.pieces.size() == 2 )) 
 				&& ( ((tertwhitePiece.row + tertwhitePiece.column) % 2 ) ==  ((tertblackPiece.row + tertblackPiece.column) % 2 ))) {
 			return true;
 		}
