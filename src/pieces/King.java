@@ -87,7 +87,22 @@ public class King extends ChessPiece{
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
-			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
+			
+			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+				if(GameBoard.getlastSelected().getCurrentPiece() != GameBoard.Board[row][column].getCurrentPiece()) {
+					GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+					GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+					System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" Why am I getting called? " + GameBoard.getlastSelected());
+					GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+				}
+			}
+			//Just added
+			if(GameBoard.getlastSelected() != null){
+				if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece() ) {
+					GameBoard.clearlastSelected();
+				}
+			}
+			
 			this.row = row;
 			this.column = column;
 			//hasMoved = true;

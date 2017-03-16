@@ -266,11 +266,6 @@ public class ChessPiece// extends JPanel
 	public boolean draw() {
 		ChessPiece WhiteKing = null, BlackKing = null;
 		ChessPiece tertwhitePiece = null, tertblackPiece = null;
-		boolean foundWhite = false, foundBlack = false;
-		
-		if(true) {
-			return true;
-		}
 		
 		if(GameBoard.Player1.pieces.size() > 2 || GameBoard.Player2.pieces.size() > 2) {
 			return false;
@@ -282,7 +277,6 @@ public class ChessPiece// extends JPanel
 			}
 			if(piece.getCurrentPiece() instanceof Bishop || piece.getCurrentPiece() instanceof Knight) {
 				tertwhitePiece = piece.getCurrentPiece();
-				foundWhite = true;
 			}
 		}
 		
@@ -292,7 +286,6 @@ public class ChessPiece// extends JPanel
 			}
 			if(piece.getCurrentPiece() instanceof Bishop || piece.getCurrentPiece() instanceof Knight) {
 				tertblackPiece = piece.getCurrentPiece();
-				foundBlack = true;
 			}
 		}
 		
