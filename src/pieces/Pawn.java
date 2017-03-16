@@ -263,7 +263,6 @@ public class Pawn extends ChessPiece{
 		if(promotionPiece.equals("rook")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
-		
 		if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
 			 
 			GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
@@ -319,7 +318,6 @@ public class Pawn extends ChessPiece{
 	 * highlights the pawn blue to indicate a player is selecting its promotion and to reflect that it is invincible
 	 */
 	public void promotionhighlightLocation(){
-		System.out.println("I was called!!!");
 		GameBoard.Board[row][column].setSquare(3);
 	};
 
