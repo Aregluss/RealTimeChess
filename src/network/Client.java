@@ -147,7 +147,11 @@ public class Client implements Runnable{
 			 }
 			 
 			 if(GameBoard.gameState == 4 || temp_input == "draw") {
+				 System.out.println("SENDIasdfsdfNG ");
+
 				 sendgameState("draw");
+				 System.out.println("SENDIasasdfsdaffafdfsdfNG ");
+
 				 UIManager.put("OptionPane.okButtonText", "Exit");
 				 JOptionPane.showMessageDialog(null, "IT's a DRAW", "REKT", JOptionPane.INFORMATION_MESSAGE);
 				 GameBoard.clearHighlights();	 	

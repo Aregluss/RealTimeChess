@@ -169,9 +169,11 @@ public class ChessPiece// extends JPanel
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
+			
 			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
 				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
 				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+				System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" Why am I getting called? " + GameBoard.getlastSelected());
 				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
 			}
 			//Just added

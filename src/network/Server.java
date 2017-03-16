@@ -167,6 +167,7 @@ public class Server implements Runnable{
 			 
 			 if(GameBoard.gameState == 3 || temp_input == "end") {
 				    sendgameState("end");
+
 				 	UIManager.put("OptionPane.okButtonText", "Exit");
 				    if (GameBoard.getWinner() == true ) {
 						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
@@ -180,7 +181,10 @@ public class Server implements Runnable{
 			 }
 			 
 			 if(GameBoard.gameState == 4 || temp_input == "draw") {
+				 System.out.println("SENasdfdsfasdfaDIasdfsdfNG ");
+
 				 sendgameState("draw");
+				 System.out.println("SENDIasasdfsdsadfsfadsadfaffafdfsdfNG ");
 				 UIManager.put("OptionPane.okButtonText", "Exit");
 				 JOptionPane.showMessageDialog(null, "IT's a DRAW", "REKT", JOptionPane.INFORMATION_MESSAGE);
 				 GameBoard.clearHighlights();	 	
