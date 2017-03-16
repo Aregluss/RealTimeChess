@@ -166,6 +166,10 @@ public class King extends ChessPiece{
 				}
 			}
 			
+			if (draw()) {
+				GameBoard.gameState = 4; 
+			}
+			
 			sethasMoved(true);
 			// Modify BK and WK static pieces.
 			canCastleKing = false;

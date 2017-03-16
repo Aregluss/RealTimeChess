@@ -262,6 +262,7 @@ public class ChessPiece// extends JPanel
 	public boolean draw() {
 		ChessPiece WhiteKing = null, BlackKing = null;
 		ChessPiece tertwhitePiece = null, tertblackPiece = null;
+		boolean foundWhite = false, foundBlack = false;
 		
 		if(GameBoard.Player1.pieces.size() > 2 || GameBoard.Player2.pieces.size() > 2) {
 			return false;
@@ -273,6 +274,7 @@ public class ChessPiece// extends JPanel
 			}
 			if(piece.getCurrentPiece() instanceof Bishop || piece.getCurrentPiece() instanceof Knight) {
 				tertwhitePiece = piece.getCurrentPiece();
+				foundWhite = true;
 			}
 		}
 		
@@ -282,13 +284,17 @@ public class ChessPiece// extends JPanel
 			}
 			if(piece.getCurrentPiece() instanceof Bishop || piece.getCurrentPiece() instanceof Knight) {
 				tertblackPiece = piece.getCurrentPiece();
+				foundBlack = true;
 			}
 		}
 		
+		System.out.println(GameBoard.Player1.pieces + " hii ");
+		System.out.println(GameBoard.Player2.pieces + " loool ");
 		System.out.println(GameBoard.Player1.pieces.size() + " 2 " +GameBoard.Player2.pieces.size());
 		System.out.println(tertwhitePiece + " tert " + tertblackPiece);
 		
-		if(tertwhitePiece == null && tertblackPiece == null) {
+		
+		if(tertwhitePiece == null && tertblackPiece == null && GameBoard.Player1.pieces.size() == 1 && GameBoard.Player2.pieces.size() == 1) {
 			return true; 
 		}
 		
