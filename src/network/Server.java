@@ -71,8 +71,9 @@ public class Server implements Runnable{
 
 	       }
 	      catch(Exception ex){
+	    	 UIManager.put("OptionPane.okButtonText", "Disconnect");
 	    	 JOptionPane.showMessageDialog(null, "Other player has disconnected");
-	    	 RealTimeChess.switchPanel("1");
+	    	 System.exit(0);
 	    	 try{
 	    	 ss.close();
 	    	 input1.close();

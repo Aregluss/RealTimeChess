@@ -40,8 +40,9 @@ public class Client implements Runnable{
 			}
 		}
 		catch(Exception e){
+			UIManager.put("OptionPane.okButtonText", "Disconnect");
 			JOptionPane.showMessageDialog(null, "Other player has disconnected");
-			RealTimeChess.switchPanel("1");
+			System.exit(0);
 			try{
 			socket.close();
 			input1.close();
@@ -132,7 +133,6 @@ public class Client implements Runnable{
 			 
 			 if(GameBoard.gameState == 3|| temp_input == "end") {
 				 	sendgameState("end");
-				 	UIManager.put("OptionPane.okButtonText", "Exit");
 				 	if (GameBoard.getWinner() == false ) {
 						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
 						GameBoard.clearHighlights();
