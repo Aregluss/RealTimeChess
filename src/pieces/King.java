@@ -219,13 +219,7 @@ public class King extends ChessPiece{
 			//invalid movable location... throw an error? idk
 		}
 	}
-	
-	@Override
-	public void attack(ChessPiece Enemy) {
-		super.attack(Enemy);
-	}
 
-	
 	@Override
 	public void die() {
 		super.die();
@@ -353,6 +347,11 @@ public class King extends ChessPiece{
 		}
 	}
 	
+	/**
+	 * This will highlight the king that is being checked and all the pieces that are checking it with a red border
+	 * Preconditions : The king is in checked, and his attackers array has been updated
+	 * Postconditions : red squares will outline the king and his attackers
+	 */
 	@Override
 	public void checkhighlightLocation() {
 		GameBoard.Board[this.row][this.column].setSquare(2);
@@ -361,6 +360,11 @@ public class King extends ChessPiece{
 		}
 	}
 	
+	/**
+	 * This will unhighlight the king that is being checked and all the pieces that are checking it
+	 * Preconditions : The king is now out of check
+	 * Postconditions : red squares will be cleared around the king and his attackers
+	 */
 	@Override
 	public void clearcheckhighlightLocation() {
 		GameBoard.Board[this.row][this.column].setSquare(412);
@@ -369,26 +373,49 @@ public class King extends ChessPiece{
 		}
 	}
 	
+	/**
+	 * This function sets the arraylist saviors for the king which holds all the pieces that can resolve a check resolution
+	 * @param help, arraylist of pieces that can save the king
+	 */
 	public void setSaviors(ArrayList<ChessPiece> help) {
 		saviors = help;
 	}
 	
-	public void setAttacking(ArrayList<ChessPiece> help) {
-		attacking = help;
+	/**
+	 * This function sets the arraylist attacking which holds all pieces attack a certain square
+	 * @param attack, arraylist of pieces that can  attack the king's squares or squares around him
+	 */
+	public void setAttacking(ArrayList<ChessPiece> attack) {
+		attacking = attack;
 	}
 	
-	public void setcheckAttack(ArrayList<ChessPiece> help) {
-		checkAttack = help;
+	/**
+	 * This function sets the arraylist holding pieces checking the king
+	 * @param attack, arraylist of pieces checking the king
+	 */
+	public void setcheckAttack(ArrayList<ChessPiece> attack) {
+		checkAttack = attack;
 	}
-	
+	/**
+	 * 
+	 * @return saviors arraylist
+	 */
 	public ArrayList<ChessPiece> getSaviors() {
 		return saviors;
 	}
 	
+	/**
+	 * 
+	 * @return attacking arraylist
+	 */
 	public ArrayList<ChessPiece> getAttacking() {
 		return attacking;
 	}
 	
+	/**
+	 * 
+	 * @return checkAttack arraylist
+	 */
 	public ArrayList<ChessPiece> getcheckAttack() {
 		return checkAttack;
 	}

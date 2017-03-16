@@ -130,7 +130,13 @@ public class Square extends JPanel{// implements MouseListener{
 		currentPiece = c;
 	}
 	
-	
+	/**
+	 * PreCondition: a piece has been deselected ,selected, checked, or eligible for promotion and now needs to
+	 * update its highlights
+	 * Postcondition : the square associated has been changed to reflect a change in state
+	 * @param lightStatus, what to change the image to, 0 for valid movement spots, 1 for selection, 2 for checks, 3 for promotion
+	 * 4 to clear
+	 */
 	public void setSquare(int lightStatus) {
 		if (lightStatus == 0) {
 			setLight(new ImageIcon("green.png").getImage());
@@ -153,6 +159,10 @@ public class Square extends JPanel{// implements MouseListener{
 		}
 	}
 	
+	/**
+	 * 
+	 * @return the image associated in the square
+	 */
 	public Image getSquare() {
 		return getLight();
 	}

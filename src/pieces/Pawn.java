@@ -59,10 +59,20 @@ public class Pawn extends ChessPiece{
 
 	}
 	
+	/**
+	 * Special move function called when a pawn is ready for promotion 
+	 * @param row, row the pawn is about to move to
+	 * @param column, col that the pawn is about to move to
+	 * @param readyforPromotion, if the pawn is ready to promote
+	 * 
+	 * precondition: Pawn is about to move into a space where it in eligble for promotion
+	 * Postcondition: Pawn is now ready to promote and is highlighted as such
+	 */
 	public void move(int row, int column, boolean readyforPromotion) {
 		super.move(row, column);
 		promotionhighlightLocation();
 	}
+	
 	
 	public void move(int row, int column, String promotion){
 		super.move(row, column);
@@ -80,14 +90,6 @@ public class Pawn extends ChessPiece{
 			}
 		}
 	}
-
-
-	@Override
-	public void attack(ChessPiece Enemy) {
-		// TODO Auto-generated method stub
-		super.attack(Enemy);
-	}
-
 
 	@Override
 	public void die() {
@@ -301,6 +303,9 @@ public class Pawn extends ChessPiece{
 		super.highlightLocation();
 	}
 	
+	/**
+	 * highlights the pawn blue to indicate a player is selecting its promotion and to reflect that it is invincible
+	 */
 	public void promotionhighlightLocation(){
 		GameBoard.Board[row][column].setSquare(3);
 	};
