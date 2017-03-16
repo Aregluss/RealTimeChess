@@ -155,7 +155,6 @@ public class ChessPiece// extends JPanel
 				((Pawn)this).beforePromotionRow = this.row;
 				((Pawn)this).beforePromotionCol = this.column;
 			}
-			System.out.println("special lol");
 			//checks if moving will kill an enemy piece, if so update the player arraylists accordingly
 			if(GameBoard.Board[row][column].getCurrentPiece() != null) {
 				System.out.println("special");
@@ -170,16 +169,20 @@ public class ChessPiece// extends JPanel
 					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
 					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
 				}
-				System.out.println("special2");
+				System.out.println("special2 " + GameBoard.getlastSelected());
 				GameBoard.graphBoard.resetMousePressed();
-				if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece()) {
-					GameBoard.clearlastSelected();
+				if(GameBoard.getlastSelected() != null) {
+					if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece()) {
+						GameBoard.clearlastSelected();
+					}
 				}
+				
+				System.out.println("special3 ");
 
 			}
 			//for moving to an empty space
 			else {
-				System.out.println("say chap");
+				System.out.println("l0l ");
 				if(color){
 					//update piece for player
 					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
