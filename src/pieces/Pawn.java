@@ -263,6 +263,17 @@ public class Pawn extends ChessPiece{
 		if(promotionPiece.equals("rook")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
+		
+		if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+			 
+			GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+			GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+			System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" CALLED " + GameBoard.getlastSelected());
+			GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+			
+		}
+		
+		
 		if(color){
 			//update piece for player
 			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
