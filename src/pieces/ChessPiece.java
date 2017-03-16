@@ -291,22 +291,24 @@ public class ChessPiece// extends JPanel
 	public void attack(ChessPiece Enemy){};
 	
 	public void promotionImmunity() {
-			
+	    ArrayList<Square> removeLoc = new ArrayList<Square>();		
 		for(Square movable: locations) {
 			if(movable.getCurrentPiece() instanceof Pawn) {
 				if(color) {
 					if(movable.getRow() == 7) {
-						locations.remove(movable);
+						removeLoc.add(movable);
 					}
 				}
 					
 				else {
 					if(movable.getRow() == 0) {
-						locations.remove(movable);
+						removeLoc.add(movable);
 					}
 				}
 			}
 		}
+		
+		locations.removeAll(removeLoc);
 	}
 	
 	public boolean draw() {
