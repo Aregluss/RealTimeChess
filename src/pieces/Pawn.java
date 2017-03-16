@@ -34,15 +34,14 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		super.move(row, column);
 		
-		System.out.println(" hey!");
 		if(beforePromotionRow != -1 && beforePromotionCol != -1) {
-			System.out.println(beforePromotionRow+" this is my old spot "+beforePromotionCol);
 			unhighlightLocation(beforePromotionRow,beforePromotionCol);
 		}
 		
 		
 		if(color == true) {
 			if(row == 0 && this.row == 0) {
+				promotionhighlightLocation();
 				promote(choosePromotion());
 				Server.sendPromotion(promotioner);
 			}
@@ -50,6 +49,7 @@ public class Pawn extends ChessPiece{
 		
 		if(color == false) {
 			if(row == 7 && this.row == 7) {
+				promotionhighlightLocation();
 				promote(choosePromotion());
 				Client.sendPromotion(promotioner);
 			}
@@ -294,6 +294,10 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		super.highlightLocation();
 	}
+	
+	public void promotionhighlightLocation(){
+		GameBoard.Board[row][column].setSquare(3);
+	};
 
 	@Override
 	public boolean getColor() {

@@ -144,6 +144,10 @@ public class Square extends JPanel{// implements MouseListener{
 			light = new ImageIcon("red.png").getImage();
 		}
 		
+		else if (lightStatus == 3) {
+			light = new ImageIcon("blue.png").getImage();
+		}
+		
 		else{
 			light = null;
 		}
