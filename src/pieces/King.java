@@ -79,6 +79,7 @@ public class King extends ChessPiece{
 				if(GameBoard.getlastSelected() != null) {
 					if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece()) {
 						GameBoard.clearlastSelected();
+						GameBoard.graphBoard.resetMousePressed();
 					}
 				}
 
