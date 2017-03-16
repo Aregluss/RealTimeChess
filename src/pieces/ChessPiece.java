@@ -244,6 +244,9 @@ public class ChessPiece// extends JPanel
 				A_Clock.continueTime();
 			}
 			
+			if (draw()) {
+				GameBoard.gameState = 4; 
+			}
 			sethasMoved(true);
 			
 		}
@@ -256,6 +259,54 @@ public class ChessPiece// extends JPanel
 	/** Unused for now */
 	//Maybe break move up a bit and add that bit of code in here, things to look at for 2nd iteration
 	public void attack(ChessPiece Enemy){};
+	public boolean draw() {
+		ChessPiece WhiteKing = null, BlackKing = null;
+		ChessPiece tertwhitePiece = null, tertblackPiece = null;
+		
+		if(GameBoard.Player1.pieces.size() > 2 || GameBoard.Player2.pieces.size() > 2) {
+			return false;
+		}
+		
+		for(Square piece :GameBoard.Player1.pieces) {
+			if(piece.getCurrentPiece() instanceof King){
+				WhiteKing = piece.getCurrentPiece();
+			}
+			if(piece.getCurrentPiece() instanceof Bishop || piece.getCurrentPiece() instanceof Knight) {
+				tertwhitePiece = piece.getCurrentPiece();
+			}
+		}
+		
+		for(Square piece :GameBoard.Player2.pieces) {
+			if(piece.getCurrentPiece() instanceof King){
+				BlackKing = piece.getCurrentPiece();
+			}
+			if(piece.getCurrentPiece() instanceof Bishop || piece.getCurrentPiece() instanceof Knight) {
+				tertblackPiece = piece.getCurrentPiece();
+			}
+		}
+		
+		if(tertwhitePiece == null && tertblackPiece == null) {
+			return true; 
+		}
+		
+		if( ( tertwhitePiece instanceof Knight && GameBoard.Player2.pieces.size() == 1)
+				|| ( tertblackPiece instanceof Knight && GameBoard.Player1.pieces.size() == 1 ) ) {
+			return true;
+		}
+		
+		if( ( tertwhitePiece instanceof Bishop && GameBoard.Player2.pieces.size() == 1)
+				|| ( tertblackPiece instanceof Bishop && GameBoard.Player1.pieces.size() == 1 ) ) {
+			return true;
+		}
+		
+		if( ((tertwhitePiece instanceof Bishop && GameBoard.Player2.pieces.size() == 1)
+				|| ( tertblackPiece instanceof Bishop && GameBoard.Player1.pieces.size() == 1 )) 
+				&& ( ((tertwhitePiece.row + tertwhitePiece.column) % 2 ) ==  ((tertblackPiece.row + tertblackPiece.column) % 2 ))) {
+			return true;
+		}
+		
+		return false;	
+	}
 	
 	/** Called when a piece is successfully attacked */
 	//Same comment as above
