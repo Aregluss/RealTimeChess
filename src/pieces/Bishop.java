@@ -46,6 +46,8 @@ public class Bishop extends ChessPiece{
 		if (checkpinnedPiece()) {
 			pinnedPieceMovementHelper();
 		}
+ 		promotionImmunity();
+
 		setVisibility(true);
 	}
 

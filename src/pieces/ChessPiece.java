@@ -112,18 +112,19 @@ public class ChessPiece// extends JPanel
 	
 	public void move(int row, int column){
 		boolean canMove = false;
-	
+		System.out.println("reg move");
+		System.out.println("a "+ GameBoard.Board[row][column].getCurrentPiece());
 		if(GameBoard.gameState == 0) {
 			getMoveLocations();
 		}
-		
+		System.out.println("b");
 		//Search the locations array (created by GetMoveLocations), if a valid move set canMove to true
 		for(Square movable: locations)	{
 			if((row == movable.getRow()) && (column == movable.getColumn()))	{
 				canMove = true;
 			}			
 		}
-    
+		System.out.println("c");
 		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
 		if(canMove)	{
 			offCoolDown = false;
@@ -139,6 +140,7 @@ public class ChessPiece// extends JPanel
 					GameBoard.Bk.setColumn(column);
 				}
 			}
+			System.out.println("d");
 			
 			//checks if moving will kill an enemy piece, if so update the player arraylists accordingly
 			if(GameBoard.Board[row][column].getCurrentPiece() != null) {
@@ -166,9 +168,14 @@ public class ChessPiece// extends JPanel
 					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 				}
 			}
+			
+			System.out.println("e");
+			
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
+			
+			System.out.println("f");
 			
 			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
 				if(GameBoard.getlastSelected().getCurrentPiece() != GameBoard.Board[row][column].getCurrentPiece()) {
@@ -178,12 +185,17 @@ public class ChessPiece// extends JPanel
 					GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
 				}
 			}
+			
+			System.out.println("g");
+
 			//Just added
 			if(GameBoard.getlastSelected() != null){
 				if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece() ) {
 					GameBoard.clearlastSelected();
 				}
 			}
+			
+			System.out.println("h");
 			
 			this.row = row;
 			this.column = column;
@@ -197,6 +209,8 @@ public class ChessPiece// extends JPanel
 				GameBoard.Player2.pieces.add(new Square(row,column,this));
 			}
 			
+			System.out.println("j");
+			
 			//Indicates that the game is in checkresolution once a piece moves, sets the state to normal
 			//with no bugs, a piece can ONLY move if it resolves the check
 			if(GameBoard.gameState == 2) {
@@ -204,6 +218,8 @@ public class ChessPiece// extends JPanel
 				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = false;
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = false;
 			}
+			
+			System.out.println(GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()+ " j " +GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece());
 			
 			//Checks if the piece moving caused a check on the enemy king, if this is true then check resolution occurs
 			//FREEZE GAME, disable enemy, Check resolution
@@ -226,6 +242,8 @@ public class ChessPiece// extends JPanel
 				}
 			}
 			
+			System.out.println("k");
+			
 			if(GameBoard.gameState == 1) {
 				//CHECK RESOLVED
 				//Reset the arraylist containing pieces that can save the king
@@ -243,15 +261,18 @@ public class ChessPiece// extends JPanel
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).getcheckAttack().clear();
 				GameBoard.setChecked(2);
 				//unfreeze the game + enable enemy pieces 
-				System.out.println("CHECK RESOLVED!!");
-				
+				System.out.println("CHECK RESOLVED!!");		
 				A_Clock.continueTime();
 			}
+			
+			System.out.println("l");
 			
 			if (draw()) {
 				GameBoard.gameState = 4; 
 			}
 			sethasMoved(true);
+			
+			System.out.println("m");
 			
 		}
 		else{
@@ -263,6 +284,26 @@ public class ChessPiece// extends JPanel
 	/** Unused for now */
 	//Maybe break move up a bit and add that bit of code in here, things to look at for 2nd iteration
 	public void attack(ChessPiece Enemy){};
+	
+	public void promotionImmunity() {
+			
+		for(Square movable: locations) {
+			if(movable.getCurrentPiece() instanceof Pawn) {
+				if(color) {
+					if(movable.getRow() == 0) {
+						locations.remove(movable);
+					}
+				}
+					
+				else {
+					if(movable.getRow() == 7) {
+						locations.remove(movable);
+					}
+				}
+			}
+		}
+	}
+	
 	public boolean draw() {
 		ChessPiece WhiteKing = null, BlackKing = null;
 		ChessPiece tertwhitePiece = null, tertblackPiece = null;

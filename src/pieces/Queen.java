@@ -50,6 +50,9 @@ public class Queen extends ChessPiece{
 		if (checkpinnedPiece()) {
 			pinnedPieceMovementHelper();
 		}
+		
+ 		promotionImmunity();
+
 		setVisibility(true);
 	}
 

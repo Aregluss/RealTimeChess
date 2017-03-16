@@ -89,6 +89,8 @@ public class Pawn extends ChessPiece{
 		if (checkpinnedPiece()) {
 			pinnedPieceMovementHelper();
 		}
+ 		promotionImmunity();
+
 		setVisibility(true);
 	}
 	/** Precondition: getMovelocations for a pawn is called

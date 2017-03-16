@@ -46,6 +46,9 @@ public class Rook extends ChessPiece {
 		if (checkpinnedPiece()) {
 			pinnedPieceMovementHelper();
 		}
+		
+ 		promotionImmunity();
+
 		setVisibility(true);
 	}
 	

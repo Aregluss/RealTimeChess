@@ -131,6 +131,9 @@ public class Knight extends ChessPiece{
 		if (checkpinnedPiece()) {
 			pinnedPieceMovementHelper();
 		}
+		
+ 		promotionImmunity();
+		
 		setVisibility(true);
 
 	}
