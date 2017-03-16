@@ -14,8 +14,8 @@ public class Pawn extends ChessPiece{
 	public String name = "Pawn";
 	public static String promotioner;
 	public boolean promotion = false;
-	public int beforePromotionRow;
-	public int beforePromotionCol;
+	public int beforePromotionRow = -1;
+	public int beforePromotionCol = -1;
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
@@ -34,7 +34,11 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		super.move(row, column);
 		
-		unhighlightLocation(beforePromotionRow,beforePromotionCol);
+		System.out.println(" hey!");
+		if(beforePromotionRow != -1 && beforePromotionCol != -1) {
+			System.out.println(beforePromotionRow+" this is my old spot "+beforePromotionCol);
+			unhighlightLocation(beforePromotionRow,beforePromotionCol);
+		}
 		
 		
 		if(color == true) {
