@@ -13,6 +13,9 @@ public class Pawn extends ChessPiece{
 	public boolean hasMoved = false;
 	public String name = "Pawn";
 	public static String promotioner;
+	public boolean promotion = false;
+	public int beforePromotionRow;
+	public int beforePromotionCol;
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
@@ -30,6 +33,9 @@ public class Pawn extends ChessPiece{
 	public void move(int row, int column) {
 		// TODO Auto-generated method stub
 		super.move(row, column);
+		
+		unhighlightLocation(beforePromotionRow,beforePromotionCol);
+		
 		
 		if(color == true) {
 			if(row == 0 && this.row == 0) {
@@ -261,6 +267,8 @@ public class Pawn extends ChessPiece{
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
 			}
 		}
+		
+		
 	}
 	
 	/**

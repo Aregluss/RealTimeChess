@@ -142,6 +142,11 @@ public class ChessPiece// extends JPanel
 			}
 			System.out.println("d");
 			
+			if(this instanceof Pawn && ( (row == 0 && this.color) || (row == 7 && this.color) )) {
+				((Pawn)this).beforePromotionRow = this.row;
+				((Pawn)this).beforePromotionCol = this.column;
+			}
+			
 			//checks if moving will kill an enemy piece, if so update the player arraylists accordingly
 			if(GameBoard.Board[row][column].getCurrentPiece() != null) {
 				if(color){
