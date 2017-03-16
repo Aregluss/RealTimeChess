@@ -103,7 +103,7 @@ public class Client implements Runnable{
 				 System.out.println("SENDIasasdfsdaffafdfsdfNG ");
 
 				 UIManager.put("OptionPane.okButtonText", "Exit");
-				 JOptionPane.showMessageDialog(null, "IT's a DRAW", "REKT", JOptionPane.INFORMATION_MESSAGE);
+				 JOptionPane.showMessageDialog(null, "It's a draw!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 				 GameBoard.clearHighlights();	 	
 				 System.exit(0);
 			 }
@@ -114,8 +114,10 @@ public class Client implements Runnable{
 			 if((temp_input.equals("Queen")) ||(temp_input.equals("Rook"))  || (temp_input.equals("Knight"))  || (temp_input.equals("Bishop")) ){
 				 System.out.println("Inside the pawn function of network promotion");
 				 System.out.println(GraphicsBoard.y3 + " " + GraphicsBoard.x3 + " " + GraphicsBoard.y4 + " " + GraphicsBoard.x4);
-				 GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece().getMoveLocations();
-				 ((Pawn)GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece()).move(GraphicsBoard.y4, GraphicsBoard.x4,temp_input);
+				 /*GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece().getMoveLocations();
+				 ((Pawn)GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece()).move(GraphicsBoard.y4, GraphicsBoard.x4,temp_input);*/
+				 
+				 ((Pawn)GameBoard.Board[GraphicsBoard.y4][GraphicsBoard.x4].getCurrentPiece()).promote(temp_input);
 			 }
 			 else{
 				 System.out.println("Inside the normal move function");
@@ -150,6 +152,7 @@ public class Client implements Runnable{
 					 GraphicsBoard.x3 = results[1];
 					 GraphicsBoard.y4 = results[2];
 					 GraphicsBoard.x4 = results[3];
+					 ((Pawn)GameBoard.Board[results[0]][results[1]].getCurrentPiece()).move(results[2], results[3], true);
 				 }
 				 else{
 					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();

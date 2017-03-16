@@ -47,6 +47,10 @@ public class Pawn extends ChessPiece{
 
 	}
 	
+	public void move(int row, int column, boolean readyforPromotion) {
+		super.move(row, column);
+	}
+	
 	public void move(int row, int column, String promotion){
 		super.move(row, column);
 		
