@@ -171,10 +171,12 @@ public class ChessPiece// extends JPanel
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
 			
 			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
-				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
-				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
-				System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" Why am I getting called? " + GameBoard.getlastSelected());
-				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+				if(GameBoard.getlastSelected().getCurrentPiece() != GameBoard.Board[row][column].getCurrentPiece()) {
+					GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+					GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+					System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" Why am I getting called? " + GameBoard.getlastSelected());
+					GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+				}
 			}
 			//Just added
 			if(GameBoard.getlastSelected() != null){
@@ -265,6 +267,10 @@ public class ChessPiece// extends JPanel
 		ChessPiece WhiteKing = null, BlackKing = null;
 		ChessPiece tertwhitePiece = null, tertblackPiece = null;
 		boolean foundWhite = false, foundBlack = false;
+		
+		if(true) {
+			return true;
+		}
 		
 		if(GameBoard.Player1.pieces.size() > 2 || GameBoard.Player2.pieces.size() > 2) {
 			return false;

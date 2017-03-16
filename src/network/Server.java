@@ -110,9 +110,40 @@ public class Server implements Runnable{
 	  
 	  public void receive() throws IOException{
 
-			 String temp_input;
-				temp_input = input1.readLine();
-				System.out.println(temp_input);
+			String temp_input;
+			temp_input = input1.readLine();
+			System.out.println(temp_input);
+				
+				
+			
+				
+			if(GameBoard.gameState == 3|| temp_input == "end") {
+				sendgameState("end");
+				UIManager.put("OptionPane.okButtonText", "Exit");
+				if (GameBoard.getWinner() == false ) {
+					JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
+					GameBoard.clearHighlights();
+							 
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+					GameBoard.clearHighlights();
+				}
+					System.exit(0);
+			}
+				 
+			if(GameBoard.gameState == 4 || temp_input == "draw") {
+				System.out.println("SENDIasdfsdfNG ");
+
+				sendgameState("draw");
+				System.out.println("SENDIasasdfsdaffafdfsdfNG ");
+
+				UIManager.put("OptionPane.okButtonText", "Exit");
+				JOptionPane.showMessageDialog(null, "IT's a DRAW", "REKT", JOptionPane.INFORMATION_MESSAGE);
+				GameBoard.clearHighlights();	 	
+				System.exit(0);
+			}
+				 
 			 if((temp_input.equals("Queen")) ||(temp_input.equals("Rook"))  || (temp_input.equals("Knight"))  || (temp_input.equals("Bishop")) ){
 				 System.out.println("Inside the pawn function of network promotion");
 				 System.out.println(GraphicsBoard.y3 + " " + GraphicsBoard.x3 + " " + GraphicsBoard.y4 + " " + GraphicsBoard.x4);
