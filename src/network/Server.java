@@ -193,9 +193,21 @@ public class Server implements Runnable{
 					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 				 } 
 			 }
-			 if((results[2] == GraphicsBoard.y1) && (results[3] == GraphicsBoard.x1)){
-				 GameBoard.clearHighlights();
+			 
+			 if((results[2] == GraphicsBoard.y1) && (results[3] == GraphicsBoard.x1) && GameBoard.Board[results[2]][results[3]] != null ){
+				 if( (GameBoard.Board[results[2]][results[3]].getCurrentPiece()) instanceof Pawn ) {
+					 if( (GameBoard.Board[results[2]][results[3]].getCurrentPiece().row == 0 && GameBoard.Board[results[2]][results[3]].getCurrentPiece().getColor()) ||
+							 (GameBoard.Board[results[2]][results[3]].getCurrentPiece().row == 7 && !GameBoard.Board[results[2]][results[3]].getCurrentPiece().getColor())){
+						 //Do absolutely nothing LOL
+					 }
+						 
+				 }
+				 else {
+					 GameBoard.clearHighlights();
+				 }
+				 
 			 }
+			 
 			 }
 			 System.out.println("end receive server");
 			 GameBoard.graphBoard.repaint();
