@@ -295,13 +295,13 @@ public class ChessPiece// extends JPanel
 		for(Square movable: locations) {
 			if(movable.getCurrentPiece() instanceof Pawn) {
 				if(color) {
-					if(movable.getRow() == 0) {
+					if(movable.getRow() == 7) {
 						locations.remove(movable);
 					}
 				}
 					
 				else {
-					if(movable.getRow() == 7) {
+					if(movable.getRow() == 0) {
 						locations.remove(movable);
 					}
 				}
