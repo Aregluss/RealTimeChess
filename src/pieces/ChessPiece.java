@@ -170,6 +170,9 @@ public class ChessPiece// extends JPanel
 					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
 				}
 				GameBoard.graphBoard.resetMousePressed();
+				if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece()) {
+					GameBoard.clearlastSelected();
+				}
 
 			}
 			//for moving to an empty space
