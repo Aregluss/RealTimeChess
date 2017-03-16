@@ -80,6 +80,7 @@ public class Client implements Runnable{
 			 String temp_input;
 				temp_input = input1.readLine();
 				System.out.println(temp_input);
+				System.out.println("Beg server receive");	
 				
 			if(GameBoard.gameState == 3|| temp_input == "end") {
 				 sendgameState("end");
@@ -163,7 +164,7 @@ public class Client implements Runnable{
 				 GameBoard.clearHighlights();
 			 }
 			 }
-			 System.out.println("end receive");
+			 System.out.println("end receive client");
 			 GameBoard.graphBoard.repaint();
 			 
 			 

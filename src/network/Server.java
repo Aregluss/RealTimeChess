@@ -113,7 +113,7 @@ public class Server implements Runnable{
 			String temp_input;
 			temp_input = input1.readLine();
 			System.out.println(temp_input);
-				
+			System.out.println("Beg server receive");	
 				
 			
 				
@@ -197,7 +197,7 @@ public class Server implements Runnable{
 				 GameBoard.clearHighlights();
 			 }
 			 }
-			 System.out.println("end receive");
+			 System.out.println("end receive server");
 			 GameBoard.graphBoard.repaint();
 			 
 			 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
