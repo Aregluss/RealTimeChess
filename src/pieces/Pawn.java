@@ -44,7 +44,6 @@ public class Pawn extends ChessPiece{
 				promotionhighlightLocation();
 				promote(choosePromotion());
 				Server.sendPromotion(promotioner);
-				GameBoard.Board[this.row][this.column].setSquare(124124);
 			}
 		}
 		
@@ -53,7 +52,6 @@ public class Pawn extends ChessPiece{
 				promotionhighlightLocation();
 				promote(choosePromotion());
 				Client.sendPromotion(promotioner);
-				GameBoard.Board[this.row][this.column].setSquare(1241324);
 			}
 		}
 		
@@ -63,6 +61,7 @@ public class Pawn extends ChessPiece{
 	
 	public void move(int row, int column, boolean readyforPromotion) {
 		super.move(row, column);
+		promotionhighlightLocation();
 	}
 	
 	public void move(int row, int column, String promotion){
@@ -245,6 +244,9 @@ public class Pawn extends ChessPiece{
 	//TODO let the player choose + update player arrays accordingly
 	public void promote(String promotionPiece) {
 		promotioner = promotionPiece;
+		
+		GameBoard.Board[this.row][this.column].setSquare(1241324);
+
 		// light pops, ui to ask player what they want the pawn to be promoted to
 		if(promotionPiece.equals("Queen")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Queen(row,column,color));
