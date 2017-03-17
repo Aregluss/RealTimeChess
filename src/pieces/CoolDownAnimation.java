@@ -1,3 +1,4 @@
+
 package pieces;
 
 import java.awt.Graphics;
@@ -8,12 +9,14 @@ import javax.swing.Timer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import game.GameBoard;
 import game.TimerClock;
 import pieces.ChessPiece;
 
@@ -90,6 +93,8 @@ public class CoolDownAnimation extends JPanel {
                     }
                     setProgress(progress);
                     repaint();
+                    Rectangle a = new Rectangle(column * width, row * height, (column+1) * width /4, (row+1)*height/4);
+                    //GameBoard.graphBoard.repaint(a);
                     
                 }
             });
@@ -112,7 +117,8 @@ public class CoolDownAnimation extends JPanel {
 
 
             //g2d.fillArc((int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), 90, (int) (360f * (1f - progress)));
-            if((column + row)%2 == 0)
+            applyQualityRenderingHints(g2d);
+            if((column + row)%2 == 1)
             {
             	Color myColour = new Color(247,246,228, 255);
             	g2d.setColor(myColour);

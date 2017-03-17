@@ -26,6 +26,12 @@ public class Server implements Runnable{
 	int i =0;
 	public static String sending;
 	public static boolean connected = false;;
+	/**
+	* Constructor for the server. Calls on runserver, and if connect is successful, it creates an input and output stream with the client.
+	* Also, it switches server-side to the game panel.
+	* Precondition: Gets selected on the start menu
+	* Postcondition: starts the thread of the game
+	*/
 	public Server() throws IOException
 	  {
 	      runServer();
@@ -38,13 +44,18 @@ public class Server implements Runnable{
 	      }
 	    }
 	 
+	/**
+	* Creates a server and waits for the client to connect. Sets a timeout to 10 seconds.
+	* Precondition: Server constructor is called.
+	* Postcondition: connects to the client.
+	*/
 	private static void runServer() throws IOException{
 	    try
 	    {
 	    	System.out.println("FIRST LINE");
 	      ss = new ServerSocket(port);
 	      System.out.println("SECOND LINE");
-	      ss.setSoTimeout(5000);
+	      ss.setSoTimeout(10000);
 	      System.out.println("listening port: " + port);
 	      p1 = ss.accept();
 	       RealTimeChess.switchPanel("2");
@@ -61,6 +72,12 @@ public class Server implements Runnable{
 	
 	// needs to host a gameboard...
 	
+	/**
+	* Part of the thread of server. All it does is it calls on receive, which receives the coordinates that the other player is sending.
+	* Because it is on a thread, it will continually wait to receive information.
+	* Precondition: A connection with the client.
+	* 
+	*/
 	  public void run()
 	  {
 	    try
@@ -87,6 +104,12 @@ public class Server implements Runnable{
 	   
 	  }
 	  
+	  /**
+		* Send function sends the move to the other player. Sends it through and output stream. Gets called right before the piece is moved on own board.
+		* 
+		* Precondition: A connection with the client, two (x,y) coordinates to send.
+		* Postcondition: Sends coordinates to other player.
+		*/
 	  public static void send(){
 		 // System.out.println("In send stuff: " +);
 			  	System.out.println("Before sending output!!!!!!");
@@ -98,16 +121,37 @@ public class Server implements Runnable{
 		    	System.out.println("After sending output!!!!"); 
 	  }
 	  
+	  /**
+		* sendPromotion sends what piece you are promoting to the other player. Sends it through and output stream. Gets called right before the pawn is promoted on your own board.
+		* 
+		* Precondition: A connection with the client, a string to send.
+		* Postcondition: Sends promotion string to other player.
+		* @param a promotion piece in the form of a string. ex. Queen,Rook,Bishop
+		*/
 	  public static void sendPromotion(String promotion){
 		  sending = promotion;
 		  output1.println(sending);
 	  }
 	  
+	  /**
+		* sendgameState sends the condition of the game to the other player. Sends it through and output stream. Gets called when the gamestate is changing, so when the game is in check or ending or stalemating.
+		* 
+		* Precondition: A connection with the client, a string to send.
+		* Postcondition: Sends gamestate string to other player.
+		* @param a game state in the form of a string. ex. end(game end),draw(stalemate)
+		*/
 	  public static void sendgameState(String gamestate) {
 		  sending = gamestate;
 		  output1.println(sending);
 	  }
 	  
+	  /**
+		* Receives the data that other players send through the input stream. Depending on the output, it will do certain things.
+		* It can receive the game state, or promotion pieces. It can also receive the coordinates. Once it receives the coordinates it parses the string into and array of integers.
+		* It then uses the array of integers to move the piece on its own gameboard.
+		* Precondition: An output from the other player.
+		* Postcondition: Moves piece on own game board.
+		*/
 	  public void receive() throws IOException{
 
 			String temp_input;
