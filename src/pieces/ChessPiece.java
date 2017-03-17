@@ -134,7 +134,7 @@ public class ChessPiece// extends JPanel
 		System.out.println("c");
 		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
 		if(canMove)	{
-			if( (GameBoard.graphBoard.y2 == GameBoard.graphBoard.y3) && (GameBoard.graphBoard.x2 == GameBoard.graphBoard.x3))
+			if( (GraphicsBoard.y2 == GraphicsBoard.y3) && (GraphicsBoard.x2 == GraphicsBoard.x3))
 				return;
 			offCoolDown = false;
 			time = A_Clock.return_milli_time();

@@ -180,6 +180,10 @@ public class Server implements Runnable{
 				 }
 			 }
 			 else{
+				 GraphicsBoard.y3 = results[0];
+				 GraphicsBoard.x3 = results[1];
+				 GraphicsBoard.y4 = results[2];
+				 GraphicsBoard.x4 = results[3];
 				 if(GameBoard.Board[results[0]][results[1]].getCurrentPiece().getClass() == test.getClass() && results[2] == 7){
 					 GraphicsBoard.y3 = results[0];
 					 GraphicsBoard.x3 = results[1];
