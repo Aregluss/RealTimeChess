@@ -27,8 +27,8 @@ public class ChessPiece// extends JPanel
 	public boolean color;
 	public boolean canCastleKing = false;
 	public boolean canCastleQueen = false;
-	public ArrayList<Square> locations = new ArrayList<Square>();
-	public ArrayList<Square> dangerSpots = new ArrayList<Square>();
+	public ArrayList<Square> locations = new ArrayList<Square>(); // Hold valid moves
+	public ArrayList<Square> dangerSpots = new ArrayList<Square>(); 
 	public boolean isVisible = true;
 	public int row, column;
 	Image image;
@@ -72,10 +72,17 @@ public class ChessPiece// extends JPanel
 		hasMoved = setter;
 	}
 	
+	/**
+	 * Precondition : Piece has just moved or piece has moved and is now coming off cooldown
+	 * Postcondition : Piece is now on cooldown or piece is off cooldown 
+	 * 
+	 * @param setter, sets a piece on of off cooldown
+	 */
 	public void setoffCoolDown(boolean setter)
 	{
 		offCoolDown = setter;
 	}
+	
 	/** Only invoked when the king initiates a Castle, special move function 
 	 * @param row row to move the king to 
 	 * @param col column to move the king to
@@ -112,18 +119,19 @@ public class ChessPiece// extends JPanel
 	
 	public void move(int row, int column){
 		boolean canMove = false;
-	
+		System.out.println("reg move " + this);
+		System.out.println(row + " " + column +" a "+ GameBoard.Board[row][column].getCurrentPiece());
 		if(GameBoard.gameState == 0) {
 			getMoveLocations();
 		}
-		
+		System.out.println("b");
 		//Search the locations array (created by GetMoveLocations), if a valid move set canMove to true
 		for(Square movable: locations)	{
 			if((row == movable.getRow()) && (column == movable.getColumn()))	{
 				canMove = true;
 			}			
 		}
-    
+		System.out.println("c");
 		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
 		if(canMove)	{
 			offCoolDown = false;
@@ -139,9 +147,17 @@ public class ChessPiece// extends JPanel
 					GameBoard.Bk.setColumn(column);
 				}
 			}
+			System.out.println("d");
 			
+			//Saves the previous position of the pawn if the pawn is about to move into a promotional square
+			//This is important for unhighlighting
+			if(this instanceof Pawn && ( (row == 0 && this.color) || (row == 7 && this.color) )) {
+				((Pawn)this).beforePromotionRow = this.row;
+				((Pawn)this).beforePromotionCol = this.column;
+			}
 			//checks if moving will kill an enemy piece, if so update the player arraylists accordingly
 			if(GameBoard.Board[row][column].getCurrentPiece() != null) {
+				System.out.println("special");
 				if(color){
 					//update piece for player
 					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
@@ -153,11 +169,21 @@ public class ChessPiece// extends JPanel
 					GameBoard.Player1.pieces.remove(GameBoard.Board[row][column]);
 					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
 				}
-				GameBoard.graphBoard.resetMousePressed();
+				System.out.println("special2 " + GameBoard.getlastSelected());
+				
+				if(GameBoard.getlastSelected() != null) {
+					if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece()) {
+						GameBoard.clearlastSelected();
+						GameBoard.graphBoard.resetMousePressed();
+					}
+				}
+				
+				System.out.println("special3 ");
 
 			}
 			//for moving to an empty space
 			else {
+				System.out.println("l0l ");
 				if(color){
 					//update piece for player
 					GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
@@ -166,32 +192,53 @@ public class ChessPiece// extends JPanel
 					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 				}
 			}
+			
+			System.out.println("e");
+			
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
+			
+			System.out.println("f");
+			
+			
+			//This handles the highlighting dynamically, How this works is in graphicsboard the last piece that was selected is stored
+			// If an enemy piece moves, this section of code will actually update the pieces getMoveLocations + highlight locations
+			//Something that is not normally considered in turn based chess
 			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
-				GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
-				GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
-				GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+				if(GameBoard.getlastSelected().getCurrentPiece() != GameBoard.Board[row][column].getCurrentPiece()) {
+					GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+					GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+					System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" Why am I getting called? " + GameBoard.getlastSelected());
+					GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+				}
 			}
-			//Just added
+			
+			System.out.println("g");
+
+			//This is the second part to the dynamic highlighting, this will reset the last selected if the last selected piece is the same
+			//as the piece that is moving
 			if(GameBoard.getlastSelected() != null){
 				if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece() ) {
 					GameBoard.clearlastSelected();
 				}
 			}
 			
+			System.out.println("h");
+			
 			this.row = row;
 			this.column = column;
 			hasMoved = true;
 			
+			//add pieces for player
 			if(color){
-				//add piece for player
 				GameBoard.Player1.pieces.add(new Square(row,column,this));
 			}
 			else {
 				GameBoard.Player2.pieces.add(new Square(row,column,this));
 			}
+			
+			System.out.println("j");
 			
 			//Indicates that the game is in checkresolution once a piece moves, sets the state to normal
 			//with no bugs, a piece can ONLY move if it resolves the check
@@ -200,6 +247,8 @@ public class ChessPiece// extends JPanel
 				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = false;
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = false;
 			}
+			
+			System.out.println(GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()+ " j " +GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece());
 			
 			//Checks if the piece moving caused a check on the enemy king, if this is true then check resolution occurs
 			//FREEZE GAME, disable enemy, Check resolution
@@ -222,6 +271,8 @@ public class ChessPiece// extends JPanel
 				}
 			}
 			
+			System.out.println("k");
+			
 			if(GameBoard.gameState == 1) {
 				//CHECK RESOLVED
 				//Reset the arraylist containing pieces that can save the king
@@ -239,15 +290,18 @@ public class ChessPiece// extends JPanel
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).getcheckAttack().clear();
 				GameBoard.setChecked(2);
 				//unfreeze the game + enable enemy pieces 
-				System.out.println("CHECK RESOLVED!!");
-				
+				System.out.println("CHECK RESOLVED!!");		
 				A_Clock.continueTime();
 			}
+			
+			System.out.println("l");
 			
 			if (draw()) {
 				GameBoard.gameState = 4; 
 			}
 			sethasMoved(true);
+			
+			System.out.println("m");
 			
 		}
 		else{
@@ -256,13 +310,52 @@ public class ChessPiece// extends JPanel
 		}
 	};
 	
-	/** Unused for now */
-	//Maybe break move up a bit and add that bit of code in here, things to look at for 2nd iteration
-	public void attack(ChessPiece Enemy){};
+	/**
+	 * Function that is called to check if there is a pawn currently promoting
+	 * This function will make that pawn invincible during their promotion by
+	 * removing that pawn from a valid move location
+	 * Precondition : a piece wants to move and has called getMoveLocations
+	 * Postcondition : the square holding a pawn promoting has been removed if that pawn existed
+	 * 					else nothing happens
+	 * 
+	 */
+	public void promotionImmunity() {
+	    ArrayList<Square> removeLoc = new ArrayList<Square>();		
+		for(Square movable: locations) {
+			if(movable.getCurrentPiece() instanceof Pawn) {
+				if(color) {
+					if(movable.getRow() == 7) {
+						removeLoc.add(movable);
+					}
+				}
+					
+				else {
+					if(movable.getRow() == 0) {
+						removeLoc.add(movable);
+					}
+				}
+			}
+		}
+		
+		locations.removeAll(removeLoc);
+	}
+	
+	/**
+	 * This function checks if the game has ended in a draw
+	 * Some valid draw scenarios
+	 * 1) King vs King
+	 * 2) King + Bishop 
+	 * 3) King + Knight
+	 * 4) King + Bishop vs King + Bishop and both bishops are the same color
+	 * @return true if the game is a draw, false if the game is still playable
+	 * 
+	 * Preconditions : a piece has just moved
+	 * Postconditions : returns true if draw , false if the game is not in draw
+	 */
+	
 	public boolean draw() {
 		ChessPiece WhiteKing = null, BlackKing = null;
 		ChessPiece tertwhitePiece = null, tertblackPiece = null;
-		boolean foundWhite = false, foundBlack = false;
 		
 		if(GameBoard.Player1.pieces.size() > 2 || GameBoard.Player2.pieces.size() > 2) {
 			return false;
@@ -274,7 +367,6 @@ public class ChessPiece// extends JPanel
 			}
 			if(piece.getCurrentPiece() instanceof Bishop || piece.getCurrentPiece() instanceof Knight) {
 				tertwhitePiece = piece.getCurrentPiece();
-				foundWhite = true;
 			}
 		}
 		
@@ -284,7 +376,6 @@ public class ChessPiece// extends JPanel
 			}
 			if(piece.getCurrentPiece() instanceof Bishop || piece.getCurrentPiece() instanceof Knight) {
 				tertblackPiece = piece.getCurrentPiece();
-				foundBlack = true;
 			}
 		}
 		
@@ -298,15 +389,17 @@ public class ChessPiece// extends JPanel
 			return true; 
 		}
 		
-		if( ( tertwhitePiece instanceof Knight && GameBoard.Player1.pieces.size() == 2)
-				|| ( tertblackPiece instanceof Knight && GameBoard.Player2.pieces.size() == 2 ) ) {
+		if( (( tertwhitePiece instanceof Knight && GameBoard.Player1.pieces.size() == 2) &&  ((tertblackPiece instanceof Knight) || tertblackPiece instanceof Bishop 
+				|| tertblackPiece == null) )
+				&& (( tertblackPiece instanceof Knight && GameBoard.Player2.pieces.size() == 2 ) &&  ((tertwhitePiece instanceof Knight) || tertwhitePiece instanceof Bishop 
+						|| tertwhitePiece == null)) )  {
 			return true;
 		}
 		
-		if( ( tertwhitePiece instanceof Bishop && GameBoard.Player1.pieces.size() == 2)
-				|| ( tertblackPiece instanceof Bishop && GameBoard.Player2.pieces.size() == 2 ) ) {
+		/*if( (( tertwhitePiece instanceof Bishop && GameBoard.Player1.pieces.size() == 2) &&  ((tertblackPiece instanceof Knight) || tertblackPiece == null) )
+				&& (( tertblackPiece instanceof Bishop && GameBoard.Player2.pieces.size() == 2 ) &&  ((tertwhitePiece instanceof Knight) || tertwhitePiece == null)) )  {
 			return true;
-		}
+		}*/
 		
 		if( ((tertwhitePiece instanceof Bishop && GameBoard.Player2.pieces.size() == 2)
 				|| ( tertblackPiece instanceof Bishop && GameBoard.Player1.pieces.size() == 2 )) 
@@ -338,17 +431,26 @@ public class ChessPiece// extends JPanel
 		}
 	}; 
 	
-	
+	/**
+	 * The king overrides this
+	 */
 	public void checkhighlightLocation() {
 	}
 	
+	/**
+	 * The king overrides this
+	 */
 	public void clearcheckhighlightLocation() {
 		
 	}
 	
 	
 	/** visual representation of where a piece can move, differentiates attacking
-	 *  and movement */
+	 *  and movement 
+	 *  Preconditions: A piece has been selected and getMoveLocations has been called
+	 *  Postconditions: the piece has been highlighted with a golden square, and it's viable move locations with a green square
+	 *  
+	 *  */
 	public void highlightLocation(){
 		GameBoard.Board[row][column].setSquare(1);
 		for(Square movable: locations) {
@@ -359,6 +461,14 @@ public class ChessPiece// extends JPanel
 		}
 	};
 	
+	/**
+	 * Unhighlights the board based the piece on the specified row column by going through the locations array and setting the image to null
+	 * @param row, row of the piece
+	 * @param column, column of the piece
+	 * 
+	 * Preconditions: A piece has been unselected, killed, or moved
+	 * Postconditions: it's old highlight locations are removed from the board
+	 */
 	public void unhighlightLocation(int row, int column) {
 		GameBoard.Board[row][column].setSquare(129524512);
 		for(Square movable: locations) {
@@ -1406,7 +1516,9 @@ public class ChessPiece// extends JPanel
 		
 		return EnemyPieces;
 	}
-	
+	/**
+	 * plays the clip loaded at the top,
+	 */
 	protected void checkSound() {
 		checkSound.playClip();   	            
 	}

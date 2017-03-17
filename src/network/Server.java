@@ -110,14 +110,47 @@ public class Server implements Runnable{
 	  
 	  public void receive() throws IOException{
 
-			 String temp_input;
-				temp_input = input1.readLine();
-				System.out.println(temp_input);
+			String temp_input;
+			temp_input = input1.readLine();
+			System.out.println(temp_input);
+			System.out.println("Beg server receive");	
+				
+			
+				
+			if(GameBoard.gameState == 3|| temp_input == "end") {
+				sendgameState("end");
+				UIManager.put("OptionPane.okButtonText", "Exit");
+				if (GameBoard.getWinner() == false ) {
+					JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
+					GameBoard.clearHighlights();
+							 
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+					GameBoard.clearHighlights();
+				}
+					System.exit(0);
+			}
+				 
+			if(GameBoard.gameState == 4 || temp_input == "draw") {
+				System.out.println("SENDIasdfsdfNG ");
+
+				sendgameState("draw");
+				System.out.println("SENDIasasdfsdaffafdfsdfNG ");
+
+				UIManager.put("OptionPane.okButtonText", "Exit");
+				JOptionPane.showMessageDialog(null, "It's a draw!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+				GameBoard.clearHighlights();	 	
+				System.exit(0);
+			}
+				 
 			 if((temp_input.equals("Queen")) ||(temp_input.equals("Rook"))  || (temp_input.equals("Knight"))  || (temp_input.equals("Bishop")) ){
 				 System.out.println("Inside the pawn function of network promotion");
 				 System.out.println(GraphicsBoard.y3 + " " + GraphicsBoard.x3 + " " + GraphicsBoard.y4 + " " + GraphicsBoard.x4);
-				 GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece().getMoveLocations();
-				 ((Pawn)GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece()).move(GraphicsBoard.y4, GraphicsBoard.x4,temp_input);
+				 /*GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece().getMoveLocations();
+				 ((Pawn)GameBoard.Board[GraphicsBoard.y3][GraphicsBoard.x3].getCurrentPiece()).move(GraphicsBoard.y4, GraphicsBoard.x4,temp_input);*/
+				 
+				 ((Pawn)GameBoard.Board[GraphicsBoard.y4][GraphicsBoard.x4].getCurrentPiece()).promote(temp_input);
 			 }
 			 else{
 				 System.out.println("Inside the normal move function");
@@ -152,40 +185,32 @@ public class Server implements Runnable{
 					 GraphicsBoard.x3 = results[1];
 					 GraphicsBoard.y4 = results[2];
 					 GraphicsBoard.x4 = results[3];
+					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
+					 ((Pawn)GameBoard.Board[results[0]][results[1]].getCurrentPiece()).move(results[2], results[3], true);
 				 }
 				 else{
 					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().getMoveLocations();
 					 GameBoard.Board[results[0]][results[1]].getCurrentPiece().move(results[2], results[3]);
 				 } 
 			 }
-			 if((results[2] == GraphicsBoard.y1) && (results[3] == GraphicsBoard.x1)){
-				 GameBoard.clearHighlights();
+			 
+			 if((results[2] == GraphicsBoard.y1) && (results[3] == GraphicsBoard.x1) && GameBoard.Board[results[2]][results[3]] != null ){
+				 if( (GameBoard.Board[results[2]][results[3]].getCurrentPiece()) instanceof Pawn ) {
+					 if( (GameBoard.Board[results[2]][results[3]].getCurrentPiece().row == 0 && GameBoard.Board[results[2]][results[3]].getCurrentPiece().getColor()) ||
+							 (GameBoard.Board[results[2]][results[3]].getCurrentPiece().row == 7 && !GameBoard.Board[results[2]][results[3]].getCurrentPiece().getColor())){
+						 //Do absolutely nothing LOL
+					 }
+						 
+				 }
+				 else {
+					 GameBoard.clearHighlights();
+				 }
+				 
 			 }
+			 
 			 }
+			 System.out.println("end receive server");
 			 GameBoard.graphBoard.repaint();
-			 
-			 
-			 if(GameBoard.gameState == 3 || temp_input == "end") {
-				    sendgameState("end");
-				 	UIManager.put("OptionPane.okButtonText", "Exit");
-				    if (GameBoard.getWinner() == true ) {
-						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
-						 GameBoard.clearHighlights();
-				 	}
-				 	else {
-				 		JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
-				 		 GameBoard.clearHighlights();
-				 	}
-				    System.exit(0);
-			 }
-			 
-			 if(GameBoard.gameState == 4 || temp_input == "draw") {
-				 sendgameState("draw");
-				 UIManager.put("OptionPane.okButtonText", "Exit");
-				 JOptionPane.showMessageDialog(null, "IT's a DRAW", "REKT", JOptionPane.INFORMATION_MESSAGE);
-				 GameBoard.clearHighlights();	 	
-				 System.exit(0);
-			 }
 			 
 			 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
 			 temp_input = null;

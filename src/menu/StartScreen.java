@@ -19,14 +19,8 @@ import javax.swing.JPanel;
 
 import javax.swing.SwingConstants;
 
-import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-
-
 import game.GraphicsBoard;
 import game.RealTimeChess;
 import network.*;

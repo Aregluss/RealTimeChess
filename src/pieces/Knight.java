@@ -26,12 +26,6 @@ public class Knight extends ChessPiece{
 	}
 
 	@Override
-	public void attack(ChessPiece Enemy) {
-		// TODO Auto-generated method stub
-		super.attack(Enemy);
-	}
-
-	@Override
 	public void die() {
 		// TODO Auto-generated method stub
 		super.die();
@@ -131,6 +125,9 @@ public class Knight extends ChessPiece{
 		if (checkpinnedPiece()) {
 			pinnedPieceMovementHelper();
 		}
+		
+ 		promotionImmunity();
+		
 		setVisibility(true);
 
 	}

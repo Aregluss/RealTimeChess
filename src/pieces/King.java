@@ -30,18 +30,21 @@ public class King extends ChessPiece{
 	public void move(int row, int column) {
 		
 		boolean canMove = false;
-		
+		System.out.println("king move");
+		System.out.println("a "+ GameBoard.Board[row][column].getCurrentPiece());
 		if(GameBoard.gameState == 0) {
 			getMoveLocations();
 		}
-		
+		System.out.println("b");
+
 		//Search the locations array (created by GetMoveLocations), if a valid move set canMove to true
 		for(Square movable: locations)	{
 			if((row == movable.getRow()) && (column == movable.getColumn()))	{
 				canMove = true;
 			}			
 		}
-    
+		System.out.println("c");
+
 		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
 		if(canMove)	{
 			offCoolDown = false;
@@ -57,7 +60,8 @@ public class King extends ChessPiece{
 					GameBoard.Bk.setColumn(column);
 				}
 			}
-			
+			System.out.println("d");
+
 			//checks if moving will kill an enemy piece, if so update the player arraylists accordingly
 			if(GameBoard.Board[row][column].getCurrentPiece() != null) {
 				if(color){
@@ -72,6 +76,12 @@ public class King extends ChessPiece{
 					GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(row, column);
 				}
 				GameBoard.graphBoard.resetMousePressed();
+				if(GameBoard.getlastSelected() != null) {
+					if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece()) {
+						GameBoard.clearlastSelected();
+						GameBoard.graphBoard.resetMousePressed();
+					}
+				}
 
 			}
 			//for moving to an empty space
@@ -84,10 +94,35 @@ public class King extends ChessPiece{
 					GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 				}
 			}
+			
+			System.out.println("e");
+
 			//Moves the piece then deletes itself from its old position
 			GameBoard.Board[row][column].setCurrentPiece(this);
 			GameBoard.Board[this.row][this.column].setCurrentPiece(null);
-			GameBoard.Board[row][column].getCurrentPiece().unhighlightLocation(this.row, this.column);
+			
+			System.out.println("f");
+
+			if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+				if(GameBoard.getlastSelected().getCurrentPiece() != GameBoard.Board[row][column].getCurrentPiece()) {
+					GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+					GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+					System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" Why am I getting called? " + GameBoard.getlastSelected());
+					GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+				}
+			}
+			
+			System.out.println("g");
+			
+			//Just added
+			if(GameBoard.getlastSelected() != null){
+				if(GameBoard.getlastSelected().getCurrentPiece() == GameBoard.Board[row][column].getCurrentPiece() ) {
+					GameBoard.clearlastSelected();
+				}
+			}
+			
+			System.out.println("h");
+			
 			this.row = row;
 			this.column = column;
 			//hasMoved = true;
@@ -100,6 +135,8 @@ public class King extends ChessPiece{
 				GameBoard.Player2.pieces.add(new Square(row,column,this));
 			}
 			
+			System.out.println("j");
+			
 			//Indicates that the game is in checkresolution once a piece moves, sets the state to normal
 			//with no bugs, a piece can ONLY move if it resolves the check
 			if(GameBoard.gameState == 2) {
@@ -107,6 +144,8 @@ public class King extends ChessPiece{
 				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).isChecked = false;
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).isChecked = false;
 			}
+			
+			System.out.println(GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()+ " j " +GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece());
 			
 			//Checks if the piece moving caused a check on the enemy king, if this is true then check resolution occurs
 			//FREEZE GAME, disable enemy, Check resolution
@@ -129,8 +168,7 @@ public class King extends ChessPiece{
 				}
 			}
 			
-			
-			
+			System.out.println("k");			
 			
 			if(GameBoard.gameState == 1) {
 				//CHECK RESOLVED
@@ -142,6 +180,8 @@ public class King extends ChessPiece{
 				System.out.println("CHECK RESOLVED!!");
 				A_Clock.continueTime();
 			}
+			
+			System.out.println("l");
 			
 			if(column == 6 && canCastleKing == true)	{
 
@@ -155,6 +195,8 @@ public class King extends ChessPiece{
 				}
 			}
 			
+			System.out.println("m");
+			
 			if(column == 2 && canCastleQueen == true)	{
 				if(this.getColor() == true)	{
 					GameBoard.Board[7][0].getCurrentPiece().CastleMove(this.row, this.column+1); // moving rook
@@ -165,6 +207,8 @@ public class King extends ChessPiece{
 					GameBoard.Board[0][0].setCurrentPiece(null);
 				}
 			}
+			
+			System.out.println("n");
 			
 			if (draw()) {
 				GameBoard.gameState = 4; 
@@ -181,13 +225,7 @@ public class King extends ChessPiece{
 			//invalid movable location... throw an error? idk
 		}
 	}
-	
-	@Override
-	public void attack(ChessPiece Enemy) {
-		super.attack(Enemy);
-	}
 
-	
 	@Override
 	public void die() {
 		super.die();
@@ -224,7 +262,7 @@ public class King extends ChessPiece{
 	 				locations.add(new Square(row,column-2));
  			}
  		}
- 		
+ 		promotionImmunity();
  		setVisibility(true);
  		
  		
@@ -315,6 +353,11 @@ public class King extends ChessPiece{
 		}
 	}
 	
+	/**
+	 * This will highlight the king that is being checked and all the pieces that are checking it with a red border
+	 * Preconditions : The king is in checked, and his attackers array has been updated
+	 * Postconditions : red squares will outline the king and his attackers
+	 */
 	@Override
 	public void checkhighlightLocation() {
 		GameBoard.Board[this.row][this.column].setSquare(2);
@@ -323,6 +366,11 @@ public class King extends ChessPiece{
 		}
 	}
 	
+	/**
+	 * This will unhighlight the king that is being checked and all the pieces that are checking it
+	 * Preconditions : The king is now out of check
+	 * Postconditions : red squares will be cleared around the king and his attackers
+	 */
 	@Override
 	public void clearcheckhighlightLocation() {
 		GameBoard.Board[this.row][this.column].setSquare(412);
@@ -331,26 +379,49 @@ public class King extends ChessPiece{
 		}
 	}
 	
+	/**
+	 * This function sets the arraylist saviors for the king which holds all the pieces that can resolve a check resolution
+	 * @param help, arraylist of pieces that can save the king
+	 */
 	public void setSaviors(ArrayList<ChessPiece> help) {
 		saviors = help;
 	}
 	
-	public void setAttacking(ArrayList<ChessPiece> help) {
-		attacking = help;
+	/**
+	 * This function sets the arraylist attacking which holds all pieces attack a certain square
+	 * @param attack, arraylist of pieces that can  attack the king's squares or squares around him
+	 */
+	public void setAttacking(ArrayList<ChessPiece> attack) {
+		attacking = attack;
 	}
 	
-	public void setcheckAttack(ArrayList<ChessPiece> help) {
-		checkAttack = help;
+	/**
+	 * This function sets the arraylist holding pieces checking the king
+	 * @param attack, arraylist of pieces checking the king
+	 */
+	public void setcheckAttack(ArrayList<ChessPiece> attack) {
+		checkAttack = attack;
 	}
-	
+	/**
+	 * 
+	 * @return saviors arraylist
+	 */
 	public ArrayList<ChessPiece> getSaviors() {
 		return saviors;
 	}
 	
+	/**
+	 * 
+	 * @return attacking arraylist
+	 */
 	public ArrayList<ChessPiece> getAttacking() {
 		return attacking;
 	}
 	
+	/**
+	 * 
+	 * @return checkAttack arraylist
+	 */
 	public ArrayList<ChessPiece> getcheckAttack() {
 		return checkAttack;
 	}

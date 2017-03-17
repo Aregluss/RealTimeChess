@@ -13,6 +13,9 @@ public class Pawn extends ChessPiece{
 	public boolean hasMoved = false;
 	public String name = "Pawn";
 	public static String promotioner;
+	public boolean promotion = false;
+	public int beforePromotionRow = -1;
+	public int beforePromotionCol = -1;
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
@@ -31,8 +34,14 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		super.move(row, column);
 		
+		if(beforePromotionRow != -1 && beforePromotionCol != -1) {
+			unhighlightLocation(beforePromotionRow,beforePromotionCol);
+		}
+		
+		
 		if(color == true) {
 			if(row == 0 && this.row == 0) {
+				promotionhighlightLocation();
 				promote(choosePromotion());
 				Server.sendPromotion(promotioner);
 			}
@@ -40,12 +49,31 @@ public class Pawn extends ChessPiece{
 		
 		if(color == false) {
 			if(row == 7 && this.row == 7) {
+				promotionhighlightLocation();
 				promote(choosePromotion());
 				Client.sendPromotion(promotioner);
 			}
 		}
+		
+		
 
 	}
+	
+	/**
+	 * Special move function called when a pawn is ready for promotion 
+	 * @param row, row the pawn is about to move to
+	 * @param column, col that the pawn is about to move to
+	 * @param readyforPromotion, if the pawn is ready to promote
+	 * 
+	 * precondition: Pawn is about to move into a space where it in eligble for promotion
+	 * Postcondition: Pawn is now ready to promote and is highlighted as such
+	 */
+	public void move(int row, int column, boolean readyforPromotion) {
+		super.move(row, column);
+		promotionhighlightLocation();
+		System.out.println("I was called");
+	}
+	
 	
 	public void move(int row, int column, String promotion){
 		super.move(row, column);
@@ -64,14 +92,6 @@ public class Pawn extends ChessPiece{
 		}
 	}
 
-
-	@Override
-	public void attack(ChessPiece Enemy) {
-		// TODO Auto-generated method stub
-		super.attack(Enemy);
-	}
-
-
 	@Override
 	public void die() {
 		// TODO Auto-generated method stub
@@ -89,6 +109,8 @@ public class Pawn extends ChessPiece{
 		if (checkpinnedPiece()) {
 			pinnedPieceMovementHelper();
 		}
+ 		promotionImmunity();
+
 		setVisibility(true);
 	}
 	/** Precondition: getMovelocations for a pawn is called
@@ -225,6 +247,9 @@ public class Pawn extends ChessPiece{
 	//TODO let the player choose + update player arrays accordingly
 	public void promote(String promotionPiece) {
 		promotioner = promotionPiece;
+		
+		GameBoard.Board[this.row][this.column].setSquare(1241324);
+
 		// light pops, ui to ask player what they want the pawn to be promoted to
 		if(promotionPiece.equals("Queen")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Queen(row,column,color));
@@ -235,9 +260,19 @@ public class Pawn extends ChessPiece{
 		if(promotionPiece.equals("Knight")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Knight(row,column,color));
 		}
-		if(promotionPiece.equals("rook")) {
+		if(promotionPiece.equals("Rook")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
+		if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+			 
+			GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+			GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+			System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" CALLED " + GameBoard.getlastSelected());
+			GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+			
+		}
+		
+		
 		if(color){
 			//update piece for player
 			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
@@ -255,6 +290,8 @@ public class Pawn extends ChessPiece{
 				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
 			}
 		}
+		
+		
 	}
 	
 	/**
@@ -276,6 +313,13 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		super.highlightLocation();
 	}
+	
+	/**
+	 * highlights the pawn blue to indicate a player is selecting its promotion and to reflect that it is invincible
+	 */
+	public void promotionhighlightLocation(){
+		GameBoard.Board[row][column].setSquare(3);
+	};
 
 	@Override
 	public boolean getColor() {

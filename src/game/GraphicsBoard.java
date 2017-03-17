@@ -135,10 +135,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
 						System.out.println("LEFT");
 						initalPress = 0;
 						GameBoard.clearlastSelected();
-						if(GameBoard.Board[row][col].getCurrentPiece() != null) {
+						if(GameBoard.Board[row][col].getCurrentPiece() != null && GameBoard.Board[row][col].getLight() != new ImageIcon("blue.png").getImage()) {
 							GameBoard.Board[row][col].getCurrentPiece().unhighlightLocation(row, col);
 						}
-						if(GameBoard.Board[row1][col1].getCurrentPiece() != null) {
+						if(GameBoard.Board[row1][col1].getCurrentPiece() != null && GameBoard.Board[row1][col1].getLight() != new ImageIcon("blue.png").getImage()) {
 							GameBoard.Board[row1][col1].getCurrentPiece().unhighlightLocation(row1, col1);
 						}
 												
@@ -215,7 +215,10 @@ public class GraphicsBoard extends JPanel implements MouseListener
 								{
 									initalPress = 0;
 									System.out.println("Moving me to same spot?");
-									GameBoard.Board[row][col].getCurrentPiece().unhighlightLocation(row,col);
+									if(GameBoard.Board[row][col].getLight() != new ImageIcon("blue.png").getImage()) {
+										GameBoard.Board[row][col].getCurrentPiece().unhighlightLocation(row,col);
+									}
+									
 									GameBoard.clearlastSelected();
 					
 									if(GameBoard.gameState == 2) {
