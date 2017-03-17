@@ -1,25 +1,22 @@
-
 package pieces;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.Timer;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-
-import game.GameBoard;
 import game.TimerClock;
 import pieces.ChessPiece;
-
+/**
+ * 
+ * @author David
+ *
+ */
 public class CoolDownAnimation extends JPanel {
 	
 	//CoolDown Variables
@@ -47,23 +44,42 @@ public class CoolDownAnimation extends JPanel {
 		
 		
 	}
+	/**
+	 * 
+	 * @param sets the amount of time the cooldowns take
+	 */
 	public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
-
+	/**
+	 * 
+	 * @return returns the amount of time the cooldowns take
+	 */
     public long getTimeout() {
         return timeout;
     }
-
+    /**
+     * 
+     * @param sets progress
+     */
     public void setProgress(float progress) {
         this.progress = progress;
         //repaint();
     }
-
+    /**
+     * 
+     * @return returns progress, which the amount of time that has passed in relation to the time limit
+     */
     public float getProgress() {
         return progress;
     }
-
+    
+    /**
+     * Preconditions: Chess piece has been moved
+     * Runs the timer, which then calls CoolDownAnimation to draw the image
+     * Postconditions: Timer is stopped and image should be finished drawing
+     * @param g Graphics to be passed onto CoolDownAnimation
+     */
     public void executeTimeout(Graphics g) {
         if (timer == null) {
             timer = new Timer(0, new ActionListener(){
@@ -93,8 +109,6 @@ public class CoolDownAnimation extends JPanel {
                     }
                     setProgress(progress);
                     repaint();
-                    Rectangle a = new Rectangle(column * width, row * height, (column+1) * width /4, (row+1)*height/4);
-                    //GameBoard.graphBoard.repaint(a);
                     
                 }
             });
@@ -109,7 +123,11 @@ public class CoolDownAnimation extends JPanel {
 
         //startedAt = A_Clock.return_milli_time();
     
-
+    /**
+     * Preconditions: Timer is running
+     * Postconditions: Image is drawn based off of progress of the timer
+     * @param g The graphics to draw the image
+     */
     public void CoolDownAnimation(Graphics g) {
         //super.CoolDownAnimation(g);
         
@@ -117,8 +135,7 @@ public class CoolDownAnimation extends JPanel {
 
 
             //g2d.fillArc((int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), 90, (int) (360f * (1f - progress)));
-            applyQualityRenderingHints(g2d);
-            if((column + row)%2 == 1)
+            if((column + row)%2 == 0)
             {
             	Color myColour = new Color(247,246,228, 255);
             	g2d.setColor(myColour);
@@ -134,15 +151,4 @@ public class CoolDownAnimation extends JPanel {
     }
    
     
-    public void applyQualityRenderingHints(Graphics2D g2d) {
-        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-    }
-
 }
