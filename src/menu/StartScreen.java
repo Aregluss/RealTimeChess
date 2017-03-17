@@ -40,7 +40,11 @@ public class StartScreen extends JPanel
 	
 	private String joinIP;
 	private String myIP;
-	
+	/**Start Screen constructor.
+	 * Initializes the buttons, host, join, rules and exit.
+	 * Adds them to panels so they're visible, adds their images
+	 * and formats the buttons properly.
+	 */
 	public StartScreen()
 	{
 	//	setLayout(new BoxLayout(this, BoxLayout.));
@@ -61,7 +65,9 @@ public class StartScreen extends JPanel
 		buttons.add(join);
 		buttons.add(rules);
 		buttons.add(exit);
-		
+		/*Below stuff is used to settup the buttons
+		 * 
+		 */
 		for(JButton b: buttons){
 			b.setIcon(new ImageIcon(new ImageIcon("golden.png").getImage().getScaledInstance(115, 100, Image.SCALE_DEFAULT)));
 			b.setFont(new Font("FUTURA BOLD", 0, 24));
@@ -124,6 +130,10 @@ public class StartScreen extends JPanel
 	class JButtonHandler implements ActionListener
 	{
 
+		/**Used to control buttons and make clicks do actions.
+		 * Main actions are popping up Java Option Panes and 
+		 * switching panels in cardlayout.
+		 */
 		public void actionPerformed(ActionEvent arg0) 
 		{
 			if(rules.getModel().isArmed()) ///networking and hero selection have to work

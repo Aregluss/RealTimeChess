@@ -26,7 +26,9 @@ public class Rules extends JPanel
 	
 	JButton back;
 	JLabel text;
-	
+	/**Rule Panel's Constructor
+	 * Adds the text to the panel and adds the back button.
+	 */
 	public Rules()
 	{
 		  //  setLayout(new BorderLayout());
@@ -65,7 +67,9 @@ public class Rules extends JPanel
 	
 	class ButtonListener implements ActionListener
 	{
-
+		/**Used to control buttons and make clicks do actions.
+		 * Main action is switching panels in cardlayout.
+		 */
 		public void actionPerformed(ActionEvent arg0) 
 		{
 			if(back.getModel().isArmed())

@@ -30,6 +30,9 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	public static int x3,y3,x4,y4;
 	public static boolean player = false;
 	public static boolean moved = false;
+	/**Constructor
+	 * Reads the background image, adds mouse listener.
+	 */
 	public GraphicsBoard()
 	{
 		
@@ -46,17 +49,31 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		repaint();
 		
 	}
-	
+	/**Returns Player
+	 * @return returns player
+	 */
 	public boolean returnPlayer(){
 		return player;
 	}
+	/**Sets the player (true = white, false = black)
+	 * 
+	 * @param x, what the player boolean value should be set to.
+	 */
 	public void setPlayer(boolean x){
 		player = x;
 	}
-
+	/**Checks if a piece has been moved.
+	 * 
+	 * @return boolean value if a piece has been moved.
+	 */
 	public static boolean isMoved(){
 		return moved;
 	}
+	
+	/**Sets the boards moved value to param.
+	 * 
+	 * @param x Boolean value to set boards moved status.
+	 */
 	public static void setMoved(boolean x){
 		moved = x;
 	}
@@ -80,6 +97,7 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	{
 		return getHeight();
 	}
+	
 	/**Getter for the backround image
 	 * 
 	 * @return the background
@@ -96,17 +114,24 @@ public class GraphicsBoard extends JPanel implements MouseListener
 	}
 
 	@Override
-	/**This is where moving chess pieces happens
-	 * Right click selects the piece, records time where piece was selected
-	 * moves when pressed again on an empty space
-	 * Left click cancels a current move
-	 * Keep track of if its first click to select or second click to move
+	/**Calls the mouseHelper function, passing
+	 * its own MouseEvent e, and boards player value.
+	 * 
 	 */
 	public void mousePressed(MouseEvent e) {
 		
 		mouseHelper(e,player);
 	}
-	
+	/**This is where moving chess pieces happens
+	 * Right click selects the piece, records time where piece was selected
+	 * moves when pressed again on an empty space
+	 * Left click cancels a current move
+	 * Keep track of if its first click to select or second click to move
+	 *
+	 * 
+	 * @param e MouseEvent e passed by mousePressed
+	 * @param color player value of the board that calls it.
+	 */
 	public void mouseHelper(MouseEvent e, boolean color){
 		// TODO Auto-generated method stub
 				// TODO Auto-generated method stub
@@ -303,7 +328,9 @@ public class GraphicsBoard extends JPanel implements MouseListener
 		// TODO Auto-generated method stub
 		
 	}
-	
+	/**Resets mousePressed initial value to 0
+	 * This puts mouse clicks on select mode.
+	 */
 	public void resetMousePressed() {
 		initalPress = 0;
 	}
