@@ -117,7 +117,7 @@ public class Server implements Runnable{
 				
 			
 				
-			if(GameBoard.gameState == 3|| temp_input == "end") {
+			if(GameBoard.gameState == 3|| temp_input.equals("end")) {
 				sendgameState("end");
 				UIManager.put("OptionPane.okButtonText", "Exit");
 				if (GameBoard.getWinner() == false ) {
@@ -132,7 +132,7 @@ public class Server implements Runnable{
 					System.exit(0);
 			}
 				 
-			if(GameBoard.gameState == 4 || temp_input == "draw") {
+			if(GameBoard.gameState == 4 || temp_input.equals("draw")) {
 				System.out.println("SENDIasdfsdfNG ");
 
 				sendgameState("draw");

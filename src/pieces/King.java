@@ -175,6 +175,7 @@ public class King extends ChessPiece{
 				//Reset the arraylist containing pieces that can save the king
 				GameBoard.gameState = 0;
 				clearcheckhighlightLocation();
+				GameBoard.clearHighlights();
 				saviors.clear();
 				//unfreeze the game + enable enemy pieces 
 				System.out.println("CHECK RESOLVED!!");

@@ -277,7 +277,7 @@ public class ChessPiece// extends JPanel
 				//CHECK RESOLVED
 				//Reset the arraylist containing pieces that can save the king
 				GameBoard.gameState = 0;
-				
+				GameBoard.clearHighlights();
 				if(GameBoard.getChecked() == 0) {
 					GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().clearcheckhighlightLocation();
 				}
@@ -390,9 +390,9 @@ public class ChessPiece// extends JPanel
 		}
 		
 		if( (( tertwhitePiece instanceof Knight && GameBoard.Player1.pieces.size() == 2) &&  ((tertblackPiece instanceof Knight) || tertblackPiece instanceof Bishop 
-				|| tertblackPiece == null) )
-				&& (( tertblackPiece instanceof Knight && GameBoard.Player2.pieces.size() == 2 ) &&  ((tertwhitePiece instanceof Knight) || tertwhitePiece instanceof Bishop 
-						|| tertwhitePiece == null)) )  {
+				|| (tertblackPiece == null && GameBoard.Player2.pieces.size() == 1)) )
+				|| (( tertblackPiece instanceof Knight && GameBoard.Player2.pieces.size() == 2 ) &&  ((tertwhitePiece instanceof Knight) || tertwhitePiece instanceof Bishop 
+						|| (tertwhitePiece == null && GameBoard.Player2.pieces.size() == 1))) )  {
 			return true;
 		}
 		
@@ -403,8 +403,10 @@ public class ChessPiece// extends JPanel
 		
 		if( ((tertwhitePiece instanceof Bishop && GameBoard.Player2.pieces.size() == 2)
 				|| ( tertblackPiece instanceof Bishop && GameBoard.Player1.pieces.size() == 2 )) 
-				&& ( ((tertwhitePiece.row + tertwhitePiece.column) % 2 ) ==  ((tertblackPiece.row + tertblackPiece.column) % 2 ))) {
-			return true;
+				&& ( tertblackPiece != null && tertwhitePiece != null)) {
+			if(( ((tertwhitePiece.row + tertwhitePiece.column) % 2 ) ==  ((tertblackPiece.row + tertblackPiece.column) % 2 ))) {
+				return true;
+			}
 		}
 		
 		return false;	
