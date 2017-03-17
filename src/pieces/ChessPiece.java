@@ -134,8 +134,7 @@ public class ChessPiece// extends JPanel
 		System.out.println("c");
 		//Actually moves the piece, if it's a king moving then update the global king squares stored in GameBoard
 		if(canMove)	{
-			if( (GraphicsBoard.y2 == GraphicsBoard.y3) && (GraphicsBoard.x2 == GraphicsBoard.x3))
-				return;
+			
 			offCoolDown = false;
 			time = A_Clock.return_milli_time();
 			if(GameBoard.Board[this.row][this.column].getCurrentPiece() instanceof King) {
@@ -586,6 +585,7 @@ public class ChessPiece// extends JPanel
 			this.getMoveLocations();
 			if(this.checkmate(0)) {
 				//Games over
+				System.out.println("IM SETTING");
 				GameBoard.gameState = 3;
 				GameBoard.setWinner(!this.getColor());
 			}

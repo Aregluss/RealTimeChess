@@ -225,6 +225,32 @@ public class Client implements Runnable{
 			 }
 			 }
 			 System.out.println("end receive client");
+			 if(GameBoard.gameState == 3|| temp_input.equals("end")) {
+					sendgameState("end");
+					UIManager.put("OptionPane.okButtonText", "Exit");
+					if (GameBoard.getWinner() == false ) {
+						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
+						GameBoard.clearHighlights();
+								 
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+						GameBoard.clearHighlights();
+					}
+						System.exit(0);
+				}
+					 
+				if(GameBoard.gameState == 4 || temp_input.equals("draw")) {
+					System.out.println("SENDIasdfsdfNG ");
+
+					sendgameState("draw");
+					System.out.println("SENDIasasdfsdaffafdfsdfNG ");
+
+					UIManager.put("OptionPane.okButtonText", "Exit");
+					JOptionPane.showMessageDialog(null, "It's a draw!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+					GameBoard.clearHighlights();	 	
+					System.exit(0);
+				}
 			 GameBoard.graphBoard.repaint();
 			 
 			 

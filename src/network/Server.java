@@ -158,13 +158,14 @@ public class Server implements Runnable{
 			temp_input = input1.readLine();
 			System.out.println(temp_input);
 			System.out.println("Beg server receive");	
+			System.out.println("lol "+ GameBoard.gameState);
 				
 			
 				
 			if(GameBoard.gameState == 3|| temp_input.equals("end")) {
 				sendgameState("end");
 				UIManager.put("OptionPane.okButtonText", "Exit");
-				if (GameBoard.getWinner() == false ) {
+				if (GameBoard.getWinner() == true ) {
 					JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
 					GameBoard.clearHighlights();
 							 
@@ -258,6 +259,34 @@ public class Server implements Runnable{
 			 
 			 }
 			 System.out.println("end receive server");
+			 
+			 if(GameBoard.gameState == 3|| temp_input.equals("end")) {
+					sendgameState("end");
+					UIManager.put("OptionPane.okButtonText", "Exit");
+					if (GameBoard.getWinner() == true ) {
+						JOptionPane.showMessageDialog(null, "You won!", "VICTORY", JOptionPane.INFORMATION_MESSAGE);
+						GameBoard.clearHighlights();
+								 
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "You lost!", "DEFEAT", JOptionPane.INFORMATION_MESSAGE);
+						GameBoard.clearHighlights();
+					}
+						System.exit(0);
+				}
+					 
+				if(GameBoard.gameState == 4 || temp_input.equals("draw")) {
+					System.out.println("SENDIasdfsdfNG ");
+
+					sendgameState("draw");
+					System.out.println("SENDIasasdfsdaffafdfsdfNG ");
+
+					UIManager.put("OptionPane.okButtonText", "Exit");
+					JOptionPane.showMessageDialog(null, "It's a draw!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+					GameBoard.clearHighlights();	 	
+					System.exit(0);
+				}
+			 
 			 GameBoard.graphBoard.repaint();
 			 
 			 // hopefully someway we can get it to repaint automatically... or else the client has to click to do something
