@@ -1,16 +1,9 @@
 
 package pieces;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -137,23 +130,41 @@ public class Square extends JPanel{// implements MouseListener{
 		currentPiece = c;
 	}
 	
-	
+	/**
+	 * PreCondition: a piece has been deselected ,selected, checked, or eligible for promotion and now needs to
+	 * update its highlights
+	 * Postcondition : the square associated has been changed to reflect a change in state
+	 * @param lightStatus, what to change the image to, 0 for valid movement spots, 1 for selection, 2 for checks, 3 for promotion
+	 * 4 to clear
+	 */
 	public void setSquare(int lightStatus) {
 		if (lightStatus == 0) {
-			light = new ImageIcon("green.png").getImage();
+			setLight(new ImageIcon("green.png").getImage());
 		}
 		
 		else if (lightStatus == 1) { 
-			light = new ImageIcon("golden.png").getImage();
-		} 
+			setLight(new ImageIcon("golden.png").getImage());
+		}
+		
+		else if (lightStatus == 2) {
+			setLight(new ImageIcon("red.png").getImage());
+		}
+		
+		else if (lightStatus == 3) {
+			setLight(new ImageIcon("blue.png").getImage());
+		}
 		
 		else{
-			light = null;
+			setLight(null);
 		}
 	}
 	
+	/**
+	 * 
+	 * @return the image associated in the square
+	 */
 	public Image getSquare() {
-		return light;
+		return getLight();
 	}
 	
 	public void setMovable(boolean m)
@@ -168,9 +179,21 @@ public class Square extends JPanel{// implements MouseListener{
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.drawImage(light, (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
+		g2d.drawImage(getLight(), (int) (width*0.1+column*width), (int)(height*0.1+row*height), (int)(width*0.8), (int)(height*0.8), null);
 	}
 
+	/**
+	 * @return the light
+	 */
+	public Image getLight() {
+		return light;
+	}
+	/**
+	 * @param light the light to set
+	 */
+	public void setLight(Image light) {
+		this.light = light;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

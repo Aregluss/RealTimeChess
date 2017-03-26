@@ -1,21 +1,21 @@
 package pieces;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import game.GameBoard;
 import pieces.Square;
+import network.*;
 
 
 public class Pawn extends ChessPiece{
 
 	public boolean hasMoved = false;
 	public String name = "Pawn";
-	
+	public static String promotioner;
+	public boolean promotion = false;
+	public int beforePromotionRow = -1;
+	public int beforePromotionCol = -1;
 	
 	public Pawn(int row, int column, boolean color){
 		super(row, column, color);
@@ -34,28 +34,63 @@ public class Pawn extends ChessPiece{
 		// TODO Auto-generated method stub
 		super.move(row, column);
 		
+		if(beforePromotionRow != -1 && beforePromotionCol != -1) {
+			unhighlightLocation(beforePromotionRow,beforePromotionCol);
+		}
+		
+		
 		if(color == true) {
 			if(row == 0 && this.row == 0) {
+				promotionhighlightLocation();
 				promote(choosePromotion());
+				Server.sendPromotion(promotioner);
+			}
+		}
+		
+		if(color == false) {
+			if(row == 7 && this.row == 7) {
+				promotionhighlightLocation();
+				promote(choosePromotion());
+				Client.sendPromotion(promotioner);
+			}
+		}
+		
+		
+
+	}
+	
+	/**
+	 * Special move function called when a pawn is ready for promotion 
+	 * @param row, row the pawn is about to move to
+	 * @param column, col that the pawn is about to move to
+	 * @param readyforPromotion, if the pawn is ready to promote
+	 * 
+	 * precondition: Pawn is about to move into a space where it in eligble for promotion
+	 * Postcondition: Pawn is now ready to promote and is highlighted as such
+	 */
+	public void move(int row, int column, boolean readyforPromotion) {
+		super.move(row, column);
+		promotionhighlightLocation();
+		System.out.println("I was called");
+	}
+	
+	
+	public void move(int row, int column, String promotion){
+		super.move(row, column);
+		
+		if(color == true) {
+			if(row == 0 && this.row == 0) {
+				promote(promotion);
 				
 			}
 		}
 		
 		if(color == false) {
 			if(row == 7 && this.row == 7) {
-				promote(choosePromotion());
+				promote(promotion);
 			}
 		}
-
 	}
-
-
-	@Override
-	public void attack(ChessPiece Enemy) {
-		// TODO Auto-generated method stub
-		super.attack(Enemy);
-	}
-
 
 	@Override
 	public void die() {
@@ -66,7 +101,6 @@ public class Pawn extends ChessPiece{
 
 	@Override
 	public void getMoveLocations() {
-		//Haven't considered pawn reaching end of board (promotion)
 		super.getMoveLocations();
 		getmovelocationLeft(color);
 		getmovelocationRight(color);
@@ -75,6 +109,8 @@ public class Pawn extends ChessPiece{
 		if (checkpinnedPiece()) {
 			pinnedPieceMovementHelper();
 		}
+ 		promotionImmunity();
+
 		setVisibility(true);
 	}
 	/** Precondition: getMovelocations for a pawn is called
@@ -203,35 +239,59 @@ public class Pawn extends ChessPiece{
 	}
 			
 	/**
-	 * Precondition called when the pawn hits the end of the board
+	 * Precondition called when the pawn hits the end of the boar
 	 * Postcondition promotes the pawn to the selected promotion
 	 * 
 	 * @param promotionPiece, which piece the pawn wants to promote to
 	 */
 	//TODO let the player choose + update player arrays accordingly
 	public void promote(String promotionPiece) {
+		promotioner = promotionPiece;
+		
+		GameBoard.Board[this.row][this.column].setSquare(1241324);
+
 		// light pops, ui to ask player what they want the pawn to be promoted to
-		if(promotionPiece.equals("queen")) {
+		if(promotionPiece.equals("Queen")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Queen(row,column,color));
 		}
-		if(promotionPiece.equals("bishop")) {
+		if(promotionPiece.equals("Bishop")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Bishop(row,column,color));
 		}
-		if(promotionPiece.equals("knight")) {
+		if(promotionPiece.equals("Knight")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Knight(row,column,color));
 		}
-		if(promotionPiece.equals("rook")) {
+		if(promotionPiece.equals("Rook")) {
 			GameBoard.Board[row][column].setCurrentPiece(new Rook(row,column,color));
 		}
+		if(GameBoard.getlastSelected() != null && GameBoard.gameState == 0) {
+			 
+			GameBoard.getlastSelected().getCurrentPiece().unhighlightLocation(GameBoard.getlastSelected().getCurrentPiece().row, GameBoard.getlastSelected().getCurrentPiece().column);
+			GameBoard.getlastSelected().getCurrentPiece().getMoveLocations();
+			System.out.println(GameBoard.getlastSelected().getCurrentPiece()+" CALLED " + GameBoard.getlastSelected());
+			GameBoard.getlastSelected().getCurrentPiece().highlightLocation();
+			
+		}
+		
+		
 		if(color){
 			//update piece for player
 			GameBoard.Player1.pieces.remove(GameBoard.Board[this.row][this.column]);
 			GameBoard.Player1.pieces.add(new Square(row,column,this));
+			if(GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Bk.getRow(),GameBoard.Bk.getColumn())) {
+				checkKing(false);
+				( (King)GameBoard.Board[GameBoard.Bk.getRow()][GameBoard.Bk.getColumn()].getCurrentPiece()).checkResolution();
+			}
 		}
 		else {
 			GameBoard.Player2.pieces.remove(GameBoard.Board[this.row][this.column]);
 			GameBoard.Player2.pieces.add(new Square(row,column,this));
+			if(GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece().checkSquare(GameBoard.Wk.getRow(),GameBoard.Wk.getColumn())) {
+				checkKing(true);
+				( (King)GameBoard.Board[GameBoard.Wk.getRow()][GameBoard.Wk.getColumn()].getCurrentPiece()).checkResolution();
+			}
 		}
+		
+		
 	}
 	
 	/**
@@ -241,15 +301,25 @@ public class Pawn extends ChessPiece{
 	 */
 	
 	public String choosePromotion() {
-		//UI STUFF HERE
-		return "queen";
+		String[] options = new String[] {"Queen", "Rook", "Bishop", "Knight"};
+		int response = JOptionPane.showOptionDialog(null, "Message", "Title",
+		JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		    // Where response == 0 for Yes, 1 for No, 2 for Maybe and -1 or 3 for Escape/Cancel.
+		return options[response];
 	}
 
 	@Override
-	public void highightLocation() {
+	public void highlightLocation() {
 		// TODO Auto-generated method stub
-		super.highightLocation();
+		super.highlightLocation();
 	}
+	
+	/**
+	 * highlights the pawn blue to indicate a player is selecting its promotion and to reflect that it is invincible
+	 */
+	public void promotionhighlightLocation(){
+		GameBoard.Board[row][column].setSquare(3);
+	};
 
 	@Override
 	public boolean getColor() {

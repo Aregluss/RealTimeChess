@@ -1,32 +1,26 @@
 package menu;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import java.io.IOException;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 
+import javax.swing.SwingConstants;
+
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import game.GraphicsBoard;
 import game.RealTimeChess;
 import network.*;
@@ -41,12 +35,16 @@ public class StartScreen extends JPanel
 	private JButton startGame;
 	private JButton host;
 	private JButton join;
-	private JButton option;
+	private JButton rules;
 	private JButton exit;
 	
 	private String joinIP;
 	private String myIP;
-	
+	/**Start Screen constructor.
+	 * Initializes the buttons, host, join, rules and exit.
+	 * Adds them to panels so they're visible, adds their images
+	 * and formats the buttons properly.
+	 */
 	public StartScreen()
 	{
 	//	setLayout(new BoxLayout(this, BoxLayout.));
@@ -57,17 +55,19 @@ public class StartScreen extends JPanel
 		
 		//	add (save, BorderLayout.EAST);
 		ArrayList<JButton> buttons = new ArrayList<JButton>();
-		startGame = new JButton("Start");
+		//startGame = new JButton("Start");
 		host = new JButton("Host");
 		join = new JButton("Join");
-		option = new JButton("Options");
+		rules = new JButton("Rules");
 		exit = new JButton("Exit");
-		buttons.add(startGame);
+	//	buttons.add(startGame);
 		buttons.add(host);
 		buttons.add(join);
-		buttons.add(option);
+		buttons.add(rules);
 		buttons.add(exit);
-		
+		/*Below stuff is used to settup the buttons
+		 * 
+		 */
 		for(JButton b: buttons){
 			b.setIcon(new ImageIcon(new ImageIcon("golden.png").getImage().getScaledInstance(115, 100, Image.SCALE_DEFAULT)));
 			b.setFont(new Font("FUTURA BOLD", 0, 24));
@@ -130,19 +130,31 @@ public class StartScreen extends JPanel
 	class JButtonHandler implements ActionListener
 	{
 
+		/**Used to control buttons and make clicks do actions.
+		 * Main actions are popping up Java Option Panes and 
+		 * switching panels in cardlayout.
+		 */
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if(startGame.getModel().isArmed()) ///networking and hero selection have to work
+			if(rules.getModel().isArmed()) ///networking and hero selection have to work
 				
-				RealTimeChess.switchPanel("2");
+				RealTimeChess.switchPanel("3");
 			else if(host.getModel().isArmed()){
 				try {
 				//	SchoolServer ss = new SchoolServer();
 					System.out.println("hello. I AM IN HOST CLICKED.");
 					findIP();
-					JOptionPane.showMessageDialog(null, "Your IP is " +  myIP);
+					JTextArea textarea= new JTextArea(myIP);
+					textarea.setEditable(false);
+					textarea.selectAll();
+					UIManager.put("OptionPane.okButtonText", "Copy & Start");
+					JOptionPane.showMessageDialog(null, textarea, "Your IP", JOptionPane.INFORMATION_MESSAGE);
+					
+					textarea.copy();
+					
 					Server newServer = new Server();
 					GraphicsBoard.player = true;
+					UIManager.put("OptionPane.okButtonText", "Ok");
 				} catch (UnknownHostException e) {
 					JOptionPane.showMessageDialog(null, "Unable to find your IP");
 				} catch (IOException e) {
@@ -157,7 +169,7 @@ public class StartScreen extends JPanel
 				GraphicsBoard.player = false;
 				}
 				catch(IOException e){
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Unable to find your opponent");
 
 				}
 				

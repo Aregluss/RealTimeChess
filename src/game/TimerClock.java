@@ -17,6 +17,7 @@ public class TimerClock{
 		}
 		return (clock.millis() - startTime)/1000; //returns seconds
 	}
+	
 	public long return_milli_time()
 	{
 		if(isPaused)
@@ -25,6 +26,7 @@ public class TimerClock{
 		}
 		return (clock.millis() - startTime); //return milliseconds
 	}
+	
 	public void pause()
 	{
 		if(!isPaused)
@@ -33,6 +35,7 @@ public class TimerClock{
 			isPaused = true;
 		}
 	}
+	
 	public void continueTime()
 	{
 		if(isPaused)
@@ -43,6 +46,7 @@ public class TimerClock{
 			isPaused = false;
 		}	
 	}
+	
 	public boolean get_isPaused()
 	{
 		return isPaused;

@@ -43,6 +43,9 @@ public class SoundEffect
 	}
     }
 
+    /**
+     * plays the clip specified
+     */
     public void playClip()
     {
         if( clip.isRunning() )
